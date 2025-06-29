@@ -118,119 +118,119 @@ class PEIWM {
     public function admin_page() {
         ?>
         <div class="wrap peiwm-admin">
-            <h1><?php _e('Export/Import Posts & Media', 'peiwm'); ?></h1>
+            <h1><?php esc_html_e('Export/Import Posts & Media', 'peiwm'); ?></h1>
             
             <div class="peiwm-container">
                 <!-- Posts Section -->
                 <div class="peiwm-section">
-                    <h2><?php _e('Posts Export/Import', 'peiwm'); ?></h2>
+                    <h2><?php esc_html_e('Posts Export/Import', 'peiwm'); ?></h2>
                     
                     <div class="peiwm-export-section">
-                        <h3><?php _e('Export Posts', 'peiwm'); ?></h3>
-                        <p><?php _e('Export all posts with their metadata and featured images.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Export Posts', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('Export all posts with their metadata and featured images.', 'peiwm'); ?></p>
                         <button type="button" id="peiwm-export-posts" class="button button-primary">
-                            <?php _e('Export Posts', 'peiwm'); ?>
+                            <?php esc_html_e('Export Posts', 'peiwm'); ?>
                         </button>
                     </div>
                     
                     <div class="peiwm-import-section">
-                        <h3><?php _e('Import Posts', 'peiwm'); ?></h3>
-                        <p><?php _e('Import posts from a previously exported JSON file.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Import Posts', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('Import posts from a previously exported JSON file.', 'peiwm'); ?></p>
                         <div class="button-container">
                             <input type="file" id="peiwm-posts-file" accept=".json" style="display: none;">
                             <button type="button" id="peiwm-select-posts-file" class="button button-secondary">
-                                <?php _e('Select JSON File', 'peiwm'); ?>
+                                <?php esc_html_e('Select JSON File', 'peiwm'); ?>
                             </button>
                             <button type="button" id="peiwm-import-posts" class="button button-primary" style="display: none;">
-                                <?php _e('Start Import', 'peiwm'); ?>
+                                <?php esc_html_e('Start Import', 'peiwm'); ?>
                             </button>
                         </div>
                         
                         <div id="peiwm-posts-progress" class="peiwm-progress" style="display: none;">
-                            <h4><?php _e('Import Progress', 'peiwm'); ?></h4>
+                            <h4><?php esc_html_e('Import Progress', 'peiwm'); ?></h4>
                             <div class="peiwm-progress-bar">
                                 <div class="peiwm-progress-fill"></div>
                             </div>
-                            <p class="peiwm-progress-text"><?php _e('Starting...', 'peiwm'); ?></p>
+                            <p class="peiwm-progress-text"><?php esc_html_e('Starting...', 'peiwm'); ?></p>
                             <div class="peiwm-log"></div>
                         </div>
                     </div>
                     
                     <div class="peiwm-delete-section">
-                        <h3><?php _e('Delete Posts', 'peiwm'); ?></h3>
-                        <p><?php _e('⚠️ <strong>Warning:</strong> This will permanently delete all posts. This action cannot be undone.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Delete Posts', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('⚠️ Warning: This will permanently delete all posts. This action cannot be undone.', 'peiwm'); ?></p>
                         <button type="button" id="peiwm-delete-posts" class="button button-danger">
-                            <?php _e('Delete All Posts', 'peiwm'); ?>
+                            <?php esc_html_e('Delete All Posts', 'peiwm'); ?>
                         </button>
                         
                         <div id="peiwm-delete-posts-progress" class="peiwm-progress" style="display: none;">
-                            <h4><?php _e('Delete Progress', 'peiwm'); ?></h4>
+                            <h4><?php esc_html_e('Delete Progress', 'peiwm'); ?></h4>
                             <div class="peiwm-progress-bar">
                                 <div class="peiwm-progress-fill"></div>
                             </div>
-                            <p class="peiwm-progress-text"><?php _e('Starting...', 'peiwm'); ?></p>
+                            <p class="peiwm-progress-text"><?php esc_html_e('Starting...', 'peiwm'); ?></p>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Media Section -->
                 <div class="peiwm-section">
-                    <h2><?php _e('Media Export/Import', 'peiwm'); ?></h2>
+                    <h2><?php esc_html_e('Media Export/Import', 'peiwm'); ?></h2>
                     
                     <div class="peiwm-stats-section">
-                        <h3><?php _e('Media Statistics', 'peiwm'); ?></h3>
+                        <h3><?php esc_html_e('Media Statistics', 'peiwm'); ?></h3>
                         <div id="peiwm-media-stats" class="peiwm-stats">
-                            <p><?php _e('Loading media statistics...', 'peiwm'); ?></p>
+                            <p><?php esc_html_e('Loading media statistics...', 'peiwm'); ?></p>
                         </div>
                         <button type="button" id="peiwm-refresh-stats" class="button button-secondary">
-                            <?php _e('Refresh Stats', 'peiwm'); ?>
+                            <?php esc_html_e('Refresh Stats', 'peiwm'); ?>
                         </button>
                     </div>
                     
                     <div class="peiwm-export-section">
-                        <h3><?php _e('Export Media', 'peiwm'); ?></h3>
-                        <p><?php _e('Export all media files with their metadata as a ZIP file.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Export Media', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('Export all media files with their metadata as a ZIP file.', 'peiwm'); ?></p>
                         <button type="button" id="peiwm-export-media" class="button button-primary">
-                            <?php _e('Export Media', 'peiwm'); ?>
+                            <?php esc_html_e('Export Media', 'peiwm'); ?>
                         </button>
                     </div>
                     
                     <div class="peiwm-import-section">
-                        <h3><?php _e('Import Media', 'peiwm'); ?></h3>
-                        <p><?php _e('Import media files from a previously exported ZIP file. Maximum file size: 500MB.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Import Media', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('Import media files from a previously exported ZIP file. Maximum file size: 500MB.', 'peiwm'); ?></p>
                         <div class="button-container">
                             <input type="file" id="peiwm-media-file" accept=".zip" style="display: none;">
                             <button type="button" id="peiwm-select-media-file" class="button button-secondary">
-                                <?php _e('Select ZIP File', 'peiwm'); ?>
+                                <?php esc_html_e('Select ZIP File', 'peiwm'); ?>
                             </button>
                             <button type="button" id="peiwm-import-media" class="button button-primary" style="display: none;">
-                                <?php _e('Start Import', 'peiwm'); ?>
+                                <?php esc_html_e('Start Import', 'peiwm'); ?>
                             </button>
                         </div>
                         
                         <div id="peiwm-media-progress" class="peiwm-progress" style="display: none;">
-                            <h4><?php _e('Import Progress', 'peiwm'); ?></h4>
+                            <h4><?php esc_html_e('Import Progress', 'peiwm'); ?></h4>
                             <div class="peiwm-progress-bar">
                                 <div class="peiwm-progress-fill"></div>
                             </div>
-                            <p class="peiwm-progress-text"><?php _e('Starting...', 'peiwm'); ?></p>
+                            <p class="peiwm-progress-text"><?php esc_html_e('Starting...', 'peiwm'); ?></p>
                             <div class="peiwm-log"></div>
                         </div>
                     </div>
                     
                     <div class="peiwm-delete-section">
-                        <h3><?php _e('Delete Media', 'peiwm'); ?></h3>
-                        <p><?php _e('⚠️ <strong>Warning:</strong> This will permanently delete all media files from the library. This action cannot be undone.', 'peiwm'); ?></p>
+                        <h3><?php esc_html_e('Delete Media', 'peiwm'); ?></h3>
+                        <p><?php esc_html_e('⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone.', 'peiwm'); ?></p>
                         <button type="button" id="peiwm-delete-media" class="button button-danger">
-                            <?php _e('Delete All Media', 'peiwm'); ?>
+                            <?php esc_html_e('Delete All Media', 'peiwm'); ?>
                         </button>
                         
                         <div id="peiwm-delete-media-progress" class="peiwm-progress" style="display: none;">
-                            <h4><?php _e('Delete Progress', 'peiwm'); ?></h4>
+                            <h4><?php esc_html_e('Delete Progress', 'peiwm'); ?></h4>
                             <div class="peiwm-progress-bar">
                                 <div class="peiwm-progress-fill"></div>
                             </div>
-                            <p class="peiwm-progress-text"><?php _e('Starting...', 'peiwm'); ?></p>
+                            <p class="peiwm-progress-text"><?php esc_html_e('Starting...', 'peiwm'); ?></p>
                             <div class="peiwm-log"></div>
                         </div>
                     </div>
@@ -238,10 +238,10 @@ class PEIWM {
                 
                 <!-- Test Section -->
                 <div class="peiwm-section">
-                    <h2><?php _e('System Test', 'peiwm'); ?></h2>
-                    <p><?php _e('Test your server configuration to ensure compatibility.', 'peiwm'); ?></p>
+                    <h2><?php esc_html_e('System Test', 'peiwm'); ?></h2>
+                    <p><?php esc_html_e('Test your server configuration to ensure compatibility.', 'peiwm'); ?></p>
                     <button type="button" id="peiwm-test-config" class="button button-secondary">
-                        <?php _e('Test Configuration', 'peiwm'); ?>
+                        <?php esc_html_e('Test Configuration', 'peiwm'); ?>
                     </button>
                     <div id="peiwm-test-results" class="peiwm-test-results" style="display: none;"></div>
                 </div>
@@ -353,7 +353,7 @@ class PEIWM {
         $this->check_permissions();
         
         try {
-            $post_data = json_decode(stripslashes($_POST['post_data']), true);
+            $post_data = json_decode(wp_unslash($_POST['post_data']), true);
             if (!$post_data) {
                 throw new Exception('Invalid post data');
             }
@@ -388,6 +388,8 @@ class PEIWM {
             // Import meta
             if (!empty($post_data['meta'])) {
                 foreach ($post_data['meta'] as $meta_key => $meta_value) {
+                    // Sanitize meta value if string
+                    $meta_value = is_string($meta_value) ? sanitize_text_field($meta_value) : $meta_value;
                     update_post_meta($post_id, $meta_key, $meta_value);
                 }
             }
@@ -753,8 +755,8 @@ class PEIWM {
         $this->check_permissions();
         
         try {
-            $batch_id = sanitize_text_field($_POST['batch_id']);
-            $file_index = intval($_POST['file_index']);
+            $batch_id = sanitize_text_field(wp_unslash($_POST['batch_id']));
+            $file_index = intval(wp_unslash($_POST['file_index']));
             
             $batch_data = get_transient('peiwm_media_batch_' . $batch_id);
             if (!$batch_data) {
@@ -1157,7 +1159,7 @@ class PEIWM {
      * Verify nonce
      */
     private function verify_nonce() {
-        if (!wp_verify_nonce($_POST['nonce'], 'peiwm_nonce')) {
+        if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'peiwm_nonce')) {
             wp_send_json_error(array('message' => 'Security check failed'));
         }
     }
@@ -1340,7 +1342,7 @@ class PEIWM {
         $this->check_permissions();
         
         try {
-            $batch_id = sanitize_text_field($_POST['batch_id']);
+            $batch_id = sanitize_text_field(wp_unslash($_POST['batch_id']));
             
             $batch_data = get_transient('peiwm_media_batch_' . $batch_id);
             if ($batch_data && !empty($batch_data['temp_dir'])) {
