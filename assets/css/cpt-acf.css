@@ -1,0 +1,332 @@
+/**
+ * CPT & ACF Export/Import Page Styles
+ *
+ * This file is loaded ONLY on the CPT & ACF admin page.
+ * It duplicates the selective-list, status badge, gear button, and modal styles
+ * from admin.css (which only loads on the main posts page).
+ *
+ * @package Post_Export_Import_With_Media
+ * @since   1.5.0
+ */
+
+/* ============================================================
+   CSS Variables (mirror admin.css so colours are consistent)
+   ============================================================ */
+.peiwm-cpt-acf-wrap {
+    --primary:        #f97316;
+    --primary-dark:   #ea580c;
+    --success:        #10b981;
+    --danger:         #ef4444;
+    --warning:        #f59e0b;
+    --text-primary:   #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted:     #6b7280;
+    --border:         #e5e7eb;
+    --border-warm:    #fed7aa;
+    --bg-card:        #ffffff;
+    --shadow-md:      0 4px 6px -1px rgba(249,115,22,.1);
+    --gradient-primary: linear-gradient(135deg,#f97316 0%,#fb923c 100%);
+}
+
+/* ============================================================
+   Selective Panel wrapper
+   ============================================================ */
+.peiwm-cpt-acf-wrap #peiwm-cpt-export-selective-panel,
+.peiwm-cpt-acf-wrap #peiwm-cpt-import-selective-panel {
+    margin-top: 1rem;
+}
+
+/* ============================================================
+   Selective Panel — card
+   ============================================================ */
+.peiwm-selective-panel {
+    background: var(--bg-card, #fff);
+    border: 2px solid var(--border-warm, #fed7aa);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md, 0 4px 6px -1px rgba(249,115,22,.1));
+}
+
+.peiwm-selective-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    background: linear-gradient(135deg,rgba(249,115,22,.08) 0%,rgba(251,146,60,.05) 100%);
+    border-bottom: 1px solid var(--border-warm, #fed7aa);
+}
+
+.peiwm-selective-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary, #1a1a1a);
+}
+
+.peiwm-selective-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.peiwm-selective-search {
+    padding: 0.4rem 0.75rem;
+    border: 1.5px solid var(--border-warm, #fed7aa);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.peiwm-selective-search:focus {
+    border-color: var(--primary, #f97316);
+    box-shadow: 0 0 0 3px rgba(249,115,22,.1);
+}
+
+.peiwm-select-all-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-secondary, #4a4a4a);
+}
+
+/* ============================================================
+   Selective List — scrollable container
+   ============================================================ */
+.peiwm-selective-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 0.25rem 0;
+}
+
+.peiwm-selective-list::-webkit-scrollbar { width: 6px; }
+.peiwm-selective-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+.peiwm-selective-list::-webkit-scrollbar-thumb { background: rgba(249,115,22,.4); border-radius: 3px; }
+
+/* ============================================================
+   Selective Item — row
+   ============================================================ */
+.peiwm-selective-item {
+    display: flex;
+    align-items: center;
+    padding: 0.55rem 1.25rem;
+    border-bottom: 1px solid rgba(229,231,235,.6);
+    transition: background 0.15s;
+    gap: 0.5rem;
+}
+
+.peiwm-selective-item:last-child { border-bottom: none; }
+
+.peiwm-selective-item:hover {
+    background: rgba(249,115,22,.06);
+}
+
+.peiwm-selective-item input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary, #f97316);
+    cursor: pointer;
+}
+
+.peiwm-selective-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.peiwm-selective-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary, #1a1a1a);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.peiwm-selective-meta {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #4a4a4a);
+}
+
+/* ============================================================
+   Status badge
+   ============================================================ */
+.peiwm-selective-status {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.peiwm-status-publish  { background: #d1fae5; color: #065f46; }
+.peiwm-status-draft    { background: #fef3c7; color: #92400e; }
+.peiwm-status-private  { background: #ede9fe; color: #5b21b6; }
+.peiwm-status-pending  { background: #dbeafe; color: #1e40af; }
+.peiwm-status-trash    { background: #fee2e2; color: #991b1b; }
+
+/* ============================================================
+   Status + gear button wrapper
+   ============================================================ */
+.peiwm-selective-status-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+/* ============================================================
+   Gear / settings button
+   ============================================================ */
+.peiwm-item-settings-btn {
+    background: none;
+    border: 1.5px solid var(--border-warm, #fed7aa);
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-secondary, #4a4a4a);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.peiwm-item-settings-btn:hover {
+    background: rgba(249,115,22,.1);
+    border-color: var(--primary, #f97316);
+    color: var(--primary, #f97316);
+    transform: rotate(30deg);
+}
+
+/* ============================================================
+   Selective Footer
+   ============================================================ */
+.peiwm-selective-footer {
+    padding: 0.6rem 1.25rem;
+    border-top: 1px solid var(--border-warm, #fed7aa);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: rgba(249,115,22,.03);
+}
+
+.peiwm-selected-count {
+    font-size: 0.8rem;
+    color: var(--text-muted, #6b7280);
+    font-weight: 500;
+}
+
+/* ============================================================
+   Loading spinner inside selective list
+   ============================================================ */
+.peiwm-selective-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 0.75rem;
+    color: var(--text-muted, #6b7280);
+    font-size: 0.85rem;
+}
+
+.peiwm-selective-loading .peiwm-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(249,115,22,.2);
+    border-top-color: var(--primary, #f97316);
+    border-radius: 50%;
+    animation: peiwm-spin 0.8s linear infinite;
+}
+
+.peiwm-selective-loading p { margin: 0; }
+
+.peiwm-selective-empty {
+    text-align: center;
+    color: var(--text-muted, #6b7280);
+    padding: 1.5rem;
+    font-size: 0.85rem;
+}
+
+@keyframes peiwm-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   Import settings modal — status radio options
+   ============================================================ */
+.peiwm-status-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.peiwm-status-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-size: 0.9rem;
+}
+
+.peiwm-status-option:hover {
+    border-color: var(--primary, #f97316);
+    background: rgba(249,115,22,.04);
+}
+
+.peiwm-status-option input[type="radio"] {
+    accent-color: var(--primary, #f97316);
+    flex-shrink: 0;
+}
+
+.peiwm-status-option:has(input:checked) {
+    border-color: var(--primary, #f97316);
+    background: rgba(249,115,22,.06);
+}
+
+/* ============================================================
+   PRO upgrade overlay (used inside locked sections)
+   ============================================================ */
+.peiwm-pro-upgrade-overlay {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    text-decoration: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,.3);
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 9;
+    border: none;
+}

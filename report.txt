@@ -1,0 +1,770 @@
+[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m[32mE[0m 12 / 12 (100%)
+
+
+
+[1mFILE: includes\class-admin-download-buttons.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 27 ERRORS AFFECTING 27 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  56 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  59 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  63 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  80 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 252 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 259 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 265 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 274 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 297 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 304 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 311 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 320 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 333 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 334 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 344 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 349 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 358 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 379 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 380 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 390 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 400 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 409 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 440 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 441 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 442 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 453 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 15 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-admin-menu.php[0m
+------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 9 ERRORS AFFECTING 9 LINES[0m
+------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  52 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  54 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  55 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  64 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  75 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  77 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+ 101 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 173 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 7 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-ajax-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 17 ERRORS AFFECTING 17 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  51 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  54 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  74 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  99 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 123 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 130 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 190 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 227 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 256 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 265 | [31mERROR[0m | [ ] [1mThere must be a comment when fall-through is intentional in a non-empty case body[0m
+     |       |     (PSR2.ControlStructures.SwitchDeclaration.TerminatingComment)
+ 267 | [31mERROR[0m | [ ] [1mThere must be a comment when fall-through is intentional in a non-empty case body[0m
+     |       |     (PSR2.ControlStructures.SwitchDeclaration.TerminatingComment)
+ 279 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 284 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 301 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 306 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 313 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 11 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-generic-recommendations.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 75 ERRORS AFFECTING 55 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+   4 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  26 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  30 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  33 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  34 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  38 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  39 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  72 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  74 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+  76 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  99 | [31mERROR[0m | [x] [1mWhen a multi-item array uses associative keys, each value should start on a new line.[0m
+     |       |     (WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound)
+ 102 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 102 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 102 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 103 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 103 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 103 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 103 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 113 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 117 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 118 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 124 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 124 | [31mERROR[0m | [x] [1mWhen a multi-item array uses associative keys, each value should start on a new line.[0m
+     |       |     (WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound)
+ 128 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 129 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 129 | [31mERROR[0m | [ ] [1mThe $text parameter must be a single text string literal. Found: $info['name'][0m (WordPress.WP.I18n.NonSingularStringLiteralText)
+ 130 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 130 | [31mERROR[0m | [ ] [1mThe $text parameter must be a single text string literal. Found: $info['description'][0m
+     |       |     (WordPress.WP.I18n.NonSingularStringLiteralText)
+ 131 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 141 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 146 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 151 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 152 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 158 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 158 | [31mERROR[0m | [x] [1mWhen a multi-item array uses associative keys, each value should start on a new line.[0m
+     |       |     (WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound)
+ 162 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 163 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 163 | [31mERROR[0m | [ ] [1mThe $text parameter must be a single text string literal. Found: $info['name'][0m (WordPress.WP.I18n.NonSingularStringLiteralText)
+ 164 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 164 | [31mERROR[0m | [ ] [1mThe $text parameter must be a single text string literal. Found: $info['description'][0m
+     |       |     (WordPress.WP.I18n.NonSingularStringLiteralText)
+ 165 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 188 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 188 | [31mERROR[0m | [x] [1mArray keys must be surrounded by spaces unless they contain a string or an integer.[0m
+     |       |     (WordPress.Arrays.ArrayKeySpacingRestrictions.NoSpacesAroundArrayKeys)
+ 190 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 192 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 215 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$plugin" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 215 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$plugins_allowedtags" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 226 | [31mERROR[0m | [ ] [1mA function call to __() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 252 | [31mERROR[0m | [ ] [1mA function call to __() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 279 | [31mERROR[0m | [x] [1mUsing control structures with the alternative syntax is not allowed. Found: foreach(): ... endforeach;[0m
+     |       |     (Universal.ControlStructures.DisallowAlternativeSyntax.FoundForeachWithInlineHTML)
+ 292 | [31mERROR[0m | [x] [1mOpening PHP tag must be on a line by itself[0m (Squiz.PHP.EmbeddedPhp.ContentAfterOpen)
+ 293 | [31mERROR[0m | [x] [1mArray item not aligned correctly; expected 4 spaces but found 24[0m (WordPress.Arrays.ArrayIndentation.ItemNotAligned)
+ 294 | [31mERROR[0m | [x] [1mArray item not aligned correctly; expected 4 spaces but found 24[0m (WordPress.Arrays.ArrayIndentation.ItemNotAligned)
+ 295 | [31mERROR[0m | [x] [1mArray item not aligned correctly; expected 4 spaces but found 24[0m (WordPress.Arrays.ArrayIndentation.ItemNotAligned)
+ 296 | [31mERROR[0m | [x] [1mArray closer not aligned correctly; expected 0 space(s) but found 20[0m (WordPress.Arrays.ArrayIndentation.CloseBraceNotAligned)
+ 296 | [31mERROR[0m | [x] [1mClosing PHP tag must be on a line by itself[0m (Squiz.PHP.EmbeddedPhp.ContentBeforeEnd)
+ 301 | [31mERROR[0m | [ ] [1mA function call to __() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 314 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$plugin" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 331 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$status" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 331 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$plugin" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 331 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$name" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 331 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$compatible_php" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 331 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$compatible_wp" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 345 | [31mERROR[0m | [ ] [1mA function call to _x() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 365 | [31mERROR[0m | [ ] [1mA function call to _x() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 386 | [31mERROR[0m | [ ] [1mA function call to _x() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 395 | [31mERROR[0m | [ ] [1mA function call to _x() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 417 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$active_installs" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 424 | [31mERROR[0m | [ ] [1mA function call to _nx() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the[0m
+     |       |     [1mline above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 432 | [31mERROR[0m | [ ] [1mA function call to __() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on the line[0m
+     |       |     [1mabove to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 435 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$tested_wp" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 435 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$compatible_wp" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 448 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$compatible_php" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+ 448 | [31mERROR[0m | [ ] [1mDoc comment for parameter "$compatible_wp" missing[0m (Squiz.Commenting.FunctionComment.MissingParamTag)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 49 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-main.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 29 ERRORS AFFECTING 29 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  54 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  73 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  74 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  75 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  76 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  81 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  84 | [31mERROR[0m | [ ] [1mMixing different binary boolean operators within an expression without using parentheses to clarify precedence is not allowed.[0m
+     |       |     (Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence.MissingParentheses)
+  85 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  89 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 119 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 122 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+ 164 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 167 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 170 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 173 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 184 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 187 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 190 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 193 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 196 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 199 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 202 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 205 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 208 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 235 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 257 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 261 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 269 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 22 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-media-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 67 ERRORS AFFECTING 48 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  32 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  32 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  32 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  32 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  32 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  33 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  34 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  35 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  35 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  35 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+  35 | [31mERROR[0m | [x] [1mEach item in a multi-line array must be on a new line. Found: 1 space[0m (WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine)
+ 105 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 110 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 114 | [31mERROR[0m | [x] [1mTRUE, FALSE and NULL must be lowercase; expected "true" but found "TRUE"[0m (Generic.PHP.LowerCaseConstant.Found)
+ 123 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 130 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 133 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 136 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 186 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 205 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 210 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_FILES['media_file']['tmp_name'][0m
+     |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+ 240 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 246 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 259 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 286 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 316 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 354 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 357 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 357 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$s, %2$s", but got "%s, %s" in 'Source file not found:[0m
+     |       |     [1m%s (looking in: %s)'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+ 435 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 441 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 471 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 478 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 489 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 516 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 517 | [31mERROR[0m | [ ] [1m@throws tag comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ThrowsNoFullStop)
+ 540 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 552 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 574 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 584 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 585 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 587 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 598 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 599 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 607 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 612 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 615 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 618 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 621 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 638 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 642 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 676 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 698 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 703 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 712 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+ 712 | [31mERROR[0m | [x] [1mThe closing brace for the class must go on the next line after the body[0m (PSR2.Classes.ClassDeclaration.CloseBraceAfterBody)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 48 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-page-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 73 ERRORS AFFECTING 73 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+ 122 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 133 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['page_data'][0m (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+ 135 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 139 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 141 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 188 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 229 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 295 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 301 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 320 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 324 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 343 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 348 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 370 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 375 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 420 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 441 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 465 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 472 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 476 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 479 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 499 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 531 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 542 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 543 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 545 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 561 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 576 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+ 584 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 585 | [31mERROR[0m | [x] [1mTabs must be used to indent lines; spaces are not allowed[0m (Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed)
+ 587 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 598 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['image_data'][0m (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+ 600 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 604 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 606 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 656 | [31mERROR[0m | [x] [1mBlank line found after control structure[0m (WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd)
+ 666 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 667 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 672 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 678 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 688 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 689 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 690 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 691 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 733 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 753 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 760 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 779 | [31mERROR[0m | [ ] [1mEmpty ELSE statement detected[0m (Generic.CodeAnalysis.EmptyStatement.DetectedElse)
+ 796 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 797 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 798 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 821 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 832 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 834 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 839 | [31mERROR[0m | [ ] [1mEmpty ELSE statement detected[0m (Generic.CodeAnalysis.EmptyStatement.DetectedElse)
+ 848 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 849 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 850 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 851 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 856 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 868 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 870 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 874 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 877 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 912 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 922 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 927 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 930 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 935 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 943 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 953 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 961 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 40 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-post-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 76 ERRORS AFFECTING 75 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+    1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+   97 | [31mERROR[0m | [ ] [1mUsing short ternaries is not allowed as they are rarely used correctly[0m (Universal.Operators.DisallowShortTernary.Found)
+  122 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+  133 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['post_data'][0m (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+  135 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  139 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  141 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  186 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  237 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  265 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+  276 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['image_data'][0m
+      |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+  278 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  282 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  284 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  334 | [31mERROR[0m | [x] [1mBlank line found after control structure[0m (WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd)
+  381 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  387 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  407 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  426 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  431 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  453 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  478 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  479 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  484 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  490 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  500 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  501 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  502 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  524 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  535 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  537 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  548 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  553 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  598 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  619 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  641 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  665 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  666 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  709 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  710 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  753 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  764 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  765 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  767 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  783 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  798 | [31mERROR[0m | [x] [1mThere should be a comma after the last array item in a multi-line array.[0m (NormalizedArrays.Arrays.CommaAfterLast.MissingMultiLine)
+  809 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  810 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  811 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  812 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  853 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  873 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  880 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  913 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  920 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  924 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  927 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  934 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  966 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  976 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  981 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  984 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  989 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  997 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  998 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  999 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1000 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1005 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1017 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1019 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1023 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1026 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1070 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1080 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1090 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+ 1090 | [31mERROR[0m | [x] [1mThe closing brace for the class must go on the next line after the body[0m (PSR2.Classes.ClassDeclaration.CloseBraceAfterBody)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 38 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-settings-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 39 ERRORS AFFECTING 38 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+ 163 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 181 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 192 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 194 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 224 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+ 235 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['settings_data'][0m
+     |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+ 237 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 241 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 243 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 269 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 298 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 301 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 305 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 315 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 318 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 354 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 354 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d, %3$d", but got "%d, %d, %d" in 'Settings[0m
+     |       |     [1mimport completed: %d imported, %d skipped, %d failed'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+ 387 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 390 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 393 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 458 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 472 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 480 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 487 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 488 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 535 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 544 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 545 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 553 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 556 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 577 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 593 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 615 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 620 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 623 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 627 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 630 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 635 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 30 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-themes-plugins-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 47 ERRORS AFFECTING 45 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+   1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+  53 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 162 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 168 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 178 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 205 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 211 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 221 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 258 | [31mERROR[0m | [x] [1mBlank line found after control structure[0m (WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd)
+ 292 | [31mERROR[0m | [x] [1mBlank line found after control structure[0m (WordPress.WhiteSpace.ControlStructureSpacing.BlankLineAfterEnd)
+ 302 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 303 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 337 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 338 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 374 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 384 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 389 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 398 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 401 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 423 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 433 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 438 | [31mERROR[0m | [ ] [1mdate() is affected by runtime timezone changes which can cause date/time to be incorrectly displayed. Use gmdate() instead.[0m
+     |       |     (WordPress.DateTime.RestrictedFunctions.date_date)
+ 447 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 450 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 482 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 483 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 484 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 495 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 510 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 511 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 512 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 525 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 622 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 630 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 630 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d, %3$d", but got "%d, %d, %d" in 'Themes import[0m
+     |       |     [1mcompleted: %d imported, %d skipped, %d failed'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+ 637 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 656 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 657 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 658 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 671 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 763 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 779 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 779 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d, %3$d", but got "%d, %d, %d" in 'Plugins import[0m
+     |       |     [1mcompleted: %d imported, %d skipped, %d failed'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+ 786 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+     |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+ 805 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 810 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 817 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 23 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: includes\class-widgets-menus-handler.php[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mFOUND 120 ERRORS AFFECTING 103 LINES[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+    1 | [31mERROR[0m | [x] [1mEnd of line character is invalid; expected "\n" but found "\r\n"[0m (Generic.Files.LineEndings.InvalidEOLChar)
+   50 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+   62 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+   66 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+   68 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+   69 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+   71 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $wp_query[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+   72 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+   74 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+   76 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+   77 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $wp_query[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+   94 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  105 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  106 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  111 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  127 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  131 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  149 | [31mERROR[0m | [ ] [1mClosures which are longer than 8 lines are forbidden. Declare a named function instead. Found closure containing 10 lines[0m
+      |       |     (Universal.FunctionDeclarations.NoLongClosures.ExceedsMaximum)
+  149 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  152 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  179 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  206 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  221 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  246 | [31mERROR[0m | [ ] [1mClosures which are longer than 8 lines are forbidden. Declare a named function instead. Found closure containing 16 lines[0m
+      |       |     (Universal.FunctionDeclarations.NoLongClosures.ExceedsMaximum)
+  246 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  248 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  248 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  248 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['widgets_data'][0m
+      |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+  249 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  249 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  250 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  254 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  256 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  265 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  286 | [31mERROR[0m | [ ] [1mClosures which are longer than 8 lines are forbidden. Declare a named function instead. Found closure containing 16 lines[0m
+      |       |     (Universal.FunctionDeclarations.NoLongClosures.ExceedsMaximum)
+  286 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  288 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  288 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  288 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['menus_data'][0m
+      |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+  289 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  289 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  290 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  294 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  296 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  305 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  326 | [31mERROR[0m | [ ] [1mClosures which are longer than 8 lines are forbidden. Declare a named function instead. Found closure containing 32 lines[0m
+      |       |     (Universal.FunctionDeclarations.NoLongClosures.ExceedsMaximum)
+  326 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  328 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  328 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  328 | [31mERROR[0m | [ ] [1mDetected usage of a non-sanitized input variable: $_POST['widgets_menus_data'][0m
+      |       |     (WordPress.Security.ValidatedSanitizedInput.InputNotSanitized)
+  329 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  329 | [31mERROR[0m | [ ] [1mProcessing form data without nonce verification.[0m (WordPress.Security.NonceVerification.Missing)
+  330 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  334 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  336 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  344 | [31mERROR[0m | [x] [1mWhen a multi-item array uses associative keys, each value should start on a new line.[0m
+      |       |     (WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound)
+  345 | [31mERROR[0m | [x] [1mWhen a multi-item array uses associative keys, each value should start on a new line.[0m
+      |       |     (WordPress.Arrays.ArrayDeclarationSpacing.AssociativeArrayFound)
+  358 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  358 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d", but got "%d, %d" in 'Import completed: %d[0m
+      |       |     [1mwidgets and %d menus imported'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+  385 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  482 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  483 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  485 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+  512 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  545 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  545 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d, %3$d", but got "%d, %d, %d" in 'Widgets[0m
+      |       |     [1mimport completed: %d imported, %d skipped, %d failed'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+  562 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  563 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  565 | [31mERROR[0m | [ ] [1mMissing @throws tag in function comment[0m (Squiz.Commenting.FunctionCommentThrowTag.Missing)
+  591 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  594 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  602 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  629 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  635 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  642 | [31mERROR[0m | [ ] [1mA function call to esc_html__() with texts containing placeholders was found, but was not accompanied by a "translators:" comment on[0m
+      |       |     [1mthe line above to clarify the meaning of the placeholders.[0m (WordPress.WP.I18n.MissingTranslatorsComment)
+  642 | [31mERROR[0m | [x] [1mMultiple placeholders in translatable strings should be ordered. Expected "%1$d, %2$d, %3$d", but got "%d, %d, %d" in 'Navigation[0m
+      |       |     [1mmenus import completed: %d imported, %d skipped, %d failed'.[0m (WordPress.WP.I18n.UnorderedPlaceholdersText)
+  660 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  661 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  673 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  675 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  676 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $wp_query[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  694 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  700 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  702 | [31mERROR[0m | [x] [1mExpected 1 space after FUNCTION keyword; 0 found[0m (Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction)
+  712 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  754 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  759 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  768 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  774 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  779 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  788 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  804 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  805 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  808 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  810 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  811 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  827 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $post[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  828 | [31mERROR[0m | [ ] [1mOverriding WordPress globals is prohibited. Found assignment to $wp_query[0m (WordPress.WP.GlobalVariablesOverride.Prohibited)
+  829 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  844 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  845 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  846 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  847 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  866 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+  954 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  955 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+  956 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1007 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1024 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1065 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1105 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1127 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1134 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1143 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1146 | [31mERROR[0m | [x] [1mWhitespace found at end of line[0m (Squiz.WhiteSpace.SuperfluousWhitespace.EndLine)
+ 1163 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1214 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1323 | [31mERROR[0m | [ ] [1mParameter comment must end with a full stop[0m (Squiz.Commenting.FunctionComment.ParamCommentFullStop)
+ 1340 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+ 1340 | [31mERROR[0m | [x] [1mThe closing brace for the class must go on the next line after the body[0m (PSR2.Classes.ClassDeclaration.CloseBraceAfterBody)
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 62 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+[1mFILE: post-export-import-with-media.php[0m
+---------------------------------------------------------------------------------------------------
+[1mFOUND 1 ERROR AFFECTING 1 LINE[0m
+---------------------------------------------------------------------------------------------------
+ 55 | [31mERROR[0m | [x] [1mExpected 1 newline at end of file; 0 found[0m (PSR2.Files.EndFileNewline.NoneFound)
+---------------------------------------------------------------------------------------------------
+[1mPHPCBF CAN FIX THE 1 MARKED SNIFF VIOLATIONS AUTOMATICALLY[0m
+---------------------------------------------------------------------------------------------------
+
+Time: 18.83 secs; Memory: 34MB
+
