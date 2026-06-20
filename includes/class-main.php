@@ -63,17 +63,28 @@ class PEIWM_Main {
 	 * @return object|null Freemius SDK object or null.
 	 */
 	public function is_pro_active() {
-		$is_pro_installed = class_exists('PEIWM_Pro_Main') && $this->check_pro_plugin_exists();
-		
-		// Get the correct Freemius instance based on which plugin is handling it
+		$is_pro_installed = class_exists( 'PEIWM_Pro_Main' )
+			|| file_exists( WP_PLUGIN_DIR . '/post-export-import-with-media-pro/post-export-import-with-media-pro.php' );
+
+		if ( ! $is_pro_installed ) {
+			return false;
+		}
+
+		// Ensure is_plugin_active() is available
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		if ( ! is_plugin_active( 'post-export-import-with-media-pro/post-export-import-with-media-pro.php' ) ) {
+			return false;
+		}
+
 		$freemius_instance = peiwm_get_freemius_instance();
-		
-		// If no Freemius instance available, return false
 		if ( ! $freemius_instance ) {
 			return false;
 		}
-		
-		return $freemius_instance->can_use_premium_code__premium_only() && $is_pro_installed;
+
+		return $freemius_instance->can_use_premium_code__premium_only();
 	}
 
 	/**
@@ -174,34 +185,50 @@ class PEIWM_Main {
 	 * Load plugin dependencies
 	 */
 	private function load_dependencies() {
-		$is_pro = is_plugin_active( 'post-export-import-with-media-pro/post-export-import-with-media-pro.php' );
+		
+		$pro_path = WP_PLUGIN_DIR . '/post-export-import-with-media-pro/includes/';
+		$has_pro  = is_dir( $pro_path );
 
-		// Load core classes
+		// Core classes always loaded
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-email-template.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-admin-menu.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-ajax-handler.php';
 
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-post-handler-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-post-handler-pro.php';
-		}else {
-			require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
+		// Post handler — load free always as safety net; pro loaded on top if present
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-post-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-post-handler-pro.php';
 		}
-		
 
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-page-handler-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-page-handler-pro.php';
-		}else {
-			require_once PEIWM_PLUGIN_PATH . 'includes/class-page-handler.php';
+		// Page handler
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-page-handler.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-page-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-page-handler-pro.php';
 		}
-		
 
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-media-handler-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-media-handler-pro.php';
-		}else {
-			require_once PEIWM_PLUGIN_PATH . 'includes/class-media-handler.php';
+		// Media handler
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-media-handler.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-media-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-media-handler-pro.php';
 		}
-		
-		
+
+		// User handler
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-user-handler.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-user-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-user-handler-pro.php';
+		}
+
+		// Email settings handler — pro only (free stub was removed)
+		if ( $has_pro && file_exists( $pro_path . 'class-email-settings-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-email-settings-handler-pro.php';
+		}
+
+		// CPT & ACF exporter — pro only (free stub was removed)
+		if ( $has_pro && file_exists( $pro_path . 'class-cpt-acf-exporter-pro.php' ) ) {
+			require_once $pro_path . 'class-cpt-acf-exporter-pro.php';
+		}
+
+		// Always needed
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-settings-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-themes-plugins-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-widgets-menus-handler.php';
@@ -211,28 +238,11 @@ class PEIWM_Main {
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-heartbeat-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-generic-recommendations.php';
 
-		// User export and Import Handler
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-user-handler-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-user-handler-pro.php';
-		}else {
-			require_once PEIWM_PLUGIN_PATH . 'includes/class-user-handler.php';
-		}
-
-		// Email Settings Handler
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-email-settings-handler-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-email-settings-handler-pro.php';
-		}
-
-		// CPT & ACF Exporter
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-cpt-acf-exporter-pro.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-cpt-acf-exporter-pro.php';
-		}
-
-		// Scheduled Exports — free class loads owns menu + UI Only.
-		// PRO class loads on top to add scheduling/AJAX logic when active.
+		// Scheduled exports — free always loads (owns menu + locked UI)
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
-		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-scheduled-exports.php' ) ) {
-			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
+		// Pro scheduled exports loaded here too so class is available when init_components runs
+		if ( $has_pro && file_exists( $pro_path . 'class-scheduled-exports.php' ) ) {
+			require_once $pro_path . 'class-scheduled-exports.php';
 		}
 	}
 

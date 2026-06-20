@@ -241,7 +241,7 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 
 == Changelog ==
 
-= 1.13.1 – 28 June 2026 =
+= 1.13.1 – 21 June 2026 =
 * **Fix:** Fixed an issue where imported images could reference the wrong image size.
 * **Fix:** Added logic to skip importing duplicate post titles when the content and slug do not match.
 
