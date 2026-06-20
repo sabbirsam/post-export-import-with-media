@@ -382,13 +382,31 @@ class PEIWM_Admin_Menu {
 		}
 
 		// Scheduled Exports page
-		if ( 'export-import-posts_page_peiwm-exports-settings' === $hook ) {
+		if ( 'export-import-posts_page_peiwm-scheduled-exports' === $hook ) {
 			wp_enqueue_style(
 				'peiwm-admin-css',
 				PEIWM_PLUGIN_URL . 'build/css/admin.min.css',
 				array(),
 				PEIWM_VERSION
 			);
+			wp_enqueue_style(
+				'peiwm-scheduled-exports-css',
+				PEIWM_PLUGIN_URL . 'build/css/scheduled-exports.min.css',
+				array( 'peiwm-admin-css' ),
+				PEIWM_VERSION
+			);
+			wp_enqueue_script(
+				'peiwm-scheduled-exports-js',
+				PEIWM_PLUGIN_URL . 'build/js/scheduled-exports.min.js',
+				array( 'jquery' ),
+				PEIWM_VERSION,
+				true
+			);
+			wp_localize_script( 'peiwm-scheduled-exports-js', 'peiwm_scheduled_exports', array(
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
+				'nonce'    => wp_create_nonce( 'peiwm_secure_nonce' ),
+				'is_pro'   => PEIWM_Main::get_instance()->is_pro_active() ? '1' : '0',
+			) );
 		}
 
 		// Batch Settings page
@@ -415,13 +433,9 @@ class PEIWM_Admin_Menu {
 
 		// CPT & ACF page
 		if ( 'export-import-posts_page_peiwm-cpt-acf' === $hook ) {			// Try built JS file first; fall back to unminified source
-			$cpt_js_url = file_exists( PEIWM_PLUGIN_PATH . 'build/js/cpt-acf.min.js' )
-				? PEIWM_PLUGIN_URL . 'build/js/cpt-acf.min.js'
-				: PEIWM_PLUGIN_URL . 'assets/js/cpt-acf.js';
-
 			wp_enqueue_script(
 				'peiwm-cpt-acf-js',
-				$cpt_js_url,
+				PEIWM_PLUGIN_URL . 'build/js/cpt-acf.min.js',
 				array( 'jquery' ),
 				PEIWM_VERSION,
 				true
@@ -2511,7 +2525,14 @@ class PEIWM_Admin_Menu {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'post-export-import-with-media' ) );
 		}
-		require_once PEIWM_PLUGIN_PATH . 'includes/email-template-page.php';
+
+		$is_pro = PEIWM_Main::get_instance()->is_pro_active();
+
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/email-template-page-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/email-template-page-pro.php';
+		} else {
+			require_once PEIWM_PLUGIN_PATH . 'includes/email-template-page.php';
+		}
 	}
 
 	/**

@@ -170,7 +170,7 @@ jQuery(document).ready(function ($) {
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = 'pages-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                        a.download = 'pages-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
@@ -201,7 +201,7 @@ jQuery(document).ready(function ($) {
 
         function triggerDownload(data, num) {
             const suffix   = num > 1 ? '_part' + num : '';
-            const filename = 'pages-export' + suffix + '_' + new Date().toISOString().slice(0, 10) + '.json';
+            const filename = 'pages-export' + suffix + '_' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url  = window.URL.createObjectURL(blob);
             const a    = document.createElement('a');

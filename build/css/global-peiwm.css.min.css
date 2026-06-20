@@ -1,1 +1,16 @@
-.peiwm-pro-badge{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:3px;color:#fff;display:inline-block;font-size:10px;font-weight:600;letter-spacing:.5px;margin-left:5px;padding:2px 8px;text-transform:uppercase;vertical-align:middle}
+/*!*******************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./assets/css/global-peiwm.css ***!
+  \*******************************************************************************/
+.peiwm-pro-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+    vertical-align: middle;
+}

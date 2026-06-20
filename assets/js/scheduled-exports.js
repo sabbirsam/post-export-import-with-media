@@ -49,12 +49,16 @@ jQuery(document).ready(function($) {
 		}
 	});
 
-	// Load backups on page load
-	loadBackups();
-
-	// Refresh backups button
-	$('#peiwm-refresh-backups').on('click', function() {
+	// Load backups on page load — PRO only
+	if ( peiwm_scheduled_exports.is_pro === '1' ) {
 		loadBackups();
+	}
+
+	// Refresh backups button — PRO only
+	$('#peiwm-refresh-backups').on('click', function() {
+		if ( peiwm_scheduled_exports.is_pro === '1' ) {
+			loadBackups();
+		}
 	});
 
 	/**
@@ -133,9 +137,10 @@ jQuery(document).ready(function($) {
 	}
 
 	/**
-	 * Download backup
+	 * Download backup — PRO only
 	 */
 	$(document).on('click', '.peiwm-download-backup', function() {
+		if ( peiwm_scheduled_exports.is_pro !== '1' ) { return; }
 		const filename = $(this).data('filename');
 		const downloadUrl = peiwm_scheduled_exports.ajax_url + 
 			'?action=peiwm_download_scheduled_backup' +
@@ -146,9 +151,10 @@ jQuery(document).ready(function($) {
 	});
 
 	/**
-	 * Delete backup
+	 * Delete backup — PRO only
 	 */
 	$(document).on('click', '.peiwm-delete-backup', function() {
+		if ( peiwm_scheduled_exports.is_pro !== '1' ) { return; }
 		const $button = $(this);
 		const filename = $button.data('filename');
 		

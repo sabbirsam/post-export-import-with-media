@@ -1,4 +1,4 @@
-﻿jQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) {
     'use strict';
 
     // Initialize checkbox default states
@@ -273,7 +273,7 @@
                         $('#peiwm-posts-list').html('<p class="peiwm-selective-empty">Invalid JSON file(s).</p>');
                     } else {
                         if (errors > 0) {
-                            $('#peiwm-posts-list').before('<p style="color:#d97706;font-size:0.85rem;margin-bottom:0.5rem;">⚠ ' + errors + ' file(s) could not be read.</p>');
+                            $('#peiwm-posts-list').before('<p style="color:#d97706;font-size:0.85rem;margin-bottom:0.5rem;">⚠️ ' + errors + ' file(s) could not be read.</p>');
                         }
                         // Store boundaries globally for import handler
                         window.peiwmPostFileBoundaries = fileBoundaries;
@@ -306,7 +306,7 @@
                 '</label>' +
                 '<span class="peiwm-selective-status-wrap">' +
                     '<span class="peiwm-selective-status peiwm-status-' + status + '" data-index="' + index + '">' + status + '</span>' +
-                    '<button type="button" class="peiwm-item-settings-btn" data-index="' + index + '" title="Change import status">⚙</button>' +
+                    '<button type="button" class="peiwm-item-settings-btn" data-index="' + index + '" title="Change import status">⚙️</button>' +
                 '</span>' +
             '</div>';
         });
@@ -454,7 +454,7 @@
         }
     });
 
-    // ── NEW: Date range filter ────────────────────────────────────────────────
+    // -- NEW: Date range filter ------------------------------------------------
     window.peiwmDateFilter = { date_from: '', date_to: '' };
 
     $('#peiwm-export-posts-daterange').on('change', function () {
@@ -511,7 +511,7 @@
             summaryEl.text('Showing ' + totalShown + ' posts ' + parts.join(' ')).show();
         });
     });
-    // ── END date range ────────────────────────────────────────────────────────
+    // -- END date range --------------------------------------------------------
 
     // Search posts in export list
     $('#peiwm-posts-export-search').on('input', function () {
@@ -573,7 +573,7 @@
                         const remaining  = data.total_count - nextOffset;
                         loadMoreWrap.html(
                             '<button type="button" class="button button-secondary peiwm-load-more-posts" style="margin-left:0.5rem;font-size:0.8rem;padding:2px 10px;">' +
-                                '⬇ Load next ' + pageSize + ' (' + remaining + ' more)' +
+                                '⬇️ Load next ' + pageSize + ' (' + remaining + ' more)' +
                             '</button>'
                         );
                         loadMoreWrap.find('.peiwm-load-more-posts').on('click', function () {
@@ -714,7 +714,7 @@
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'posts_export' + suffix + '_' + new Date().toISOString().slice(0, 10) + '.json';
+            link.download = 'posts_export' + suffix + '_' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -908,13 +908,13 @@
         // Build file tracker UI inside the progress panel
         const progress = $('#peiwm-posts-progress');
         let trackerHtml = '<div id="peiwm-file-tracker" style="margin-bottom:0.75rem;padding:0.6rem 0.75rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;font-size:0.82rem;">';
-        trackerHtml += '<div style="font-weight:600;margin-bottom:0.4rem;color:#374151;">📂 Files (' + totalFilesToProcess + ' total)</div>';
+        trackerHtml += '<div style="font-weight:600;margin-bottom:0.4rem;color:#374151;">📁 Files (' + totalFilesToProcess + ' total)</div>';
         trackerHtml += '<div id="peiwm-file-tracker-list">';
         filesToProcess.forEach(function (f, i) {
             trackerHtml += '<div id="peiwm-file-row-' + i + '" style="display:flex;align-items:center;gap:0.4rem;padding:2px 0;">' +
                 '<span id="peiwm-file-icon-' + i + '" style="width:1.1rem;text-align:center;">⏳</span>' +
                 '<span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="' + f.name + '">' + f.name + '</span>' +
-                '<span id="peiwm-file-status-' + i + '" style="color:#6b7280;font-size:0.78rem;">' + f.data.length + ' posts · pending</span>' +
+                '<span id="peiwm-file-status-' + i + '" style="color:#6b7280;font-size:0.78rem;">' + f.data.length + ' posts — pending</span>' +
             '</div>';
         });
         trackerHtml += '</div></div>';
@@ -926,18 +926,18 @@
         let currentFileIndex = 0;
 
         function markFileRunning(i) {
-            $('#peiwm-file-icon-' + i).text('▶');
-            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts · running…').css('color', '#2563eb');
+            $('#peiwm-file-icon-' + i).text('🔄');
+            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts — running…').css('color', '#2563eb');
         }
 
         function markFileDone(i) {
             $('#peiwm-file-icon-' + i).text('✅');
-            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts · done').css('color', '#16a34a');
+            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts — done').css('color', '#16a34a');
         }
 
         function markFilePartial(i, failedCount) {
             $('#peiwm-file-icon-' + i).text('⚠️');
-            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts · done (' + failedCount + ' failed - retrying)').css('color', '#d97706');
+            $('#peiwm-file-status-' + i).text(filesToProcess[i].data.length + ' posts — done (' + failedCount + ' failed - retrying)').css('color', '#d97706');
         }
 
         function processNextFile() {
@@ -973,7 +973,7 @@
         processNextFile();
     }
 
-    // ── Media Advanced Options: date range toggle ────────────────────────────
+    // -- Media Advanced Options: date range toggle ----------------------------
     $('#peiwm-media-export-daterange').on('change', function () {
         if ($(this).is(':checked')) {
             $('#peiwm-media-daterange-filter-ui').slideDown(200);
@@ -1007,7 +1007,7 @@
         }
     });
 
-    // ── Media Advanced Options: export by post toggle ─────────────────────────
+    // -- Media Advanced Options: export by post toggle -------------------------
     $('#peiwm-media-export-by-post').on('change', function () {
         if ($(this).is(':checked')) {
             $('#peiwm-media-by-post-panel').slideDown(200);
@@ -1208,12 +1208,12 @@
                     
                     // Show clear breakdown
                     if (response.data.export_all_sizes) {
-                        message += '📦 Total files: ' + response.data.count + ' (including size variations)\n';
-                        message += '📄 Unique media: ' + response.data.unique_count + ' original files\n';
+                        message += '📊 Total files: ' + response.data.count + ' (including size variations)\n';
+                        message += '🖼️ Unique media: ' + response.data.unique_count + ' original files\n';
                     } else {
-                        message += '📦 Total files: ' + response.data.count + ' (originals only)\n';
+                        message += '📊 Total files: ' + response.data.count + ' (originals only)\n';
                     }
-                    message += '💾 ZIP size: ' + response.data.total_size_formatted;
+                    message += '📦 ZIP size: ' + response.data.total_size_formatted;
                     
                     // Show warning if files were skipped
                     if (response.data.skipped_count && response.data.skipped_count > 0) {
@@ -1449,7 +1449,7 @@
     $('#peiwm-delete-posts').on('click', function () {
         const deleteMessage = `
             <div class="peiwm-danger-text">
-                ⚠ <strong>WARNING:</strong> This will permanently delete ALL posts from your website.
+                ⚠️ <strong>WARNING:</strong> This will permanently delete ALL posts from your website.
             </div>
             <p>This action cannot be undone and will remove all posts, including drafts and published content.</p>
             <p><strong>Are you absolutely sure you want to continue?</strong></p>
@@ -1465,7 +1465,7 @@
     $('#peiwm-delete-media').on('click', function () {
         const deleteMessage = `
             <div class="peiwm-danger-text">
-                ⚠ <strong>WARNING:</strong> This will permanently delete ALL media files from your library.
+                ⚠️ <strong>WARNING:</strong> This will permanently delete ALL media files from your library.
             </div>
             <p>This action cannot be undone and will remove all images, videos, and other media files.</p>
             <p><strong>Are you absolutely sure you want to continue?</strong></p>
@@ -1541,17 +1541,17 @@
                 if (response.success) {
                     progressFill.css('width', '100%');
                     progressText.text('Deletion complete!');
-                    addLog('✓ ' + response.data.message);
+                    addLog('✅ ' + response.data.message);
                     showSuccess(response.data.message);
                 } else {
                     progressText.text('Deletion failed: ' + response.data.message);
-                    addLog('✗ Error: ' + response.data.message);
+                    addLog('❌ Error: ' + response.data.message);
                     showError('Delete failed: ' + response.data.message);
                 }
             },
             error: function (xhr, status, error) {
                 progressText.text('Deletion failed: ' + error);
-                addLog('✗ Error: ' + error);
+                addLog('❌ Error: ' + error);
                 showError('Delete failed: ' + error);
             },
             complete: function () {
@@ -1593,7 +1593,7 @@
 
                 if (failedPosts.length > 0) {
                     const failedCount = failedPosts.length;
-                    addLog('⚠ ' + failedCount + ' post(s) failed due to timeout or errors.', log);
+                    addLog('⚠️ ' + failedCount + ' post(s) failed due to timeout or errors.', log);
 
                     const retryBtn = $('<button type="button" class="button peiwm-retry-failed-btn" style="margin-top:0.75rem;background:#f97316;color:#fff;border-color:#f97316;">' +
                         '🔄 Some were missed \u2014 retry ' + failedCount + ' failed post(s) now</button>');
@@ -1626,7 +1626,7 @@
             const downloadMissingImages = $('#peiwm-download-missing-images').is(':checked') ? '1' : '0';
             
             // Show what we're about to do
-            addLog('📝 Processing: ' + post.post_title, log, 'peiwm-log-info');
+            addLog('🔄 Processing: ' + post.post_title, log, 'peiwm-log-info');
             
             // Process images first if download is enabled
             if (downloadMissingImages === '1') {
@@ -1658,7 +1658,7 @@
                 return;
             }
             
-            addLog('  🔍 Checking ' + imagesToProcess.length + ' image(s)...', log, 'peiwm-log-info');
+            addLog('  🖼️ Checking ' + imagesToProcess.length + ' image(s)...', log, 'peiwm-log-info');
             
             let processedCount = 0;
             
@@ -1671,7 +1671,7 @@
                 const imageItem = imagesToProcess[processedCount];
                 const filename = imageItem.data.filename;
                 
-                addLog('  ⬇ Checking: ' + filename, log, 'peiwm-log-info');
+                addLog('  🔍 Checking: ' + filename, log, 'peiwm-log-info');
                 
                 $.ajax({
                     url: peiwm_ajax.ajax_url,
@@ -1686,18 +1686,18 @@
                     success: function (response) {
                         if (response.success) {
                             if (response.data.status === 'found_local') {
-                                addLog('    ✓ Found locally: ' + filename, log, 'peiwm-log-success');
+                                addLog('    ✅ Found locally: ' + filename, log, 'peiwm-log-success');
                             } else if (response.data.status === 'downloaded') {
-                                addLog('    ✓ Downloaded: ' + filename, log, 'peiwm-log-success');
+                                addLog('    ⬇️ Downloaded: ' + filename, log, 'peiwm-log-success');
                             } else if (response.data.status === 'failed') {
-                                addLog('    ✗ Failed: ' + filename + ' - ' + response.data.message, log, 'peiwm-log-error');
+                                addLog('    ❌ Failed: ' + filename + ' - ' + response.data.message, log, 'peiwm-log-error');
                             }
                         } else {
-                            addLog('    ✗ Error: ' + filename + ' - ' + response.data.message, log, 'peiwm-log-error');
+                            addLog('    ❌ Error: ' + filename + ' - ' + response.data.message, log, 'peiwm-log-error');
                         }
                     },
                     error: function (xhr, status, error) {
-                        addLog('    ✗ Error: ' + filename + ' - ' + error, log, 'peiwm-log-error');
+                        addLog('    ❌ Error: ' + filename + ' - ' + error, log, 'peiwm-log-error');
                     },
                     complete: function () {
                         processedCount++;
@@ -1735,13 +1735,13 @@
                         let logClass = '';
                         
                         if (response.data.status === 'skipped') {
-                            logMessage = '⚠ Skipped: ' + post.post_title + ' (' + response.data.reason + ')';
+                            logMessage = '⏭️ Skipped: ' + post.post_title + ' (' + response.data.reason + ')';
                             logClass = '';
                         } else if (response.data.status === 'updated') {
                             logMessage = '🔄 Updated: ' + post.post_title + ' (' + response.data.reason + ')';
                             logClass = 'peiwm-log-info';
                         } else {
-                            logMessage = '✓ Imported: ' + post.post_title;
+                            logMessage = '✅ Imported: ' + post.post_title;
                             logClass = 'peiwm-log-success';
                         }
                         
@@ -1749,21 +1749,21 @@
                         if (response.data.language_info && response.data.language_info.success) {
                             logMessage += ' | ' + response.data.language_info.message;
                         } else if (response.data.language_info && !response.data.language_info.success) {
-                            logMessage += ' | ⚠ ' + response.data.language_info.message;
+                            logMessage += ' | ⚠️ ' + response.data.language_info.message;
                         }
                         
                         addLog(logMessage, log, logClass);
                     } else {
                         failedPosts.push(post);
-                        addLog('✗ Failed: ' + post.post_title + ' - ' + response.data.message, log);
+                        addLog('❌ Failed: ' + post.post_title + ' - ' + response.data.message, log);
                     }
                 },
                 error: function (xhr, status, error) {
                     failedPosts.push(post);
                     if (status === 'timeout') {
-                        addLog('⚠ Timeout: ' + post.post_title + ' - will be available for retry', log, 'peiwm-log-warning');
+                        addLog('⌛ Timeout: ' + post.post_title + ' - will be available for retry', log, 'peiwm-log-warning');
                     } else {
-                        addLog('✗ Error: ' + post.post_title + ' - ' + error, log);
+                        addLog('❌ Error: ' + post.post_title + ' - ' + error, log);
                     }
                 },
                 complete: function () {
@@ -1831,7 +1831,7 @@
                     if (blockedCount > 0) {
                         addLog('⚠️ ' + blockedCount + ' file(s) blocked due to disallowed file type', log, 'peiwm-log-warning');
                         blockedFiles.slice(0, 10).forEach(function(filename) {
-                            addLog('  ✗ Blocked: ' + filename, log, 'peiwm-log-warning');
+                            addLog('  ⛔ Blocked: ' + filename, log, 'peiwm-log-warning');
                         });
                         if (blockedCount > 10) {
                             addLog('  ... and ' + (blockedCount - 10) + ' more blocked files', log, 'peiwm-log-warning');
@@ -1917,7 +1917,7 @@
             if (pos >= totalToProcess) {
                 if (failedIndices.length > 0) {
                     progressText.text('Import done with ' + failedIndices.length + ' failed file(s).');
-                    addLog('⚠ ' + failedIndices.length + ' file(s) failed and can be retried.', log);
+                    addLog('⚠️ ' + failedIndices.length + ' file(s) failed and can be retried.', log);
 
                     const retryBtn = $('<button type="button" class="button peiwm-retry-failed-btn" style="margin-top:0.75rem;background:#f97316;color:#fff;border-color:#f97316;">' +
                         '🔄 Some were missed \u2014 retry ' + failedIndices.length + ' failed file(s) now</button>');
@@ -1941,7 +1941,7 @@
                     if (stats.failed > 0) summaryParts.push(stats.failed + ' failed');
                     if (stats.blocked > 0) summaryParts.push(stats.blocked + ' blocked');
                     
-                    const summaryMsg = '✓ Import complete! ' + summaryParts.join(', ');
+                    const summaryMsg = '✅ Import complete! ' + summaryParts.join(', ');
                     addLog(summaryMsg, log);
                     showSuccess('Media import completed successfully!');
 
@@ -1956,7 +1956,7 @@
                         },
                         success: function (response) {
                             if (response.success) {
-                                addLog('✓ Cleanup completed', log);
+                                addLog('✅ Cleanup completed', log);
                             }
                         },
                         complete: function () {
@@ -1983,25 +1983,25 @@
                     if (response.success) {
                         if (response.data.status === 'skipped') {
                             stats.skipped++;
-                            addLog('⚠ Skipped: ' + response.data.filename + ' (' + response.data.reason + ')', log);
+                            addLog('⏭️ Skipped: ' + response.data.filename + ' (' + response.data.reason + ')', log);
                         } else if (response.data.status === 'failed') {
                             stats.failed++;
                             failedIndices.push(fileIndex);
-                            addLog('✗ Failed: ' + response.data.filename + ' - ' + response.data.reason, log);
+                            addLog('❌ Failed: ' + response.data.filename + ' - ' + response.data.reason, log);
                         } else {
                             stats.imported++;
-                            addLog('✓ Imported: ' + response.data.filename + ' (' + response.data.file_size_formatted + ')', log);
+                            addLog('✅ Imported: ' + response.data.filename + ' (' + response.data.file_size_formatted + ')', log);
                         }
                     } else {
                         stats.failed++;
                         failedIndices.push(fileIndex);
-                        addLog('✗ Failed: ' + (response.data ? response.data.message : 'unknown error'), log);
+                        addLog('❌ Failed: ' + (response.data ? response.data.message : 'unknown error'), log);
                     }
                 },
                 error: function (xhr, status, error) {
                     stats.failed++;
                     failedIndices.push(fileIndex);
-                    addLog('✗ Error (file ' + fileIndex + '): ' + error, log);
+                    addLog('❌ Error (file ' + fileIndex + '): ' + error, log);
                 },
                 complete: function () {
                     pos++;
@@ -2032,8 +2032,8 @@
         html += '<tr><td>Memory Limit:</td><td>' + config.memory_limit + '</td></tr>';
         html += '<tr><td>Current Memory Usage:</td><td>' + (config.current_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
         html += '<tr><td>Peak Memory Usage:</td><td>' + (config.peak_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
-        html += '<tr><td>ZipArchive Available:</td><td>' + (config.ziparchive_available ? '✓ Yes' : '✗ No') + '</td></tr>';
-        html += '<tr><td>Upload Directory Writable:</td><td>' + (config.upload_dir_writable ? '✓ Yes' : '✗ No') + '</td></tr>';
+        html += '<tr><td>ZipArchive Available:</td><td>' + (config.ziparchive_available ? '✅ Yes' : '❌ No') + '</td></tr>';
+        html += '<tr><td>Upload Directory Writable:</td><td>' + (config.upload_dir_writable ? '✅ Yes' : '❌ No') + '</td></tr>';
 
         html += '</table>';
 
@@ -2046,10 +2046,10 @@
             html += '<li class="peiwm-warning">⚠️ Max Input Time is low (' + config.max_input_time + 's). Consider increasing to 300+ seconds for large file uploads.</li>';
         }
         if (!config.ziparchive_available) {
-            html += '<li class="peiwm-error">✗ ZipArchive is not available. This is required for media import/export.</li>';
+            html += '<li class="peiwm-error">❌ ZipArchive is not available. This is required for media import/export.</li>';
         }
         if (!config.upload_dir_writable) {
-            html += '<li class="peiwm-error">✗ Upload directory is not writable. Check permissions.</li>';
+            html += '<li class="peiwm-error">❌ Upload directory is not writable. Check permissions.</li>';
         }
         html += '</ul>';
 
@@ -2162,7 +2162,7 @@
                         // Store missing files data for the modal
                         window.peiwmMissingFiles = stats.missing_files_list;
                     } else {
-                        html += '<div class="peiwm-stat-detail" style="font-size: 11px; color: #10b981; margin-top: 2px;">✓ All files present</div>';
+                        html += '<div class="peiwm-stat-detail" style="font-size: 11px; color: #10b981; margin-top: 2px;">✅ All files present</div>';
                     }
                     html += '</div>';
 
@@ -2386,7 +2386,7 @@
                 'Clean Up Missing Files?',
                 'This will permanently delete ' + missingFiles.length + ' attachment record(s) from your database. This action cannot be undone.<br><br>Are you sure you want to proceed?'
             ).then(function() {
-                // ── Show "processing" in the stat card immediately after confirm ──
+                // -- Show "processing" in the stat card immediately after confirm --
                 const $statWarningItem = $('#peiwm-media-stats .peiwm-stat-warning');
                 const $statDetail = $statWarningItem.find('.peiwm-stat-detail');
                 if ($statDetail.length) {
@@ -2403,10 +2403,10 @@
                     success: function(response) {
                         if (response.success) {
                             showSuccess(response.data.message);
-                            // ── Update the stat card directly — fast, no full reload ──
+                            // -- Update the stat card directly — fast, no full reload --
                             if ($statWarningItem.length) {
                                 $statWarningItem.removeClass('peiwm-stat-warning');
-                                $statDetail.html('<span style="color:#10b981;">✓ All files present</span>');
+                                $statDetail.html('<span style="color:#10b981;">✅ All files present</span>');
                                 // Update the number to reflect 0 missing
                                 const $num = $statWarningItem.find('.peiwm-stat-number');
                                 if ($num.length) {
@@ -2469,7 +2469,7 @@
 
 
 
-    // ── Advanced Options Toggle ──────────────────────────────────────────────
+    // -- Advanced Options Toggle ----------------------------------------------
     $(document).on('click', '.peiwm-advanced-toggle', function () {
         var $btn    = $(this);
         var targetId = $btn.attr('aria-controls');
@@ -2483,7 +2483,7 @@
               .attr('aria-hidden', String(isOpen));
     });
 
-    // ── PRO inline row click → show toast (only for locked rows) ─────────────
+    // -- PRO inline row click → show toast (only for locked rows) -------------
     $(document).on('click', '.peiwm-pro-inline-row.is-locked', function (e) {
         // Don't fire if user clicked a real link or checkbox
         if ($(e.target).is('a, input, label')) return;
@@ -2500,12 +2500,12 @@
         }
     });
 
-    // ── Toast close button ────────────────────────────────────────────────────
+    // -- Toast close button ----------------------------------------------------
     $(document).on('click', '.peiwm-pro-toast-close', function () {
         $(this).closest('.peiwm-pro-toast').removeClass('is-visible').fadeOut(200);
     });
 
-    // ── Keyboard: Enter/Space on toggle ──────────────────────────────────────
+    // -- Keyboard: Enter/Space on toggle --------------------------------------
     $(document).on('keydown', '.peiwm-advanced-toggle', function (e) {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();

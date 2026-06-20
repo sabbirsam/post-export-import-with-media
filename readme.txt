@@ -1,10 +1,10 @@
 === Post Export Import with Media ===
-Contributors: wpazleen, sambyte
+Contributors: wpazleen
 Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable Tag: 1.13.0
+Stable Tag: 1.13.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -163,12 +163,19 @@ You can install the plugin manually or via the WordPress admin panel.
 - Click 'Install Now' and then activate the plugin.
 
 == External Services ==
-
-This plugin connects to external services only when the relevant integration is enabled or feature is used by the site administrator.
+ 
+This plugin connects to a small number of external services, only when the related feature is actually used.
 
 = Freemius Checkout =
 Loads the Freemius checkout script when a user opens the Pro upgrade modal in the WordPress admin. The script is served from checkout.freemius.com. No personal data or form submission data is sent.
 Terms: https://freemius.com/terms/ | Privacy: https://freemius.com/privacy/
+ 
+= Media import from external URLs =
+When importing content that references images hosted on another domain (for example, a localhost or staging URL from the source site), the plugin downloads those specific image files directly from that URL so they can be attached to the imported post. This only happens for media URLs found inside the import file you provide, not as a background or scheduled connection.
+
+= WordPress.org Plugin Directory API =
+The Plugin Recommendations screen calls the official WordPress.org plugins_api (api.wordpress.org) to pull live names, descriptions, and icons for a short list some recommended WordPress plugins. This only runs when you open the Recommendations screen, the results are cached locally for 10 days to avoid repeat requests, and no data about your site or its content is sent.
+Terms: https://wordpress.org/about/privacy/
 
 == Source Code ==
 
@@ -180,22 +187,49 @@ Build instructions:
 
 1. Clone the repository.
 2. Run `npm install` in the root to install dependencies.
-3. Run `npm run build` to compile the JavaScript and CSS assets.
-4. The compiled files are output to `/build/js/` and `/build/css/`.
+3. Run `npm run build` to compile the JavaScript and CSS.
+4. Compiled output is written to /build/js/ and /build/css/, matching what ships in the plugin.
 
 == Frequently Asked Questions ==
-
-**Q: Does it import featured images and galleries?**  
-A: Absolutely. The plugin imports featured images, galleries, and any media files attached to your posts.  
-
-**Q: Can I use this plugin for large websites?**  
-A: Yes. The plugin uses real-time progress tracking to handle larger exports and imports smoothly, reducing the chance of timeouts.  
-
-**Q: Will it overwrite existing posts on import?**  
-A: No. By default, it only imports new posts and media. Existing posts remain untouched unless you choose to update them.  
-
-**Q: Do I need technical skills to use this plugin?**  
-A: Not at all! The plugin is designed to be beginner-friendly with a simple interface that anyone can use.  
+ 
+= Does this plugin import featured images and galleries? =
+Yes. Featured images, gallery images, and any media attached to or embedded in a post's content are detected and imported automatically, with no separate step needed.
+ 
+= Will my images keep working after I move my site to a new domain? =
+Yes. During import, image URLs in the post content are rewritten to point at the new site, including localhost and staging URLs that wouldn't otherwise resolve.
+ 
+= Can I export and import only specific posts or pages instead of my entire site? =
+Yes. Selective Export lets you choose individual posts or pages, or filter by a date range, before you export. On import, you get a preview so you can choose exactly which items to bring in.
+ 
+= Will importing overwrite my existing posts? =
+No, not by default. The plugin only imports new posts and media. Existing content on the destination site is left untouched.
+ 
+= Does it support WordPress users, or just content? =
+Yes. You can export user accounts with their roles, capabilities, and user meta, and passwords come across as hashes so people can log in right away on the new site. You can map authors by username or email, auto-create missing users, or assign imported content to your own admin account instead.
+ 
+= Does it work with Advanced Custom Fields and Custom Post Types? =
+Yes. Custom Post Types export with their associated posts, taxonomies, and media, and ACF field groups including Repeater fields come across with them.
+ 
+= Can I export my widgets, navigation menus, themes, and plugins, not just posts? =
+Yes. Widgets and their sidebar assignments, full navigation menu structures, your themes (active, all, or selected), and your plugins (active, all, or selected) can all be exported as ZIP files and restored on another site.
+ 
+= How does this handle large sites that normally time out during export? =
+Batch Processing Settings let you control how many items are processed per batch, how many requests run at once, and the maximum size of a single media ZIP before it splits. There's a recommended preset based on your content size if you don't want to configure it by hand, and anything that fails or times out is listed afterward with a one-click retry.
+ 
+= Can exports run automatically on a schedule? =
+Yes. Scheduled Exports supports Daily, Weekly, and Monthly frequencies for posts, pages, media, settings, CPT/ACF data, and users, with automatic email notifications and rotation of older backups.
+ 
+= Is WordPress Settings export/import limited to certain settings? =
+It covers General, Writing, Reading, Discussion, Media, Permalinks, and Privacy, plus your site icon. You choose which categories to import, and you get a log showing exactly what succeeded or failed for each one.
+ 
+= Does it support multilingual sites built with WPML or Polylang? =
+Yes, for both posts and pages. Language assignments are preserved when content is exported and imported between sites running the same multilingual setup.
+ 
+= Do I need coding or server knowledge to use this? =
+No. Every screen has its own interface in your WordPress admin with a progress bar, and the built-in System Configuration Test checks your server's settings before you start a large import so you know what to expect.
+ 
+= Where do I get help if something doesn't work? =
+Use the support forum on this plugin's WordPress.org page. Include your WordPress version, PHP version, and what step failed; the System Configuration Test results are useful to paste in if the issue is import-related.
 
 
 == Screenshots ==
@@ -206,6 +240,10 @@ A: Not at all! The plugin is designed to be beginner-friendly with a simple inte
 4. Dashboard of WordPress Settings Export/Import.
 
 == Changelog ==
+
+= 1.13.1 – 28 June 2026 =
+* **Fix:** Fixed an issue where imported images could reference the wrong image size.
+* **Fix:** Added logic to skip importing duplicate post titles when the content and slug do not match.
 
 = 1.13.0 – 10 June 2026 =
 * **New:** Added Internal link support when export/Import

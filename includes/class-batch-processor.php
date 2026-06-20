@@ -229,7 +229,7 @@ class PEIWM_Batch_Processor {
 				throw new Exception( esc_html__( 'Could not create export directory', 'post-export-import-with-media' ) );
 			}
 
-			$filename = 'posts_export_batch_' . ( $batch_number + 1 ) . '_' . date( 'Y-m-d-H-i-s' ) . '.json';
+			$filename = 'posts-export-batch-' . ( $batch_number + 1 ) . '_' . date( 'Y-m-d-H-i-s' ) . '.json';
 			$file_path = $export_dir . $filename;
 
 			$json_data = wp_json_encode( $export_data, JSON_PRETTY_PRINT );

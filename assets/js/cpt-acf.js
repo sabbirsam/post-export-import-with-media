@@ -760,7 +760,7 @@
 							} else {
 								// Done with this CPT — trigger download
 								if ( cptPosts.length > 0 ) {
-									var filename = 'cpt-' + cptName + '-export_' + new Date().toISOString().slice( 0, 10 ) + '.json';
+									var filename = 'cpt-' + cptName + '-export_' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
 									triggerJsonDownload( JSON.stringify( cptPosts, null, 2 ), filename );
 									appendLog( $progress, '  ✓ Downloaded: ' + filename + ' (' + cptPosts.length + ' posts)' );
 									totalExported += cptPosts.length;
@@ -932,7 +932,7 @@
 			fileNum++;
 			totalExported += posts.length;
 			var suffix   = fileNum > 1 ? '_part' + fileNum : '';
-			var filename = 'cpt-' + cpt + '-export' + suffix + '_' + new Date().toISOString().slice( 0, 10 ) + '.json';
+			var filename = 'cpt-' + cpt + '-export' + suffix + '_' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
 			triggerJsonDownload( JSON.stringify( posts, null, 2 ), filename );
 			appendLog( $progress, '📥 Downloaded: ' + filename + ' (' + posts.length + ' posts)' );
 		}

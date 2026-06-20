@@ -105,7 +105,7 @@ jQuery(document).ready(function ($) {
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = 'wordpress-settings-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                    a.download = 'wordpress-settings-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -313,7 +313,7 @@ jQuery(document).ready(function ($) {
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = 'widgets-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                    a.download = 'widgets-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -353,7 +353,7 @@ jQuery(document).ready(function ($) {
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = 'nav-menus-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                    a.download = 'nav-menus-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -393,7 +393,7 @@ jQuery(document).ready(function ($) {
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = 'widgets-menus-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                    a.download = 'widgets-menus-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);

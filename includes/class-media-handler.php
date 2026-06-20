@@ -816,7 +816,14 @@ class PEIWM_Media_Handler {
 		
 		// If dirname returns '.' (current directory), use current date structure
 		if ( $target_subdir === '.' || empty( $target_subdir ) ) {
-			$target_subdir = date( 'Y/m' );
+			// Use original upload date to preserve year/month directory structure.
+			// upload_date is exported in media_data[] — use it before falling back to current date.
+			$upload_date   = isset( $file_data['upload_date'] ) && ! empty( $file_data['upload_date'] )
+							 ? $file_data['upload_date']
+							 : '';
+			$target_subdir = ! empty( $upload_date )
+							 ? gmdate( 'Y/m', strtotime( $upload_date ) )
+							 : gmdate( 'Y/m' ); // Last resort: no date info available
 			$original_path = $target_subdir . '/' . $file_data['filename'];
 		}
 		

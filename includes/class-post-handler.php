@@ -1162,12 +1162,22 @@ class PEIWM_Post_Handler {
 			return null;
 		}
 
+		// Calculate relative file path for precise year/month matching on import
+		$full_path   = get_attached_file( $attachment_id );
+		$upload_dir  = wp_upload_dir();
+		$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
+		$rel_path    = $full_path
+						 ? ltrim( str_replace( $upload_base, '', $full_path ), '/\\' )
+						 : sanitize_file_name( basename( $full_path ) );
+		$rel_path    = str_replace( DIRECTORY_SEPARATOR, '/', $rel_path ); // normalize to forward slashes
+
 		return array(
-			'id'       => absint( $attachment_id ),
-			'url'      => esc_url( wp_get_attachment_url( $attachment_id ) ),
-			'title'    => sanitize_text_field( $attachment->post_title ),
-			'alt'      => sanitize_text_field( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ),
-			'filename' => sanitize_file_name( basename( get_attached_file( $attachment_id ) ) ),
+			'id'        => absint( $attachment_id ),
+			'url'       => esc_url( wp_get_attachment_url( $attachment_id ) ),
+			'title'     => sanitize_text_field( $attachment->post_title ),
+			'alt'       => sanitize_text_field( get_post_meta( $attachment_id, '_wp_attachment_image_alt', true ) ),
+			'filename'  => sanitize_file_name( basename( get_attached_file( $attachment_id ) ) ),
+			'file_path' => $rel_path, // NEW: precise relative path e.g. "2026/06/photo.jpg"
 		);
 	}
 
@@ -1341,6 +1351,29 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
+	 * Extract upload base URL from a full attachment URL.
+	 * Returns everything up to and including the uploads directory URL.
+	 * e.g. "https://site.com/wp-content/uploads/2026/06/photo-768x768.jpg"
+	 * returns "https://site.com/wp-content/uploads/"
+	 *
+	 * @param string $url Full attachment URL
+	 * @return string Upload base URL, or empty string if not a uploads URL
+	 */
+	private function get_upload_base_url( $url ) {
+		$upload_dir  = wp_upload_dir();
+		$uploads_url = trailingslashit( $upload_dir['baseurl'] );
+		// Check if URL starts with the upload base URL
+		if ( strpos( $url, $uploads_url ) === 0 ) {
+			return $uploads_url;
+		}
+		// Fallback: try to extract via string pattern for cross-domain imports
+		if ( preg_match( '#^(https?://[^/]+/(?:.*?/)?(?:wp-content/uploads|files)/)#i', $url, $m ) ) {
+			return $m[1];
+		}
+		return '';
+	}
+
+	/**
 	 * Import content images securely and update content URLs
 	 *
 	 * @param int    $post_id Post ID
@@ -1351,8 +1384,6 @@ class PEIWM_Post_Handler {
 	 */
 	private function import_content_images_secure( $post_id, $images_data, $content, $download_missing = false ) {
 		$updated_content = $content;
-		$url_mapping     = array(); // exact match: old => new
-		$url_regex_map   = array(); // regex pattern => new (for resized variants)
 
 		foreach ( $images_data as $image_data ) {
 			if ( ! is_array( $image_data ) || empty( $image_data['filename'] ) ) {
@@ -1383,92 +1414,88 @@ class PEIWM_Post_Handler {
 				// Fix _wp_attached_file meta to ensure proper srcset generation
 				$this->fix_attachment_meta( $attachment_id );
 
-				// Get new URL
+			} elseif ( $download_missing && ! empty( $old_url ) ) {
+				// Try to download the image from original URL
+				$attachment_id = $this->download_and_create_attachment( $old_url, $post_id, $image_title, $image_alt );
+			}
+
+			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
 				$new_url = wp_get_attachment_url( $attachment_id );
-				if ( $new_url && ! empty( $old_url ) ) {
-					// Build URL replacement map with regex pattern for resized variants.
-					// content_images[].url stores the full-size URL which may end in
-					// WordPress auto-suffixes like -scaled or -rotated
-					// (e.g. image-scaled.jpg, image-rotated.jpg).
-					// Gutenberg stores RESIZED variants WITHOUT those suffixes
-					// (e.g. image-684x1024.jpg, not image-scaled-684x1024.jpg).
-					// So we must strip -scaled / -rotated from the base before building
-					// the regex, otherwise the pattern never matches content URLs.
-					$old_base_no_ext = preg_replace( '/\.[a-zA-Z0-9]+$/', '', $old_url );
-					$old_base_no_ext = preg_replace( '/-\d+x\d+$/', '', $old_base_no_ext );
-					// Strip WordPress auto-generated suffixes so the pattern covers
-					// both the original name and any resized variant in content.
-					$old_base_no_ext = preg_replace( '/(?:-scaled|-rotated)$/', '', $old_base_no_ext );
-
-					// Pattern: base + optional WP suffix (-scaled/-rotated) + optional -WxH + any extension
-					$old_pattern = preg_quote( $old_base_no_ext, '/' ) . '(?:-scaled|-rotated)?(?:-\d+x\d+)?\.[a-zA-Z0-9]+';
-
-					$url_mapping[ $old_url ]       = $new_url; // exact match fallback
-					$url_regex_map[ $old_pattern ] = $new_url; // regex for resized variants
-				}
 				
-				// Update image ID references in content
+				if ( $new_url && ! empty( $old_url ) ) {
+					$old_base = $this->get_upload_base_url( $old_url );
+					$new_base = $this->get_upload_base_url( $new_url );
+
+					if ( empty( $old_base ) || empty( $new_base ) ) {
+						// Fallback if base extraction fails
+						if ( $old_url !== $new_url ) {
+							$updated_content = str_replace( $old_url, $new_url, $updated_content );
+						}
+					} else {
+						// Identify base filename to construct matching regex
+						$filename_no_ext = preg_replace( '/\.[a-zA-Z0-9]+$/', '', basename( $old_url ) );
+						$base_filename = preg_replace( '/-\d+x\d+$/', '', $filename_no_ext );
+						$base_filename = preg_replace( '/(?:-scaled|-rotated)$/', '', $base_filename );
+
+						$relative_path = str_replace( $old_base, '', dirname( $old_url ) );
+						if ( $relative_path && $relative_path !== '.' ) {
+							$relative_path = trailingslashit( $relative_path );
+						} else {
+							$relative_path = '';
+						}
+
+						// old_base might be http:// in content but https:// in json, so allow either
+						$old_base_regex = preg_replace( '#^https?://#i', 'https?://', preg_quote( $old_base, '/' ) );
+						$old_pattern = $old_base_regex . preg_quote( $relative_path . $base_filename, '/' ) . '(?:-scaled|-rotated)?(?:-\d+x\d+)?\.[a-zA-Z0-9]+';
+
+						if ( preg_match_all( '/(' . $old_pattern . ')/i', $updated_content, $matches ) ) {
+							$unique_matches = array_unique( $matches[1] );
+							$upload_dir = wp_upload_dir();
+							$dest_base_url = trailingslashit( $upload_dir['baseurl'] );
+							$dest_base_dir = trailingslashit( $upload_dir['basedir'] );
+
+							foreach ( $unique_matches as $matched_old_url ) {
+								$matched_new_url = preg_replace( '#^' . $old_base_regex . '#i', $new_base, $matched_old_url );
+
+								// Check if matched_new_url physically exists on the server
+								$file_exists = false;
+								if ( strpos( $matched_new_url, $dest_base_url ) === 0 ) {
+									$local_path = str_replace( $dest_base_url, $dest_base_dir, $matched_new_url );
+									$local_path = str_replace( '/', DIRECTORY_SEPARATOR, $local_path );
+									if ( file_exists( $local_path ) ) {
+										$file_exists = true;
+									}
+								}
+
+								// Fallback to full-size URL if the generated size does not exist
+								$replacement_url = $file_exists ? $matched_new_url : $new_url;
+
+								if ( $matched_old_url !== $replacement_url ) {
+									$updated_content = str_replace( $matched_old_url, $replacement_url, $updated_content );
+								}
+							}
+						} elseif ( $old_url !== $new_url ) {
+							// Regex didn't match any for some reason, do a blunt exact replacement
+							$updated_content = str_replace( $old_url, $new_url, $updated_content );
+						}
+					}
+				}
+
+				// Update image ID references in content (for block editor)
 				if ( isset( $image_data['id'] ) ) {
 					$old_id = absint( $image_data['id'] );
-					// Update wp:image blocks
 					$updated_content = preg_replace(
 						'/("id":)' . $old_id . '([,}])/',
 						'${1}' . $attachment_id . '${2}',
 						$updated_content
 					);
-					// Update wp-image class
 					$updated_content = str_replace(
 						'wp-image-' . $old_id,
 						'wp-image-' . $attachment_id,
 						$updated_content
 					);
 				}
-			} elseif ( $download_missing && ! empty( $old_url ) ) {
-				// Try to download the image from original URL
-				$attachment_id = $this->download_and_create_attachment( $old_url, $post_id, $image_title, $image_alt );
-				
-				if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
-					// Successfully downloaded and created attachment
-					$new_url = wp_get_attachment_url( $attachment_id );
-					if ( $new_url ) {
-						$old_base_no_ext = preg_replace( '/\.[a-zA-Z0-9]+$/', '', $old_url );
-						$old_base_no_ext = preg_replace( '/-\d+x\d+$/', '', $old_base_no_ext );
-						$old_base_no_ext = preg_replace( '/(?:-scaled|-rotated)$/', '', $old_base_no_ext );
-						$old_pattern     = preg_quote( $old_base_no_ext, '/' ) . '(?:-scaled|-rotated)?(?:-\d+x\d+)?\.[a-zA-Z0-9]+';
-
-						$url_mapping[ $old_url ]       = $new_url;
-						$url_regex_map[ $old_pattern ] = $new_url;
-					}
-					
-					// Update image ID references in content
-					if ( isset( $image_data['id'] ) ) {
-						$old_id = absint( $image_data['id'] );
-						// Update wp:image blocks
-						$updated_content = preg_replace(
-							'/("id":)' . $old_id . '([,}])/',
-							'${1}' . $attachment_id . '${2}',
-							$updated_content
-						);
-						// Update wp-image class
-						$updated_content = str_replace(
-							'wp-image-' . $old_id,
-							'wp-image-' . $attachment_id,
-							$updated_content
-						);
-					}
-				}
-				// If download failed, image will be reported as missing
 			}
-		}
-
-		// 1. Regex replacements — covers resized -WxH src variants (must run first)
-		foreach ( $url_regex_map as $pattern => $new ) {
-			$updated_content = preg_replace( '/' . $pattern . '/', $new, $updated_content );
-		}
-
-		// 2. Exact str_replace — catches any remaining occurrences in block JSON / links
-		foreach ( $url_mapping as $old_url => $new_url ) {
-			$updated_content = str_replace( $old_url, $new_url, $updated_content );
 		}
 
 		return $updated_content;

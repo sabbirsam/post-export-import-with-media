@@ -174,9 +174,10 @@ class PEIWM_Main {
 	 * Load plugin dependencies
 	 */
 	private function load_dependencies() {
+		$is_pro = is_plugin_active( 'post-export-import-with-media-pro/post-export-import-with-media-pro.php' );
+
 		// Load core classes
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-email-template.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-email-settings-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-admin-menu.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-ajax-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
@@ -189,10 +190,25 @@ class PEIWM_Main {
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-batch-settings.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-batch-processor.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-heartbeat-handler.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-generic-recommendations.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-cpt-acf-exporter.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-user-handler.php';
+
+		// Email Settings Handler
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-email-settings-handler-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-email-settings-handler-pro.php';
+		}
+
+		// CPT & ACF Exporter
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-cpt-acf-exporter-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-cpt-acf-exporter-pro.php';
+		}
+
+		// Scheduled Exports — free class loads owns menu + UI Only.
+		// PRO class loads on top to add scheduling/AJAX logic when active.
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-scheduled-exports.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
+		}
 	}
 
 	/**
@@ -219,6 +235,8 @@ class PEIWM_Main {
 	 * Initialize plugin components
 	 */
 	public function init_components() {
+		$is_pro = $this->is_pro_active();
+
 		// Initialize admin menu
 		PEIWM_Admin_Menu::get_instance();
 		
@@ -236,9 +254,11 @@ class PEIWM_Main {
 		
 		// Initialize settings handler
 		PEIWM_Settings_Handler::get_instance();
-		
-		// Initialize email settings handler
-		PEIWM_Email_Settings_Handler::get_instance();
+
+		// Initialize email settings handler — PRO only
+		if ( $is_pro && class_exists( 'PEIWM_Email_Settings_Handler_Pro' ) ) {
+			PEIWM_Email_Settings_Handler_Pro::get_instance();
+		}
 		
 		// Initialize themes & plugins handler
 		PEIWM_Themes_Plugins_Handler::get_instance();
@@ -248,9 +268,13 @@ class PEIWM_Main {
 		
 		// Initialize admin download buttons
 		PEIWM_Admin_Download_Buttons::get_instance();
-		
-		// Initialize batch settings
+
+		// Initialize scheduled exports — free class always runs (menu + locked UI).
+		// PRO class also initializes on top when active (adds cron/AJAX logic).
 		PEIWM_Scheduled_Exports::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Scheduled_Exports_Pro' ) ) {
+			PEIWM_Scheduled_Exports_Pro::get_instance();
+		}
 		
 		// Initialize batch settings
 		PEIWM_Batch_Settings::get_instance();
@@ -261,9 +285,9 @@ class PEIWM_Main {
 		// Initialize heartbeat handler
 		PEIWM_Heartbeat_Handler::get_instance();
 
-		// Initialize CPT & ACF Exporter
-		if ( $this->is_pro_active() ) {
-			PEIM_CPT_ACF_Exporter::get_instance()->init();
+		// Initialize CPT & ACF Exporter — PRO only
+		if ( $is_pro && class_exists( 'PEIM_CPT_ACF_Exporter_Pro' ) ) {
+			PEIM_CPT_ACF_Exporter_Pro::get_instance()->init();
 		}
 
 		// Initialize user handler

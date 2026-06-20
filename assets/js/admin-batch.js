@@ -54,7 +54,7 @@ jQuery(document).ready(function ($) {
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = 'posts_export_' + new Date().toISOString().slice(0, 10) + '.json';
+                    link.download = 'posts-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
@@ -87,7 +87,7 @@ jQuery(document).ready(function ($) {
                                 const url = window.URL.createObjectURL(blob);
                                 const link = document.createElement('a');
                                 link.href = url;
-                                link.download = 'posts_export_' + new Date().toISOString().slice(0, 10) + '.json';
+                                link.download = 'posts-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
@@ -138,7 +138,7 @@ jQuery(document).ready(function ($) {
                         const url = window.URL.createObjectURL(blob);
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = 'pages-export-' + new Date().toISOString().slice(0, 10) + '.json';
+                        a.download = 'pages-export-' + new Date().toISOString().slice(0, 19).replace(/T|:/g, '-') + '.json';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
