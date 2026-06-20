@@ -180,9 +180,28 @@ class PEIWM_Main {
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-email-template.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-admin-menu.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-ajax-handler.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-page-handler.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-media-handler.php';
+
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-post-handler-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-post-handler-pro.php';
+		}else {
+			require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
+		}
+		
+
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-page-handler-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-page-handler-pro.php';
+		}else {
+			require_once PEIWM_PLUGIN_PATH . 'includes/class-page-handler.php';
+		}
+		
+
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-media-handler-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-media-handler-pro.php';
+		}else {
+			require_once PEIWM_PLUGIN_PATH . 'includes/class-media-handler.php';
+		}
+		
+		
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-settings-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-themes-plugins-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-widgets-menus-handler.php';
@@ -191,7 +210,13 @@ class PEIWM_Main {
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-batch-processor.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-heartbeat-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-generic-recommendations.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-user-handler.php';
+
+		// User export and Import Handler
+		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-user-handler-pro.php' ) ) {
+			require_once PEIWM_PRO_PLUGIN_PATH . 'includes/class-user-handler-pro.php';
+		}else {
+			require_once PEIWM_PLUGIN_PATH . 'includes/class-user-handler.php';
+		}
 
 		// Email Settings Handler
 		if ( $is_pro && defined( 'PEIWM_PRO_PLUGIN_PATH' ) && file_exists( PEIWM_PRO_PLUGIN_PATH . 'includes/class-email-settings-handler-pro.php' ) ) {
@@ -244,13 +269,26 @@ class PEIWM_Main {
 		PEIWM_Ajax_Handler::get_instance();
 		
 		// Initialize post handler
-		PEIWM_Post_Handler::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Post_Handler_Pro' ) ) {
+			PEIWM_Post_Handler_Pro::get_instance();
+		}else {
+			PEIWM_Post_Handler::get_instance();
+		}
 		
 		// Initialize page handler
-		PEIWM_Page_Handler::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Page_Handler_Pro' ) ) {
+			PEIWM_Page_Handler_Pro::get_instance();
+		}else {
+			PEIWM_Page_Handler::get_instance();
+		}
 		
 		// Initialize media handler
-		PEIWM_Media_Handler::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Media_Handler_Pro' ) ) {
+			PEIWM_Media_Handler_Pro::get_instance();
+		}else {
+			PEIWM_Media_Handler::get_instance();
+		}
+		
 		
 		// Initialize settings handler
 		PEIWM_Settings_Handler::get_instance();
@@ -289,9 +327,13 @@ class PEIWM_Main {
 		if ( $is_pro && class_exists( 'PEIM_CPT_ACF_Exporter_Pro' ) ) {
 			PEIM_CPT_ACF_Exporter_Pro::get_instance()->init();
 		}
-
+		
 		// Initialize user handler
-		PEIWM_User_Handler::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_User_Handler_Pro' ) ) {
+			PEIWM_User_Handler_Pro::get_instance();
+		}else {
+			PEIWM_User_Handler::get_instance();
+		}
 		
 		// Initialize recommendations
 		if ( class_exists( 'Recommendations' ) ) {

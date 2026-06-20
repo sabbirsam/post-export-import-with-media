@@ -57,7 +57,6 @@ class PEIWM_Page_Handler {
 		add_action( 'wp_ajax_peiwm_export_pages', array( $this, 'ajax_export_pages' ) );
 		add_action( 'wp_ajax_peiwm_import_page', array( $this, 'ajax_import_page' ) );
 		add_action( 'wp_ajax_peiwm_delete_pages', array( $this, 'ajax_delete_pages' ) );
-		add_action( 'wp_ajax_peiwm_save_wpml_setting_pages', array( $this, 'ajax_save_wpml_setting_pages' ) );
 		add_action( 'wp_ajax_peiwm_check_and_download_page_image', array( $this, 'ajax_check_and_download_image' ) );
 		add_action( 'wp_ajax_peiwm_get_pages_list', array( $this, 'ajax_get_pages_list' ) );
 	}
@@ -75,41 +74,9 @@ class PEIWM_Page_Handler {
 		}
 
 		try {
-			// Support selective export by page IDs
-			$selected_ids = isset( $_POST['post_ids'] ) ? array_filter( array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['post_ids'] ) ) ) ) ) : array();
-
 			// Pagination — uses Export JSON File Size batch setting (same as posts)
 			$page     = isset( $_POST['page'] )     ? max( 1, absint( wp_unslash( $_POST['page'] ) ) )     : 0;
 			$per_page = isset( $_POST['per_page'] ) ? max( 1, absint( wp_unslash( $_POST['per_page'] ) ) ) : 0;
-
-			// Check if WPML export is enabled
-			$export_wpml = isset( $_POST['export_wpml_data'] ) && '1' === sanitize_key( wp_unslash( $_POST['export_wpml_data'] ) );
-
-			// Selective (specific IDs) — fetch all at once since count is bounded
-			if ( ! empty( $selected_ids ) ) {
-				$pages = get_posts( array(
-					'post_type'      => 'page',
-					'post__in'       => $selected_ids,
-					'orderby'        => 'post__in',
-					'numberposts'    => -1,
-					'post_status'    => array( 'publish', 'draft', 'private' ),
-					'no_found_rows'  => true,
-				) );
-
-				$export_data = array();
-				foreach ( $pages as $p ) {
-					$export_data[] = $this->build_page_export_data( $p, $export_wpml );
-				}
-				wp_reset_postdata();
-
-				wp_send_json_success( array(
-					'data'     => $export_data,
-					'count'    => count( $export_data ),
-					'has_more' => false,
-					'total'    => count( $export_data ),
-				) );
-				return;
-			}
 
 			// Non-selective — paginated using Export JSON File Size setting
 			if ( $per_page > 0 ) {
@@ -126,7 +93,7 @@ class PEIWM_Page_Handler {
 
 				$export_data = array();
 				foreach ( $query->posts as $p ) {
-					$export_data[] = $this->build_page_export_data( $p, $export_wpml );
+					$export_data[] = $this->build_page_export_data( $p );
 				}
 				wp_reset_postdata();
 
@@ -153,7 +120,7 @@ class PEIWM_Page_Handler {
 
 			$export_data = array();
 			foreach ( $pages as $p ) {
-				$export_data[] = $this->build_page_export_data( $p, $export_wpml );
+				$export_data[] = $this->build_page_export_data( $p );
 			}
 			wp_reset_postdata();
 
@@ -173,10 +140,9 @@ class PEIWM_Page_Handler {
 	 * Build export data array for a single page.
 	 *
 	 * @param WP_Post $page        The page object.
-	 * @param bool    $export_wpml Whether to include WPML data.
 	 * @return array
 	 */
-	private function build_page_export_data( $page, $export_wpml = false ) {
+	private function build_page_export_data( $page ) {
 		$page_data = array(
 			'ID'             => absint( $page->ID ),
 			'post_title'     => sanitize_text_field( $page->post_title ),
@@ -197,11 +163,7 @@ class PEIWM_Page_Handler {
 			'source_url'     => home_url(),
 		);
 
-		if ( $export_wpml && ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) ) {
-			$page_data['wpml_data'] = $this->get_wpml_post_data( $page->ID );
-		} else {
-			$page_data['wpml_data'] = null;
-		}
+
 
 		return $page_data;
 	}
@@ -388,10 +350,6 @@ class PEIWM_Page_Handler {
 			// Reset after page creation
 			wp_reset_postdata();
 
-			// Import WPML/Polylang language data FIRST (before any other operations)
-			if ( ! empty( $sanitized_page_data['wpml_data'] ) && is_array( $sanitized_page_data['wpml_data'] ) ) {
-				$this->apply_wpml_language( $page_id, $sanitized_page_data['wpml_data'] );
-			}
 
 			// Set page template — validate it exists on this site before applying
 			if ( ! empty( $sanitized_page_data['page_template'] ) && 'default' !== $sanitized_page_data['page_template'] ) {
@@ -534,25 +492,6 @@ class PEIWM_Page_Handler {
 		}
 	}
 
-	/**
-	 * AJAX: Save WPML support setting for pages
-	 */
-	public function ajax_save_wpml_setting_pages() {
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
-		}
-
-		$enabled = isset( $_POST['enabled'] ) ? absint( $_POST['enabled'] ) : 0;
-		update_option( 'peiwm_enable_wpml_support_pages', (bool) $enabled );
-
-		wp_send_json_success( array(
-			'message' => esc_html__( 'WPML support setting saved', 'post-export-import-with-media' ),
-		) );
-	}
 
 	// Include all the helper methods from post handler (get_page_meta_secure, get_featured_image_secure, etc.)
 	// These methods are identical to the post handler methods, just adapted for pages

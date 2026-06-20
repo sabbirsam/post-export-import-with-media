@@ -24,8 +24,11 @@ jQuery(document).ready(function ($) {
 
     // Override export posts button
     $('#peiwm-export-posts').off('click').on('click', function () {
-        // If selective mode is on, use chunked selective export
-        if ($('#peiwm-export-posts-selective').is(':checked')) {
+        // If selective mode OR date-range filter is on, export only the checked posts from the list
+        const isSelective = $('#peiwm-export-posts-selective').is(':checked');
+        const isDateRange = $('#peiwm-export-posts-daterange').is(':checked');
+
+        if (isSelective || isDateRange) {
             const button = $(this);
             const originalText = button.text();
             const ids = [];
@@ -43,13 +46,11 @@ jQuery(document).ready(function ($) {
 
             const ajaxChunkSize = 50;
             let allData = [];
-            let selectiveOffset = 0; // tracks position in ids array
+            let selectiveOffset = 0;
 
             function exportChunk() {
-                // Pre-slice IDs in JS - avoids sending all IDs every request and offset confusion
                 const chunkIds = ids.slice(selectiveOffset, selectiveOffset + ajaxChunkSize);
                 if (chunkIds.length === 0) {
-                    // All done
                     const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
                     const url = window.URL.createObjectURL(blob);
                     const link = document.createElement('a');
@@ -71,9 +72,10 @@ jQuery(document).ready(function ($) {
                     data: {
                         action: 'peiwm_export_posts_chunk',
                         nonce: peiwm_ajax.nonce,
-                        offset: 0,           // always 0 - IDs are pre-sliced
+                        offset: 0,
                         chunk_size: chunkIds.length,
                         post_ids: chunkIds.join(','),
+                        export_acf_fields: $('#peiwm-export-acf-fields').is(':checked') ? '1' : '0',
                         export_wpml_data: $('#peiwm-export-wpml-data').is(':checked') ? '1' : '0'
                     },
                     success: function (response) {

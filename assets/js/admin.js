@@ -668,9 +668,12 @@ jQuery(document).ready(function ($) {
         const button = $(this);
         const originalText = button.text();
         const isSelective = $('#peiwm-export-posts-selective').is(':checked');
+        const isDateRange = $('#peiwm-export-posts-daterange').is(':checked');
+        // Either mode uses the checked IDs from the visible list
+        const useIdList = isSelective || isDateRange;
 
         let selectedIds = [];
-        if (isSelective) {
+        if (useIdList) {
             $('#peiwm-posts-export-list .peiwm-selective-checkbox:checked').each(function () {
                 const id = parseInt($(this).attr('data-id'), 10);
                 if (id > 0) selectedIds.push(id);
@@ -685,9 +688,9 @@ jQuery(document).ready(function ($) {
         $('#peiwm-posts-progress').show();
         $('html, body').animate({ scrollTop: $('#peiwm-posts-progress').offset().top - 40 }, 400);
 
-        // For selective mode: export all selected IDs in chunks but into ONE file
+        // For selective/date-range mode: export all selected IDs into ONE file
         // For non-selective: split into files of postsPerFile each
-        const postsPerFile = isSelective
+        const postsPerFile = useIdList
             ? selectedIds.length  // all selected go into one file
             : Math.max(
                 (typeof peiwm_batch_settings !== 'undefined' && peiwm_batch_settings.export_json_size)
@@ -730,21 +733,21 @@ jQuery(document).ready(function ($) {
                     action: 'peiwm_export_posts_chunk',
                     nonce: peiwm_ajax.nonce,
                     chunk_size: Math.min(needed, ajaxChunkSize),
+                    export_acf_fields: $('#peiwm-export-acf-fields').is(':checked') ? '1' : '0',
                     export_wpml_data: $('#peiwm-export-wpml-data').is(':checked') ? '1' : '0'
                 };
 
-                if (isSelective && selectedIds.length > 0) {
-                    // For selective: send a slice of IDs directly - no offset confusion
+                if (useIdList && selectedIds.length > 0) {
+                    // For selective/date-range: send a slice of IDs directly
                     const chunkIds = selectedIds.slice(selectiveOffset, selectiveOffset + Math.min(needed, ajaxChunkSize));
                     if (chunkIds.length === 0) {
-                        // All done
                         if (currentFilePosts.length > 0) {
                             downloadFile(currentFilePosts);
                         }
                         return;
                     }
                     reqData.post_ids = chunkIds.join(',');
-                    reqData.offset = 0; // always 0 since we pre-slice the IDs
+                    reqData.offset = 0;
                 } else {
                     reqData.offset = globalOffset;
                     if (exportSessionKey) {
@@ -773,13 +776,13 @@ jQuery(document).ready(function ($) {
                         currentFilePosts = currentFilePosts.concat(response.data.data);
                         const fetched = response.data.data.length;
 
-                        if (isSelective) {
+                        if (useIdList) {
                             selectiveOffset += fetched;
                         } else {
                             globalOffset = globalOffset + fetched;
                         }
 
-                        const moreExist = isSelective
+                        const moreExist = useIdList
                             ? selectiveOffset < selectedIds.length
                             : response.data.has_more;
 

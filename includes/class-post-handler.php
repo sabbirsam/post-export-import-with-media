@@ -58,7 +58,6 @@ class PEIWM_Post_Handler {
 		add_action( 'wp_ajax_peiwm_export_posts_chunk', array( $this, 'ajax_export_posts_chunk' ) );
 		add_action( 'wp_ajax_peiwm_import_post', array( $this, 'ajax_import_post' ) );
 		add_action( 'wp_ajax_peiwm_delete_posts', array( $this, 'ajax_delete_posts' ) );
-		add_action( 'wp_ajax_peiwm_save_wpml_setting', array( $this, 'ajax_save_wpml_setting' ) );
 		add_action( 'wp_ajax_peiwm_check_and_download_image', array( $this, 'ajax_check_and_download_image' ) );
 		add_action( 'wp_ajax_peiwm_get_posts_list', array( $this, 'ajax_get_posts_list' ) );
 	}
@@ -78,9 +77,6 @@ class PEIWM_Post_Handler {
 		try {
 			@ini_set( 'memory_limit', '512M' );
 
-			// Support selective export by post IDs
-			$selected_ids = isset( $_POST['post_ids'] ) ? array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['post_ids'] ) ) ) ) : array();
-
 			$query_args = array(
 				'post_type'              => 'post',
 				'numberposts'            => -1,
@@ -90,11 +86,6 @@ class PEIWM_Post_Handler {
 				'no_found_rows'          => true,
 				'update_post_term_cache' => false,
 			);
-
-			if ( ! empty( $selected_ids ) ) {
-				$query_args['post__in'] = $selected_ids;
-				$query_args['orderby']  = 'post__in';
-			}
 
 			$posts = get_posts( $query_args );
 
@@ -122,43 +113,6 @@ class PEIWM_Post_Handler {
 					'source_url'    => home_url(),
 					'acf_fields'    => array(),
 				);
-
-				// Enrich with author identity data for smart mapping on import
-				$author_id   = absint( $post->post_author );
-				$author_user = get_userdata( $author_id );
-
-				if ( $author_user ) {
-					// phpcs:disable WordPress.DB.DirectDatabaseQuery
-					$author_pass_hash = $wpdb->get_var( $wpdb->prepare(
-						"SELECT user_pass FROM {$wpdb->users} WHERE ID = %d",
-						$author_user->ID
-					) );
-					// phpcs:enable WordPress.DB.DirectDatabaseQuery
-
-					$post_data['post_author_data'] = array(
-						'user_login'    => sanitize_user( $author_user->user_login ),
-						'user_email'    => sanitize_email( $author_user->user_email ),
-						'display_name'  => sanitize_text_field( $author_user->display_name ),
-						'role'          => ! empty( $author_user->roles )
-						                   ? sanitize_text_field( $author_user->roles[0] )
-						                   : 'subscriber',
-						'user_pass_hash' => $author_pass_hash ? $author_pass_hash : null,
-					);
-				} else {
-					$post_data['post_author_data'] = null;
-				}
-
-				// ACF fields export — only if checkbox was sent AND ACF is active
-				$export_acf_fields = isset( $_POST['export_acf_fields'] ) && '1' === sanitize_key( $_POST['export_acf_fields'] );
-				if ( $export_acf_fields && class_exists( 'PEIM_CPT_ACF_Exporter' ) ) {
-					$acf_exporter = PEIM_CPT_ACF_Exporter::get_instance();
-					if ( $acf_exporter->is_acf_active() ) {
-						$acf_raw = get_fields( $post->ID );
-						if ( ! empty( $acf_raw ) && is_array( $acf_raw ) ) {
-							$post_data['acf_fields'] = $acf_exporter->flatten_acf_fields_public( $post->ID, $acf_raw );
-						}
-					}
-				}
 
 				$export_data[] = $post_data;			}
 
@@ -193,25 +147,6 @@ class PEIWM_Post_Handler {
 			$chunk_size = isset( $_POST['chunk_size'] ) ? absint( $_POST['chunk_size'] ) : 50;
 			$chunk_size = max( 1, min( $chunk_size, 100 ) );
 
-			// Support session key for large ID lists (avoids max_input_vars truncation)
-			$session_key  = isset( $_POST['export_session'] ) ? sanitize_text_field( wp_unslash( $_POST['export_session'] ) ) : '';
-			$selected_ids = array();
-			$new_session_key = $session_key;
-
-			if ( ! empty( $session_key ) ) {
-				// Retrieve IDs from existing transient
-				$stored = get_transient( 'peiwm_export_ids_' . $session_key );
-				if ( is_array( $stored ) ) {
-					$selected_ids    = $stored;
-					$new_session_key = $session_key; // reuse same key
-				}
-			} elseif ( isset( $_POST['post_ids'] ) && ! empty( $_POST['post_ids'] ) ) {
-				$selected_ids = array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['post_ids'] ) ) ) );
-				// Store in transient for subsequent chunks so we don't re-send all IDs
-				$new_session_key = wp_generate_uuid4();
-				set_transient( 'peiwm_export_ids_' . $new_session_key, $selected_ids, HOUR_IN_SECONDS );
-			}
-
 			$query_args = array(
 				'post_type'              => 'post',
 				'numberposts'            => $chunk_size,
@@ -223,29 +158,9 @@ class PEIWM_Post_Handler {
 				'update_post_term_cache' => false,
 			);
 
-			if ( ! empty( $selected_ids ) ) {
-				$chunk_ids = array_slice( $selected_ids, $offset, $chunk_size );
-				if ( empty( $chunk_ids ) ) {
-					wp_send_json_success( array(
-						'data'         => array(),
-						'count'        => 0,
-						'has_more'     => false,
-						'offset'       => $offset,
-						'session_key'  => $new_session_key,
-					) );
-				}
-				$query_args['post__in']    = $chunk_ids;
-				$query_args['orderby']     = 'post__in';
-				$query_args['numberposts'] = count( $chunk_ids );
-				unset( $query_args['offset'] );
-			}
-
 			$posts       = get_posts( $query_args );
 			$export_data = array();
 			global $wpdb;
-
-			// Check if WPML export is enabled
-			$chunk_export_wpml = isset( $_POST['export_wpml_data'] ) && '1' === sanitize_key( $_POST['export_wpml_data'] );
 
 			foreach ( $posts as $post ) {
 				$post_data = array(
@@ -270,66 +185,18 @@ class PEIWM_Post_Handler {
 					'acf_fields'    => array(),
 				);
 
-				// WPML/Polylang data export — only if checkbox was sent AND WPML or Polylang is active
-				if ( $chunk_export_wpml && ( defined( 'ICL_SITEPRESS_VERSION' ) || defined( 'POLYLANG_VERSION' ) ) ) {
-					$post_data['wpml_data'] = $this->get_wpml_post_data( $post->ID );
-				} else {
-					$post_data['wpml_data'] = null;
-				}
-
-				// Enrich with author identity data for smart mapping on import
-				$author_id   = absint( $post->post_author );
-				$author_user = get_userdata( $author_id );
-
-				if ( $author_user ) {
-					// phpcs:disable WordPress.DB.DirectDatabaseQuery
-					$author_pass_hash = $wpdb->get_var( $wpdb->prepare(
-						"SELECT user_pass FROM {$wpdb->users} WHERE ID = %d",
-						$author_user->ID
-					) );
-					// phpcs:enable WordPress.DB.DirectDatabaseQuery
-
-					$post_data['post_author_data'] = array(
-						'user_login'    => sanitize_user( $author_user->user_login ),
-						'user_email'    => sanitize_email( $author_user->user_email ),
-						'display_name'  => sanitize_text_field( $author_user->display_name ),
-						'role'          => ! empty( $author_user->roles )
-						                   ? sanitize_text_field( $author_user->roles[0] )
-						                   : 'subscriber',
-						'user_pass_hash' => $author_pass_hash ? $author_pass_hash : null,
-					);
-				} else {
-					$post_data['post_author_data'] = null;
-				}
-
-				// ACF fields export — only if checkbox was sent AND ACF is active
-				$chunk_export_acf = isset( $_POST['export_acf_fields'] ) && '1' === sanitize_key( $_POST['export_acf_fields'] );
-				if ( $chunk_export_acf && class_exists( 'PEIM_CPT_ACF_Exporter' ) ) {
-					$acf_exporter_chunk = PEIM_CPT_ACF_Exporter::get_instance();
-					if ( $acf_exporter_chunk->is_acf_active() ) {
-						$acf_raw_chunk = get_fields( $post->ID );
-						if ( ! empty( $acf_raw_chunk ) && is_array( $acf_raw_chunk ) ) {
-							$post_data['acf_fields'] = $acf_exporter_chunk->flatten_acf_fields_public( $post->ID, $acf_raw_chunk );
-						}
-					}
-				}
-
 				$export_data[] = $post_data;
 			}
 
 			wp_reset_postdata();
 
 			$has_more = count( $posts ) === $chunk_size;
-			if ( ! empty( $selected_ids ) ) {
-				$has_more = ( $offset + count( $posts ) ) < count( $selected_ids );
-			}
 
 			wp_send_json_success( array(
 				'data'        => $export_data,
 				'count'       => count( $export_data ),
 				'has_more'    => $has_more,
 				'offset'      => $offset,
-				'session_key' => $new_session_key,
 			) );
 
 		} catch ( Exception $e ) {
@@ -374,13 +241,6 @@ class PEIWM_Post_Handler {
 			$large_site      = $total_count >= 800;
 			$show_batch_warn = $large_site && ! $batch_enabled;
 
-			// ── Date range filter (optional) ────────────────────────────────────
-			$date_from = isset( $_POST['date_from'] ) ? sanitize_text_field( wp_unslash( $_POST['date_from'] ) ) : '';
-			$date_to   = isset( $_POST['date_to'] )   ? sanitize_text_field( wp_unslash( $_POST['date_to'] ) )   : '';
-
-			$valid_from = ( $date_from && DateTime::createFromFormat( 'Y-m-d', $date_from ) !== false );
-			$valid_to   = ( $date_to   && DateTime::createFromFormat( 'Y-m-d', $date_to )   !== false );
-
 			$query_args = array(
 				'post_type'              => 'post',
 				'numberposts'            => $page_size,
@@ -393,19 +253,7 @@ class PEIWM_Post_Handler {
 				'update_post_term_cache' => false,
 			);
 
-			if ( $valid_from || $valid_to ) {
-				$date_query_entry = array( 'inclusive' => true );
-				if ( $valid_from ) {
-					$date_query_entry['after'] = $date_from . ' 00:00:00';
-				}
-				if ( $valid_to ) {
-					$date_query_entry['before'] = $date_to . ' 23:59:59';
-				}
-				$query_args['date_query'] = array( $date_query_entry );
-			}
-
 			$posts = get_posts( $query_args );
-			// ── END date range filter ────────────────────────────────────────────
 
 			$list = array();
 			foreach ( $posts as $post ) {
@@ -423,8 +271,6 @@ class PEIWM_Post_Handler {
 				'posts'           => $list,
 				'count'           => count( $list ),
 				'total_count'     => $total_count,
-				'date_from'       => $valid_from ? $date_from : '',
-				'date_to'         => $valid_to   ? $date_to   : '',
 				'offset'          => $offset,
 				'page_size'       => $page_size,
 				'has_more'        => ( $offset + count( $list ) ) < $total_count,
@@ -465,14 +311,7 @@ class PEIWM_Post_Handler {
 			$download_missing_images = isset( $_POST['download_missing_images'] ) && $_POST['download_missing_images'] === '1';
 			$check_media_library = isset( $_POST['check_media_library'] ) && $_POST['check_media_library'] === '1';
 
-			// Smart author mapping options (new in v1.5.0, backward compatible)
-			$smart_author_mapping = ! isset( $_POST['peiwm_smart_author_mapping'] ) || '1' === sanitize_key( $_POST['peiwm_smart_author_mapping'] );
-			$fallback_behavior    = isset( $_POST['peiwm_author_fallback'] )
-			                        ? sanitize_text_field( wp_unslash( $_POST['peiwm_author_fallback'] ) )
-			                        : 'current_user';
-			if ( ! in_array( $fallback_behavior, array( 'current_user', 'create_user' ), true ) ) {
-				$fallback_behavior = 'current_user';
-			}
+
 			
 			if ( empty( $post_data_raw ) ) {
 				throw new Exception( esc_html__( 'No post data provided', 'post-export-import-with-media' ) );
@@ -506,19 +345,11 @@ class PEIWM_Post_Handler {
 				$sanitized_post_data['post_status'] = $force_status;
 			}
 
-			// Resolve author ID using smart mapping (backward compatible)
-			$author_data_raw = isset( $post_data['post_author_data'] ) && is_array( $post_data['post_author_data'] )
-			                   ? $post_data['post_author_data']
-			                   : null;
 			$original_author_id = isset( $post_data['post_author'] ) ? absint( $post_data['post_author'] ) : 0;
 
-			if ( $smart_author_mapping ) {
-				$resolved_author_id = $this->resolve_post_author( $original_author_id, $author_data_raw, $fallback_behavior );
-			} else {
-				$resolved_author_id = ( $original_author_id > 0 && false !== get_userdata( $original_author_id ) )
-				                      ? $original_author_id
-				                      : get_current_user_id();
-			}
+			$resolved_author_id = ( $original_author_id > 0 && false !== get_userdata( $original_author_id ) )
+			                      ? $original_author_id
+			                      : get_current_user_id();
 
 			// Check if post already exists.
 			// Primary: match by slug (post_name) — unique per post type in WordPress.
@@ -600,14 +431,7 @@ class PEIWM_Post_Handler {
 				) );
 			}
 
-			// Import WPML/Polylang language data FIRST (before any other operations)
 			$language_result = null;
-			if ( ! empty( $sanitized_post_data['wpml_data'] ) && is_array( $sanitized_post_data['wpml_data'] ) ) {
-				// Read the WPML support flag here (nonce already verified above) and pass it
-				// down to the private helper so it never needs to touch $_POST directly.
-				$wpml_support_from_post = isset( $_POST['peiwm_enable_wpml_support'] ) && '1' === sanitize_key( wp_unslash( $_POST['peiwm_enable_wpml_support'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified at top of this function
-				$language_result = $this->apply_wpml_language( $post_id, $sanitized_post_data['wpml_data'], $wpml_support_from_post );
-			}
 
 			// Set post format
 			if ( ! empty( $sanitized_post_data['post_format'] ) && $sanitized_post_data['post_format'] !== 'standard' ) {
@@ -641,13 +465,7 @@ class PEIWM_Post_Handler {
 				$this->import_post_meta_secure( $post_id, $sanitized_post_data['meta'] );
 			}
 
-			// Import ACF fields if present and ACF/class is available
-			if ( ! empty( $sanitized_post_data['acf_fields'] ) && is_array( $sanitized_post_data['acf_fields'] ) && class_exists( 'PEIM_CPT_ACF_Exporter' ) ) {
-				$acf_importer = PEIM_CPT_ACF_Exporter::get_instance();
-				if ( $acf_importer->is_acf_active() || true ) { // fall back to raw meta if ACF inactive
-					$acf_importer->import_acf_fields_public( $post_id, $sanitized_post_data['acf_fields'] );
-				}
-			}
+
 
 			// Import content images first and update post content
 			$updated_content = $sanitized_post_data['post_content'];
@@ -708,7 +526,6 @@ class PEIWM_Post_Handler {
 				'missing_images' => $missing_images,
 				'download_enabled' => $download_missing_images,
 				'import_details' => $import_results,
-				'language_info' => $language_result,
 			) );
 
 		} catch ( Exception $e ) {
@@ -863,25 +680,6 @@ class PEIWM_Post_Handler {
 		}
 	}
 
-	/**
-	 * AJAX: Save WPML support setting
-	 */
-	public function ajax_save_wpml_setting() {
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
-		}
-
-		$enabled = isset( $_POST['enabled'] ) ? absint( $_POST['enabled'] ) : 0;
-		update_option( 'peiwm_enable_wpml_support', (bool) $enabled );
-
-		wp_send_json_success( array(
-			'message' => esc_html__( 'WPML support setting saved', 'post-export-import-with-media' ),
-		) );
-	}
 
 	/**
 	 * Get post meta securely
