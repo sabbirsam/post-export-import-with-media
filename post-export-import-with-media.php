@@ -11,7 +11,7 @@
  * Plugin Name: Post Export Import with Media
  * Plugin URI: https://wordpress.org/plugins/post-export-import-with-media/
  * Description: Post Export Import with Media: A secure plugin to export and import WordPress posts and media files with real-time progress.
- * Version:           1.13.1
+ * Version:           1.13.2
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            wpazleen
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define plugin constants for better maintainability
 if ( ! defined( 'PEIWM_VERSION' ) ) {
-	define( 'PEIWM_VERSION', '1.13.1' );
+	define( 'PEIWM_VERSION', '1.13.2' );
 }
 
 if ( ! defined( 'PEIWM_PLUGIN_URL' ) ) {
@@ -56,14 +56,13 @@ if ( ! function_exists( 'peiwm_fs' ) ) {
         global $peiwm_fs;
 
         if ( ! isset( $peiwm_fs ) ) {
-            // Check if Pro version is active - if so, let Pro handle Freemius
+            // This condtion dont block any feature or active, its just load freemius SDK if pro is not active, if pro is active then pro will handle all freemius functionality.
             if ( is_plugin_active( 'post-export-import-with-media-pro/post-export-import-with-media-pro.php' ) ) {
-                // Pro is active - Free steps aside, only load analytics
                 return null; // Pro will handle all Freemius functionality
             }
 
             // Include Freemius SDK.
-            require_once dirname( __FILE__ ) . '/freemius/start.php';
+            require_once dirname( __FILE__ ) . '/vendor/freemius/start.php';
 
             $peiwm_fs = fs_dynamic_init( array(
                 'id'                  => '23084',
@@ -93,7 +92,8 @@ if ( ! function_exists( 'peiwm_fs' ) ) {
         return $peiwm_fs;
     }
     
-    // Only initialize if Pro is not active
+    // Init Freemius.
+	// Only load Freemius if Pro is not active, if Pro is active then Pro will handle all Freemius SDK functionality 
     if ( ! is_plugin_active( 'post-export-import-with-media-pro/post-export-import-with-media-pro.php' ) ) {
         peiwm_fs();
         do_action( 'peiwm_fs_loaded' );
@@ -101,7 +101,7 @@ if ( ! function_exists( 'peiwm_fs' ) ) {
 }
 
 /**
- * Helper function to check if Freemius is available (either from Free or Pro).
+ * Helper function to check if Freemius is available.
  *
  * @since 1.1.0
  * @return object|null Freemius SDK object or null.

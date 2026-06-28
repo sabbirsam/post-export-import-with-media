@@ -245,7 +245,7 @@ class PEIWM_Widgets_Menus_Handler {
 
 		$this->execute_with_post_protection( function() {
 			try {
-				// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in outer function before this closure
+				// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in outer function before this closure and sanitize are peform below. 
 				$widgets_data_raw = isset( $_POST['widgets_data'] ) ? wp_unslash( $_POST['widgets_data'] ) : '';
 				$replace_existing = isset( $_POST['replace_existing'] ) && '1' === $_POST['replace_existing'];
 				// phpcs:enable WordPress.Security.NonceVerification.Missing
@@ -365,7 +365,8 @@ class PEIWM_Widgets_Menus_Handler {
 				}
 
 				$message = sprintf(
-					esc_html__( 'Import completed: %d widgets and %d menus imported', 'post-export-import-with-media' ),
+					/* translators: 1: number of imported widgets, 2: number of imported menus */
+					esc_html__( 'Import completed: %1$d widgets and %2$d menus imported', 'post-export-import-with-media' ),
 					$widgets_result['imported_count'],
 					$menus_result['imported_count']
 				);
@@ -552,7 +553,8 @@ class PEIWM_Widgets_Menus_Handler {
 		}
 
 		$message = sprintf(
-			esc_html__( 'Widgets import completed: %d imported, %d skipped, %d failed', 'post-export-import-with-media' ),
+			/* translators: 1: number of imported widgets, 2: number of skipped widgets, 3: number of failed widgets */
+			esc_html__( 'Widgets import completed: %1$d imported, %2$d skipped, %3$d failed', 'post-export-import-with-media' ),
 			$imported_count,
 			$skipped_count,
 			$failed_count
@@ -649,7 +651,8 @@ class PEIWM_Widgets_Menus_Handler {
 		}
 
 		$message = sprintf(
-			esc_html__( 'Navigation menus import completed: %d imported, %d skipped, %d failed', 'post-export-import-with-media' ),
+			/* translators: 1: number of imported menus, 2: number of skipped menus, 3: number of failed menus */
+			esc_html__( 'Navigation menus import completed: %1$d imported, %2$d skipped, %3$d failed', 'post-export-import-with-media' ),
 			$imported_count,
 			$skipped_count,
 			$failed_count
@@ -869,7 +872,7 @@ class PEIWM_Widgets_Menus_Handler {
 		// Enhanced slug extraction from URL
 		$slug = '';
 		if ( $url ) {
-			$parsed_url = parse_url( $url );
+			$parsed_url = wp_parse_url( $url );
 			if ( isset( $parsed_url['path'] ) ) {
 				$path = trim( $parsed_url['path'], '/' );
 				$slug = basename( $path ); // Get the last part of the path

@@ -353,7 +353,8 @@ class PEIWM_Settings_Handler {
 			}
 
 			$message = sprintf(
-				esc_html__( 'Settings import completed: %d imported, %d skipped, %d failed', 'post-export-import-with-media' ),
+				/* translators: 1: number of imported settings, 2: number of skipped settings, 3: number of failed settings */
+				esc_html__( 'Settings import completed: %1$d imported, %2$d skipped, %3$d failed', 'post-export-import-with-media' ),
 				$imported_count,
 				$skipped_count,
 				$failed_count

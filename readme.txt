@@ -4,7 +4,7 @@ Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable Tag: 1.13.1
+Stable Tag: 1.13.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -241,6 +241,13 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 
 == Changelog ==
 
+= 1.13.2 – 28 June 2026 =
+* **Fix:** Resolved password hash query issues.
+* **Fix:** Improved security by hardening the exports directory.
+* **Fix:** Implemented unguessable export filenames using random tokens and directory hardening.
+* **Fix:** Added destination file extension re-validation before file copy operations.
+* **Fix:** Addressed additional Plugin Check (PCP) issues and code quality improvements.
+
 = 1.13.1 – 26 June 2026 =
 * **Fix:** Fixed an issue where imported images could reference the wrong image size.
 * **Fix:** Added logic to skip importing duplicate post titles when the content and slug do not match.
@@ -249,20 +256,5 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 * **New:** Added Internal link support when export/Import
 * **New:** Added  CPT & ACF and Users export types in Scheduled Exports
 * **Fix:** Added support for Advanced Custom Fields (ACF) Repeater fields in posts and pages. 
-
-= 1.12.0 – 08 June 2026 =
-* **New:** Added media export by upload date range.
-* **New:** Added media export by post selection, allowing export of only the media attached to specific posts.
-* **Fix:** Resolved an issue where localhost media URLs were not always replaced with live site URLs for certain images during import.
-
-= 1.11.0 – 04 June 2026 =
-* **New:** Added a comprehensive FAQ guide to help users get started and troubleshoot common issues.
-* **Fix:** Resolved an issue where image batch paths were not updating correctly for certain posts
-* **Fix:** Fixed various Custom Post Type (CPT) export and import issues to improve data migration reliability
-
-= 1.10.1 – 02 June 2026 =
-* Improved compatibility with hosting providers that use automated security scanners
-* Enhanced the built-in import security check to ensure smooth installation across all environments
-
 
 For the full changelog, see changelog.txt in the plugin SVN repository.

@@ -226,7 +226,8 @@ class PEIWM_Page_Handler {
 		}
 
 		try {
-			$page_data_raw = isset( $_POST['page_data'] ) ? wp_unslash( $_POST['page_data'] ) : ''; // phpcs:ignore we have sanitize page_data with below created custom function sanitize_page_data
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- page_data is structurally validated and sanitized deeply via sanitize_page_data() later.
+			$page_data_raw = isset( $_POST['page_data'] ) ? wp_unslash( $_POST['page_data'] ) : '';
 			$download_missing_images = isset( $_POST['download_missing_images'] ) && $_POST['download_missing_images'] === '1';
 			$check_media_library     = isset( $_POST['check_media_library'] ) && $_POST['check_media_library'] === '1';
 			
@@ -786,7 +787,8 @@ class PEIWM_Page_Handler {
 		}
 
 		try {
-			$image_data_raw = isset( $_POST['image_data'] ) ? wp_unslash( $_POST['image_data'] ) : ''; // phpcs:ignore we have sanitize below with sanitize_file_name
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- image_data is structurally validated and its fields are sanitized below.
+			$image_data_raw = isset( $_POST['image_data'] ) ? wp_unslash( $_POST['image_data'] ) : '';
 			$page_id = isset( $_POST['page_id'] ) ? absint( $_POST['page_id'] ) : 0;
 			
 			if ( empty( $image_data_raw ) ) {
@@ -1053,7 +1055,7 @@ class PEIWM_Page_Handler {
 	 * @return int|WP_Error|null Attachment ID or error
 	 */
 	private function download_and_create_attachment( $image_url, $page_id, $image_title = '', $image_alt = '' ) {
-		$filename = basename( parse_url( $image_url, PHP_URL_PATH ) );
+		$filename = basename( wp_parse_url( $image_url, PHP_URL_PATH ) );
 		
 		// Record download attempt
 		$this->import_results[] = array(

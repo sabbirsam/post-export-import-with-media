@@ -641,13 +641,13 @@ class PEIWM_Admin_Menu {
 								<label style="font-size:0.875rem; font-weight:500; white-space:nowrap;">
 									<?php echo esc_html__( 'From', 'post-export-import-with-media' ); ?>
 									<input type="date" id="peiwm-export-date-from"
-									       max="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"
+									       max="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
 									       style="margin-left:0.4rem; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:0.875rem;">
 								</label>
 								<label style="font-size:0.875rem; font-weight:500; white-space:nowrap;">
 									<?php echo esc_html__( 'To', 'post-export-import-with-media' ); ?>
 									<input type="date" id="peiwm-export-date-to"
-									       max="<?php echo esc_attr( date( 'Y-m-d' ) ); ?>"
+									       max="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
 									       style="margin-left:0.4rem; padding:4px 8px; border:1px solid #d1d5db; border-radius:4px; font-size:0.875rem;">
 								</label>
 								<button type="button" id="peiwm-apply-date-filter" class="button button-secondary" style="padding:4px 12px; font-size:0.875rem;">

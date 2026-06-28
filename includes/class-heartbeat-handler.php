@@ -48,9 +48,6 @@ class PEIWM_Heartbeat_Handler {
 	private function init_hooks() {
 		// Optimize heartbeat during imports
 		add_filter( 'heartbeat_settings', array( $this, 'optimize_heartbeat_settings' ) );
-		
-		// Close database connections properly
-		add_action( 'shutdown', array( $this, 'close_db_connections' ), 999 );
 	}
 
 	/**
@@ -67,15 +64,5 @@ class PEIWM_Heartbeat_Handler {
 		return $settings;
 	}
 
-	/**
-	 * Close database connections properly
-	 */
-	public function close_db_connections() {
-		global $wpdb;
-		
-		// Close database connection if it exists
-		if ( isset( $wpdb->dbh ) && is_resource( $wpdb->dbh ) ) {
-			mysqli_close( $wpdb->dbh );
-		}
-	}
+
 }

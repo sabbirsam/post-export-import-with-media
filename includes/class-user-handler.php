@@ -99,9 +99,18 @@ class PEIWM_User_Handler {
 				wp_mkdir_p( $export_dir );
 				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 				file_put_contents( $export_dir . 'index.php', '<?php // Silence is golden.' );
+				// Harden against direct web access on Apache hosts (CWE-200 mitigation).
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents(
+					$export_dir . '.htaccess',
+					"Deny from all\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>"
+				);
 			}
 
-			$filename  = 'peiwm-users-' . gmdate( 'Y-m-d-His' ) . '.json';
+			/**
+			 * TASK-003 : Add random token to user export filename to prevent guessing (CWE-200).
+			 */
+			$filename  = 'peiwm-users-' . gmdate( 'Y-m-d-His' ) . '-' . wp_generate_password( 12, false ) . '.json';
 			$file_path = $export_dir . $filename;
 
 			$json = wp_json_encode( $export, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );

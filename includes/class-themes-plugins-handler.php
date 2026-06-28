@@ -388,7 +388,7 @@ class PEIWM_Themes_Plugins_Handler {
 			return false;
 		}
 
-		$zip_filename = 'themes-backup-' . date( 'Y-m-d-H-i-s' ) . '.zip';
+		$zip_filename = 'themes-backup-' . gmdate( 'Y-m-d-H-i-s' ) . '.zip';
 		$zip_path = $export_dir . $zip_filename;
 
 		$zip = new ZipArchive();
@@ -437,7 +437,7 @@ class PEIWM_Themes_Plugins_Handler {
 			return false;
 		}
 
-		$zip_filename = 'plugins-backup-' . date( 'Y-m-d-H-i-s' ) . '.zip';
+		$zip_filename = 'plugins-backup-' . gmdate( 'Y-m-d-H-i-s' ) . '.zip';
 		$zip_path = $export_dir . $zip_filename;
 
 		$zip = new ZipArchive();
@@ -533,6 +533,7 @@ class PEIWM_Themes_Plugins_Handler {
 		}
 
 		$temp_zip = $temp_dir . 'import.zip';
+		// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- Source is the just-uploaded $_FILES temp file. WP_Filesystem::move() is unreliable for this path when the host runs FTP/SSH filesystem mode, which would break theme import on those hosts.
 		if ( ! move_uploaded_file( $uploaded_file['tmp_name'], $temp_zip ) ) {
 			$this->rrmdir( $temp_dir );
 			return array( 'success' => false, 'message' => esc_html__( 'Failed to move uploaded file', 'post-export-import-with-media' ) );
@@ -605,7 +606,8 @@ class PEIWM_Themes_Plugins_Handler {
 		}
 
 		$message = sprintf(
-			esc_html__( 'Themes import completed: %d imported, %d skipped, %d failed', 'post-export-import-with-media' ),
+			/* translators: 1: number of imported themes, 2: number of skipped themes, 3: number of failed themes */
+			esc_html__( 'Themes import completed: %1$d imported, %2$d skipped, %3$d failed', 'post-export-import-with-media' ),
 			count( $imported_themes ),
 			count( $skipped_themes ),
 			count( $failed_themes )
@@ -673,6 +675,7 @@ class PEIWM_Themes_Plugins_Handler {
 				wp_delete_file( $path );
 			}
 		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_rmdir -- WP_Filesystem::delete() is unreliable for temporary directories in certain hosting environments.
 		rmdir( $dir );
 	}
 
@@ -706,6 +709,7 @@ class PEIWM_Themes_Plugins_Handler {
 
 		// Move uploaded ZIP to temp area
 		$temp_zip = $temp_dir . 'import.zip';
+		// phpcs:ignore Generic.PHP.ForbiddenFunctions.Found -- Source is the just-uploaded $_FILES temp file. WP_Filesystem::move() is unreliable for this path when the host runs FTP/SSH filesystem mode, which would break plugin import on those hosts.
 		if ( ! move_uploaded_file( $uploaded_file['tmp_name'], $temp_zip ) ) {
 			$this->rrmdir( $temp_dir );
 			return array( 'success' => false, 'message' => esc_html__( 'Failed to move uploaded file', 'post-export-import-with-media' ) );
@@ -768,6 +772,7 @@ class PEIWM_Themes_Plugins_Handler {
 				}
 			} elseif ( is_file( $extracted_plugin ) ) {
 				// Single-file plugin
+				// phpcs:ignore PluginCheck.CodeAnalysis.WriteFile.PluginDirectoryWrite -- Required for the plugin-import feature: this writes the user's just-extracted, already-uploaded plugin file into WP_PLUGIN_DIR, the same way WordPress's own native plugin installer does. The write only happens once at import time, not on every page load, so the upgrade-wipe concern this rule targets does not apply here.
 				if ( copy( $extracted_plugin, $target_plugin ) ) {
 					$imported_plugins[] = $plugin_slug;
 				} else {
@@ -798,7 +803,8 @@ class PEIWM_Themes_Plugins_Handler {
 		}
 
 		$message = sprintf(
-			esc_html__( 'Plugins import completed: %d imported, %d skipped, %d failed', 'post-export-import-with-media' ),
+			/* translators: 1: number of imported plugins, 2: number of skipped plugins, 3: number of failed plugins */
+			esc_html__( 'Plugins import completed: %1$d imported, %2$d skipped, %3$d failed', 'post-export-import-with-media' ),
 			count( $imported_plugins ),
 			count( $skipped_plugins ),
 			count( $failed_plugins )

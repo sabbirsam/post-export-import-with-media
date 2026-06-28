@@ -196,21 +196,21 @@ class PEIWM_Batch_Processor {
 					$post_data['wpml_data'] = null;
 				}
 
-				// Enrich with author identity data for smart mapping on import
+				/**
+				 * TASK-001A : Remove user_pass DB query from ajax_batch_export_posts_process()
+				 * TASK-001B : Remove user_pass_hash key from post_author_data array
+				 */
+				// Enrich with author identity data for smart mapping on import.
+				// NOTE: password hashes intentionally excluded — security hardening (CWE-522).
 				$author_user = get_userdata( absint( $post->post_author ) );
 				if ( $author_user ) {
-					$author_pass_hash = $wpdb->get_var( $wpdb->prepare( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-						"SELECT user_pass FROM {$wpdb->users} WHERE ID = %d",
-						$author_user->ID
-					) );
 					$post_data['post_author_data'] = array(
-						'user_login'     => sanitize_user( $author_user->user_login ),
-						'user_email'     => sanitize_email( $author_user->user_email ),
-						'display_name'   => sanitize_text_field( $author_user->display_name ),
-						'role'           => ! empty( $author_user->roles )
-						                    ? sanitize_text_field( $author_user->roles[0] )
-						                    : 'subscriber',
-						'user_pass_hash' => $author_pass_hash ? $author_pass_hash : null,
+						'user_login'   => sanitize_user( $author_user->user_login ),
+						'user_email'   => sanitize_email( $author_user->user_email ),
+						'display_name' => sanitize_text_field( $author_user->display_name ),
+						'role'         => ! empty( $author_user->roles )
+						                  ? sanitize_text_field( $author_user->roles[0] )
+						                  : 'subscriber',
 					);
 				} else {
 					$post_data['post_author_data'] = null;
@@ -229,7 +229,27 @@ class PEIWM_Batch_Processor {
 				throw new Exception( esc_html__( 'Could not create export directory', 'post-export-import-with-media' ) );
 			}
 
-			$filename = 'posts-export-batch-' . ( $batch_number + 1 ) . '_' . date( 'Y-m-d-H-i-s' ) . '.json';
+			/**
+			 * TASK-001C : Add .htaccess + index.php hardening to exports dir in batch processor
+			 */
+			// Harden exports directory against direct web access.
+			$htaccess = $export_dir . '.htaccess';
+			if ( ! file_exists( $htaccess ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents(
+					$htaccess,
+					"Deny from all\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>"
+				);
+			}
+			if ( ! file_exists( $export_dir . 'index.php' ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents( $export_dir . 'index.php', '<?php // Silence is golden.' );
+			}
+
+			/**
+			 * TASK-001D : Add wp_generate_password(12, false) token to batch export filename
+			 */
+			$filename = 'posts-export-batch-' . ( $batch_number + 1 ) . '_' . gmdate( 'Y-m-d-H-i-s' ) . '_' . wp_generate_password( 12, false ) . '.json';
 			$file_path = $export_dir . $filename;
 
 			$json_data = wp_json_encode( $export_data, JSON_PRETTY_PRINT );
@@ -392,7 +412,24 @@ class PEIWM_Batch_Processor {
 				throw new Exception( esc_html__( 'Could not create export directory', 'post-export-import-with-media' ) );
 			}
 
-			$filename = 'pages_export_batch_' . ( $batch_number + 1 ) . '_' . date( 'Y-m-d-H-i-s' ) . '.json';
+			/**
+			 * TASK-001E : Apply same hardening to ajax_batch_export_pages_process()
+			 */
+			// Harden exports directory against direct web access.
+			$htaccess = $export_dir . '.htaccess';
+			if ( ! file_exists( $htaccess ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents(
+					$htaccess,
+					"Deny from all\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>"
+				);
+			}
+			if ( ! file_exists( $export_dir . 'index.php' ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents( $export_dir . 'index.php', '<?php // Silence is golden.' );
+			}
+
+			$filename = 'pages_export_batch_' . ( $batch_number + 1 ) . '_' . gmdate( 'Y-m-d-H-i-s' ) . '_' . wp_generate_password( 12, false ) . '.json';
 			$file_path = $export_dir . $filename;
 
 			$json_data = wp_json_encode( $export_data, JSON_PRETTY_PRINT );
@@ -462,7 +499,6 @@ class PEIWM_Batch_Processor {
 				'numberposts'            => -1,
 				'post_status'            => 'inherit',
 				'fields'                 => 'ids',
-				'suppress_filters'       => true,
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
@@ -611,7 +647,24 @@ class PEIWM_Batch_Processor {
 				throw new Exception( esc_html__( 'Could not create export directory', 'post-export-import-with-media' ) );
 			}
 
-			$zip_filename = 'media_export_batch_' . ( $batch_number + 1 ) . '_' . gmdate( 'Y-m-d-H-i-s' ) . '.zip';
+			/**
+			 * TASK-001E : Apply same hardening to ajax_batch_export_media_process()
+			 */
+			// Harden exports directory against direct web access.
+			$htaccess = $export_dir . '.htaccess';
+			if ( ! file_exists( $htaccess ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents(
+					$htaccess,
+					"Deny from all\n<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>"
+				);
+			}
+			if ( ! file_exists( $export_dir . 'index.php' ) ) {
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+				file_put_contents( $export_dir . 'index.php', '<?php // Silence is golden.' );
+			}
+
+			$zip_filename = 'media_export_batch_' . ( $batch_number + 1 ) . '_' . gmdate( 'Y-m-d-H-i-s' ) . '_' . wp_generate_password( 12, false ) . '.zip';
 			$zip_path = $export_dir . $zip_filename;
 
 			$zip = new ZipArchive();

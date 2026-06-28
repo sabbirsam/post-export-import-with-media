@@ -192,9 +192,13 @@ class PEIWM_Main {
 		// Core classes always loaded
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-email-template.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-admin-menu.php';
-		require_once PEIWM_PLUGIN_PATH . 'includes/class-ajax-handler.php';
 
-		// Post handler — load free always as safety net; pro loaded on top if present
+		require_once PEIWM_PLUGIN_PATH . 'includes/class-ajax-handler.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-ajax-handler-pro.php' ) ) {
+			require_once $pro_path . 'class-ajax-handler-pro.php';
+		}
+
+		// Post handler 
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-post-handler.php';
 		if ( $has_pro && file_exists( $pro_path . 'class-post-handler-pro.php' ) ) {
 			require_once $pro_path . 'class-post-handler-pro.php';
@@ -218,12 +222,12 @@ class PEIWM_Main {
 			require_once $pro_path . 'class-user-handler-pro.php';
 		}
 
-		// Email settings handler — pro only (free stub was removed)
+		// Email settings handler
 		if ( $has_pro && file_exists( $pro_path . 'class-email-settings-handler-pro.php' ) ) {
 			require_once $pro_path . 'class-email-settings-handler-pro.php';
 		}
 
-		// CPT & ACF exporter — pro only (free stub was removed)
+		// CPT & ACF exporter
 		if ( $has_pro && file_exists( $pro_path . 'class-cpt-acf-exporter-pro.php' ) ) {
 			require_once $pro_path . 'class-cpt-acf-exporter-pro.php';
 		}
@@ -233,14 +237,21 @@ class PEIWM_Main {
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-themes-plugins-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-widgets-menus-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-admin-download-buttons.php';
+
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-batch-settings.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-batch-settings-pro.php' ) ) {
+			require_once $pro_path . 'class-batch-settings-pro.php';
+		}
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-batch-processor.php';
+		if ( $has_pro && file_exists( $pro_path . 'class-batch-processor-pro.php' ) ) {
+			require_once $pro_path . 'class-batch-processor-pro.php';
+		}
+
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-heartbeat-handler.php';
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-generic-recommendations.php';
 
-		// Scheduled exports — free always loads (owns menu + locked UI)
+		// Scheduled exports
 		require_once PEIWM_PLUGIN_PATH . 'includes/class-scheduled-exports.php';
-		// Pro scheduled exports loaded here too so class is available when init_components runs
 		if ( $has_pro && file_exists( $pro_path . 'class-scheduled-exports.php' ) ) {
 			require_once $pro_path . 'class-scheduled-exports.php';
 		}
@@ -276,7 +287,11 @@ class PEIWM_Main {
 		PEIWM_Admin_Menu::get_instance();
 		
 		// Initialize AJAX handler
-		PEIWM_Ajax_Handler::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Ajax_Handler_Pro' ) ) {
+			PEIWM_Ajax_Handler_Pro::get_instance();
+		}else {
+			PEIWM_Ajax_Handler::get_instance();
+		}
 		
 		// Initialize post handler
 		if ( $is_pro && class_exists( 'PEIWM_Post_Handler_Pro' ) ) {
@@ -303,7 +318,7 @@ class PEIWM_Main {
 		// Initialize settings handler
 		PEIWM_Settings_Handler::get_instance();
 
-		// Initialize email settings handler — PRO only
+		// Initialize email settings handler
 		if ( $is_pro && class_exists( 'PEIWM_Email_Settings_Handler_Pro' ) ) {
 			PEIWM_Email_Settings_Handler_Pro::get_instance();
 		}
@@ -317,23 +332,30 @@ class PEIWM_Main {
 		// Initialize admin download buttons
 		PEIWM_Admin_Download_Buttons::get_instance();
 
-		// Initialize scheduled exports — free class always runs (menu + locked UI).
-		// PRO class also initializes on top when active (adds cron/AJAX logic).
+		// Initialize scheduled exports
 		PEIWM_Scheduled_Exports::get_instance();
 		if ( $is_pro && class_exists( 'PEIWM_Scheduled_Exports_Pro' ) ) {
 			PEIWM_Scheduled_Exports_Pro::get_instance();
 		}
 		
 		// Initialize batch settings
-		PEIWM_Batch_Settings::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Batch_Settings_Pro' ) ) {
+			PEIWM_Batch_Settings_Pro::get_instance();
+		}else {
+			PEIWM_Batch_Settings::get_instance();
+		}
 		
 		// Initialize batch processor
-		PEIWM_Batch_Processor::get_instance();
+		if ( $is_pro && class_exists( 'PEIWM_Batch_Processor_Pro' ) ) {
+			PEIWM_Batch_Processor_Pro::get_instance();
+		}else {
+			PEIWM_Batch_Processor::get_instance();
+		}
 		
 		// Initialize heartbeat handler
 		PEIWM_Heartbeat_Handler::get_instance();
 
-		// Initialize CPT & ACF Exporter — PRO only
+		// Initialize CPT & ACF Exporter
 		if ( $is_pro && class_exists( 'PEIM_CPT_ACF_Exporter_Pro' ) ) {
 			PEIM_CPT_ACF_Exporter_Pro::get_instance()->init();
 		}
@@ -384,7 +406,15 @@ class PEIWM_Main {
 	 * Register plugin settings
 	 */
 	public function register_settings() {
-		register_setting( 'peiwm_admin_download_buttons', 'peiwm_enable_admin_download_buttons' );
+		register_setting(
+			'peiwm_admin_download_buttons',
+			'peiwm_enable_admin_download_buttons',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'default'           => false,
+			)
+		);
 
 		register_setting(
 			'peiwm_settings',

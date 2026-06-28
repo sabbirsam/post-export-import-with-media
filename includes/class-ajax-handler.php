@@ -94,6 +94,7 @@ class PEIWM_Ajax_Handler {
 				'current_memory_usage' => memory_get_usage(),
 				'peak_memory_usage' => memory_get_peak_usage(),
 				'ziparchive_available' => class_exists( 'ZipArchive' ),
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable -- Used for a read-only health diagnostic check.
 				'upload_dir_writable' => is_writable( $upload_dir['basedir'] ),
 			);
 
@@ -450,6 +451,7 @@ class PEIWM_Ajax_Handler {
 		header( 'Expires: 0' );
 
 		// Output file
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- Direct readfile is required to stream large JSON exports directly to the browser without memory exhaustion.
 		readfile( $full_path );
 		exit;
 	}
@@ -496,16 +498,20 @@ class PEIWM_Ajax_Handler {
 		// For large files, use chunked reading to avoid memory issues
 		$file_size = filesize( $full_path );
 		if ( $file_size > 10 * 1024 * 1024 ) { // If file is larger than 10MB
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- Direct fopen is required to chunk-read large ZIP files without loading them into memory.
 			$handle = fopen( $full_path, 'rb' );
 			if ( $handle ) {
 				while ( ! feof( $handle ) ) {
+					// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fread -- Chunk reading large files.
 					echo fread( $handle, 8192 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary file stream output, escaping would corrupt the file
 					flush();
 				}
+				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- Closing chunk reader.
 				fclose( $handle );
 			}
 		} else {
 			// For smaller files, use readfile
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- Direct readfile is required to stream large ZIP exports directly to the browser without memory exhaustion.
 			readfile( $full_path );
 		}
 		exit;

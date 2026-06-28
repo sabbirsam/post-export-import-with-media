@@ -6,6 +6,20 @@ This file includes older changelog entries to help keep the main WordPress **rea
 For the most recent updates, please refer to the **"Changelog"** section in the [readme.txt file](https://plugins.svn.wordpress.org/post-export-import-with-media/trunk/readme.txt).
 
 
+= 1.12.0 – 08 June 2026 =
+* **New:** Added media export by upload date range.
+* **New:** Added media export by post selection, allowing export of only the media attached to specific posts.
+* **Fix:** Resolved an issue where localhost media URLs were not always replaced with live site URLs for certain images during import.
+
+= 1.11.0 – 04 June 2026 =
+* **New:** Added a comprehensive FAQ guide to help users get started and troubleshoot common issues.
+* **Fix:** Resolved an issue where image batch paths were not updating correctly for certain posts
+* **Fix:** Fixed various Custom Post Type (CPT) export and import issues to improve data migration reliability
+
+= 1.10.1 – 02 June 2026 =
+* Improved compatibility with hosting providers that use automated security scanners
+* Enhanced the built-in import security check to ensure smooth installation across all environments
+
 = 1.10.0 – 31 May 2026 =
 * **New:** Export Posts by Date Range — Added a new "Export by Date Range" option in Advanced Export Settings
 * **New:** Filter posts using From and To date selectors for more precise exports

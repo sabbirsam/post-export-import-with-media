@@ -346,7 +346,7 @@ class PEIWM_Admin_Download_Buttons {
 			return false;
 		}
 
-		$zip_filename = 'theme-' . $theme_slug . '-' . date( 'Y-m-d-H-i-s' ) . '.zip';
+		$zip_filename = 'theme-' . $theme_slug . '-' . gmdate( 'Y-m-d-H-i-s' ) . '.zip';
 		$zip_path = $export_dir . $zip_filename;
 
 		$zip = new ZipArchive();
@@ -397,7 +397,7 @@ class PEIWM_Admin_Download_Buttons {
 			$plugin_slug = basename( $plugin_file, '.php' );
 		}
 
-		$zip_filename = 'plugin-' . $plugin_slug . '-' . date( 'Y-m-d-H-i-s' ) . '.zip';
+		$zip_filename = 'plugin-' . $plugin_slug . '-' . gmdate( 'Y-m-d-H-i-s' ) . '.zip';
 		$zip_path = $export_dir . $zip_filename;
 
 		$zip = new ZipArchive();

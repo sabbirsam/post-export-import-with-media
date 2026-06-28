@@ -250,8 +250,8 @@ class Recommendations {
 
 			if ( $data && ! is_wp_error( $data ) ) {
 				$recommended_plugins[$slug] = $data;
-				$recommended_plugins[$slug]->name = __( $info['name'], 'post-export-import-with-media' );
-				$recommended_plugins[$slug]->short_description = esc_html__( $info['description'], 'post-export-import-with-media' );
+				$recommended_plugins[$slug]->name = sanitize_text_field( $info['name'] );
+				$recommended_plugins[$slug]->short_description = esc_html( $info['description'] );
 				$recommended_plugins[$slug]->group = $info['group'];
 				$recommended_plugins[$slug]->key_benefits = $info['key_benefits'];
 			}
@@ -330,7 +330,7 @@ class Recommendations {
 
 		$author = wp_kses( $plugin['author'], $plugins_allowedtags );
 		if ( ! empty( $author ) ) {
-			$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
+			$author = ' <cite>' . sprintf( __( 'By %s', 'post-export-import-with-media' ), $author ) . '</cite>';
 		}
 
 		// Compatibility checks
@@ -355,9 +355,9 @@ class Recommendations {
 		$action_links[] = sprintf(
 			'<a href="%s" class="thickbox open-plugin-details-modal" aria-label="%s" data-title="%s">%s</a>',
 			esc_url( $details_link ),
-			esc_attr( sprintf( __( 'More information about %s' ), $name ) ),
+			esc_attr( sprintf( __( 'More information about %s', 'post-export-import-with-media' ), $name ) ),
 			esc_attr( $name ),
-			__( 'More Details' )
+			__( 'More Details', 'post-export-import-with-media' )
 		);
 
 		// Icon URL
@@ -427,11 +427,11 @@ class Recommendations {
 			<div class="plugin-card-footer">
 				<div class="plugin-meta">
 					<div class="meta-item">
-						<strong><?php esc_attr_e( 'Last Updated:' ); ?></strong>
-						<?php printf( esc_html( __( '%s ago' ) ), esc_html( human_time_diff( $last_updated_timestamp ) ) ); ?>
+						<strong><?php esc_attr_e( 'Last Updated:', 'post-export-import-with-media' ); ?></strong>
+						<?php printf( esc_html( __( '%s ago', 'post-export-import-with-media' ) ), esc_html( human_time_diff( $last_updated_timestamp ) ) ); ?>
 					</div>
 					<div class="meta-item">
-						<strong><?php esc_attr_e( 'Version:' ); ?></strong>
+						<strong><?php esc_attr_e( 'Version:', 'post-export-import-with-media' ); ?></strong>
 						<?php echo esc_html( $version ); ?>
 					</div>
 					<?php if ( ! empty( $author ) ) : ?>
@@ -476,14 +476,14 @@ class Recommendations {
 							'<a class="install-now button button-primary" data-slug="%s" href="%s" aria-label="%s" data-name="%s">%s</a>',
 							esc_attr( $plugin['slug'] ),
 							esc_url( $status['url'] ),
-							esc_attr( sprintf( _x( 'Install %s now', 'plugin' ), $name ) ),
+							esc_attr( sprintf( _x( 'Install %s now', 'plugin', 'post-export-import-with-media' ), $name ) ),
 							esc_attr( $name ),
-							__( 'Install Now' )
+							__( 'Install Now', 'post-export-import-with-media' )
 						);
 					} else {
 						$action_links[] = sprintf(
 							'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-							_x( 'Cannot Install', 'plugin' )
+							_x( 'Cannot Install', 'plugin', 'post-export-import-with-media' )
 						);
 					}
 				}
@@ -496,14 +496,14 @@ class Recommendations {
 						esc_attr( $status['file'] ),
 						esc_attr( $plugin['slug'] ),
 						esc_url( $status['url'] ),
-						esc_attr( sprintf( _x( 'Update %s now', 'plugin' ), $name ) ),
+						esc_attr( sprintf( _x( 'Update %s now', 'plugin', 'post-export-import-with-media' ), $name ) ),
 						esc_attr( $name ),
-						__( 'Update Now' )
+						__( 'Update Now', 'post-export-import-with-media' )
 					);
 				} else {
 					$action_links[] = sprintf(
 						'<button type="button" class="button button-disabled" disabled="disabled">%s</button>',
-						_x( 'Cannot Update', 'plugin' )
+						_x( 'Cannot Update', 'plugin', 'post-export-import-with-media' )
 					);
 				}
 				break;
@@ -513,11 +513,11 @@ class Recommendations {
 				if ( is_plugin_active( $status['file'] ) ) {
 					$action_links[] = sprintf(
 						'<button type="button" class="button button-success" disabled="disabled">✅ %s</button>',
-						_x( 'Active', 'plugin' )
+						_x( 'Active', 'plugin', 'post-export-import-with-media' )
 					);
 				} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
 					$button_text = esc_html__( 'Activate', 'post-export-import-with-media' );
-					$button_label = _x( 'Activate %s', 'plugin' );
+					$button_label = _x( 'Activate %s', 'plugin', 'post-export-import-with-media' );
 					$activate_url = add_query_arg([
 						'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
 						'action' => 'activate',
@@ -525,8 +525,8 @@ class Recommendations {
 					], network_admin_url( 'plugins.php' ) );
 
 					if ( is_network_admin() ) {
-						$button_text = __( 'Network Activate' );
-						$button_label = _x( 'Network Activate %s', 'plugin' );
+						$button_text = __( 'Network Activate', 'post-export-import-with-media' );
+						$button_label = _x( 'Network Activate %s', 'plugin', 'post-export-import-with-media' );
 						$activate_url = add_query_arg( [ 'networkwide' => 1 ], $activate_url );
 					}
 
@@ -539,7 +539,7 @@ class Recommendations {
 				} else {
 					$action_links[] = sprintf(
 						'<button type="button" class="button button-secondary" disabled="disabled">%s</button>',
-						_x( 'Installed', 'plugin' )
+						_x( 'Installed', 'plugin', 'post-export-import-with-media' )
 					);
 				}
 				break;
@@ -558,11 +558,11 @@ class Recommendations {
 
 		echo '<div class="notice inline notice-error notice-alt"><p>';
 		if ( ! $compatible_php && ! $compatible_wp ) {
-			esc_html_e( 'This plugin doesn&#8217;t work with your versions of WordPress and PHP.' );
+			esc_html_e( 'This plugin doesn&#8217;t work with your versions of WordPress and PHP.', 'post-export-import-with-media' );
 		} elseif ( ! $compatible_wp ) {
-			esc_html_e( 'This plugin doesn&#8217;t work with your version of WordPress.' );
+			esc_html_e( 'This plugin doesn&#8217;t work with your version of WordPress.', 'post-export-import-with-media' );
 		} elseif ( ! $compatible_php ) {
-			esc_html_e( 'This plugin doesn&#8217;t work with your version of PHP.' );
+			esc_html_e( 'This plugin doesn&#8217;t work with your version of PHP.', 'post-export-import-with-media' );
 		}
 		echo '</p></div>';
 	}
