@@ -494,5 +494,80 @@ class PEIWM_Main {
 				}
 			}
 		}
+
+		$this->cleanup_orphaned_media_import_dirs( $upload_dir['basedir'] );
+	}
+
+	/**
+	 * Sweep orphaned per-batch media-import temp directories
+	 * (wp-content/uploads/temp_<uuid>/, created by PEIWM_Media_Handler).
+	 *
+	 * These directories are normally removed by a client-side AJAX call
+	 * (peiwm_cleanup_media_batch) once an import finishes. If the admin
+	 * closes the tab, loses connection, or the import errors out before
+	 * that call fires, the directory — and any extracted file contents —
+	 * can otherwise persist indefinitely inside the (usually web-readable)
+	 * uploads folder. This sweep guarantees they don't outlive ~1 hour
+	 * regardless of what happens in the browser.
+	 *
+	 * @since 1.13.2
+	 * @param string $basedir wp_upload_dir()['basedir'].
+	 */
+	private function cleanup_orphaned_media_import_dirs( $basedir ) {
+		$candidates = glob( $basedir . DIRECTORY_SEPARATOR . 'temp_*', GLOB_ONLYDIR );
+
+		if ( empty( $candidates ) ) {
+			return;
+		}
+
+		$now = time();
+
+		foreach ( $candidates as $dir ) {
+			// Use the directory's own mtime as a "created/last touched" proxy.
+			if ( ( $now - filemtime( $dir ) ) <= 3600 ) { // 1 hour grace period
+				continue;
+			}
+
+			if ( class_exists( 'PEIWM_Media_Handler' ) ) {
+				// Reuse the plugin's own recursive, path-safe deleter.
+				$handler = PEIWM_Media_Handler::get_instance();
+				if ( method_exists( $handler, 'delete_directory_secure_public' ) ) {
+					$handler->delete_directory_secure_public( $dir );
+					continue;
+				}
+			}
+
+			// Fallback: best-effort recursive delete if the handler helper
+			// isn't available for some reason.
+			$this->recursive_delete_fallback( $dir );
+		}
+	}
+
+	/**
+	 * Minimal fallback recursive delete, used only if
+	 * PEIWM_Media_Handler::delete_directory_secure_public() is unavailable.
+	 *
+	 * @since 1.13.2
+	 * @param string $dir Absolute directory path to remove.
+	 */
+	private function recursive_delete_fallback( $dir ) {
+		if ( ! is_dir( $dir ) ) {
+			return;
+		}
+
+		$items = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $dir, RecursiveDirectoryIterator::SKIP_DOTS ),
+			RecursiveIteratorIterator::CHILD_FIRST
+		);
+
+		foreach ( $items as $item ) {
+			if ( $item->isDir() ) {
+				@rmdir( $item->getRealPath() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			} else {
+				wp_delete_file( $item->getRealPath() );
+			}
+		}
+
+		@rmdir( $dir ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 	}
 }

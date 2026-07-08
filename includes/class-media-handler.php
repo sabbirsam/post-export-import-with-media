@@ -43,6 +43,63 @@ class PEIWM_Media_Handler {
 	private $max_file_size = 524288000;
 
 	/**
+	 * Extensions that must NEVER be written to disk during a media import,
+	 * regardless of the "allow all file types" setting or the configured
+	 * allow-list. Shared by both the ZIP-extraction stage and the final
+	 * copy-to-uploads stage so there is a single source of truth.
+	 *
+	 * @since 1.13.2
+	 * @var array
+	 */
+	private static $always_blocked_extensions = array(
+		'php', 'php2', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
+		'pl', 'py', 'rb', 'cgi', 'asp', 'aspx', 'jsp', 'jspx',
+		'sh', 'bash', 'exe', 'bat', 'cmd', 'com', 'msi',
+		'htaccess', 'htpasswd', 'ini', 'dll', 'so',
+	);
+
+	/**
+	 * Resolve the "true" extension of a ZIP entry / target filename the same
+	 * way WordPress core would, closing the trailing-dot / empty-pathinfo
+	 * bypass (trailing-dot extension bypass, fixed 1.13.2).
+	 *
+	 * IMPORTANT: this must run on the SANITIZED filename, not the raw ZIP
+	 * entry name, because sanitize_file_name() strips trailing dots/spaces
+	 * (e.g. "shell.php." -> "shell.php") and pathinfo() must see the final
+	 * on-disk name to report the real extension.
+	 *
+	 * @since 1.13.2
+	 * @param string $filename Raw filename from the ZIP entry or metadata.
+	 * @return string Lowercase extension of the name WordPress will actually
+	 *                write to disk, or '' if it cannot be determined.
+	 */
+	private function resolve_safe_extension( $filename ) {
+		$safe_name = sanitize_file_name( $filename );
+
+		// Use WordPress's own filetype resolver so this stays in lockstep
+		// with core's understanding of "what extension is this".
+		$check = wp_check_filetype( $safe_name );
+		if ( ! empty( $check['ext'] ) ) {
+			return strtolower( $check['ext'] );
+		}
+
+		return strtolower( pathinfo( $safe_name, PATHINFO_EXTENSION ) );
+	}
+
+	/**
+	 * Whether a filename resolves to an extension we must always refuse,
+	 * independent of the plugin's allow-list / "allow all" setting.
+	 *
+	 * @since 1.13.2
+	 * @param string $filename Raw or sanitized filename.
+	 * @return bool
+	 */
+	private function is_dangerous_filename( $filename ) {
+		$ext = $this->resolve_safe_extension( $filename );
+		return in_array( $ext, self::$always_blocked_extensions, true );
+	}
+
+	/**
 	 * Get instance
 	 *
 	 * @return PEIWM_Media_Handler
@@ -316,6 +373,18 @@ class PEIWM_Media_Handler {
 				throw new Exception( esc_html__( 'Failed to create temporary directory', 'post-export-import-with-media' ) );
 			}
 
+			/**
+			 * SECURITY: harden the temp directory immediately, before any ZIP
+			 * content is extracted into it. This directory lives inside
+			 * wp-content/uploads/ (web-accessible on most hosts), so even if
+			 * a dangerous file slipped past the extension checks below, it
+			 * must not be directly requestable or executable as PHP while it
+			 * sits here awaiting import/cleanup.
+			 *
+			 * @since 1.13.2
+			 */
+			$this->harden_directory( $temp_dir );
+
 			// Move uploaded file securely using WordPress functions
 			$zip_file = $temp_dir . DIRECTORY_SEPARATOR . 'media.zip';
 			
@@ -360,10 +429,35 @@ class PEIWM_Media_Handler {
 					continue; // Skip files with path traversal attempts
 				}
 				
+				/**
+				 * SECURITY FIX (1.13.2): Resolve the extension from the
+				 * SANITIZED filename via resolve_safe_extension(), not from
+				 * pathinfo() on the raw ZIP entry name. The previous check
+				 * used pathinfo( $filename, PATHINFO_EXTENSION ) directly on
+				 * attacker-controlled names like "shell.php." — PHP's
+				 * pathinfo() returns '' for a trailing-dot name, so
+				 * !empty( $file_ext ) was false and the guard was skipped
+				 * entirely, while sanitize_file_name() later stripped the
+				 * trailing dot back down to "shell.php" on disk. Resolving
+				 * the extension from the sanitized name up front closes that
+				 * gap, and an empty resolved extension is now treated as
+				 * "no extension" and BLOCKED rather than allowed through.
+				 */
+				$resolved_ext = $this->resolve_safe_extension( $filename );
+
+				// Always refuse dangerous executable extensions, even if
+				// "allow all file types" is enabled — this option is meant
+				// to relax the allow-list for ordinary media types, not to
+				// permit server-side executables.
+				if ( in_array( $resolved_ext, self::$always_blocked_extensions, true ) ) {
+					// error_log( 'PEIWM Security: Blocked dangerous extension in media ZIP: ' . $filename );
+					$blocked_files[] = $filename;
+					continue;
+				}
+
 				// SECURITY FIX: Validate file extension (unless "allow all" is enabled)
 				if ( ! $allow_all_types ) {
-					$file_ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
-					if ( ! empty( $file_ext ) && ! in_array( $file_ext, $allowed_extensions, true ) ) {
+					if ( empty( $resolved_ext ) || ! in_array( $resolved_ext, $allowed_extensions, true ) ) {
 						// error_log( 'PEIWM Security: Blocked disallowed file type in media ZIP: ' . $filename );
 						$blocked_files[] = $filename;
 						continue; // Skip disallowed file types
@@ -683,6 +777,58 @@ class PEIWM_Media_Handler {
 	}
 
 	/**
+	 * Harden a directory inside wp-content/uploads against direct web access
+	 * and script execution: adds a blank index.php (stops directory listing
+	 * / silences any misconfigured autoindex) and a deny-all .htaccess (stops
+	 * Apache/LiteSpeed from serving or executing anything inside it).
+	 *
+	 * This is defense-in-depth only — extension validation is still the
+	 * primary control — but it means a file that somehow lands in a temp
+	 * import directory can't be requested or executed directly while it's
+	 * there.
+	 *
+	 * @since 1.13.2
+	 * @param string $dir Absolute path to the directory to harden.
+	 */
+	private function harden_directory( $dir ) {
+		if ( ! is_dir( $dir ) || ! is_writable( $dir ) ) {
+			return;
+		}
+
+		$index_file = trailingslashit( $dir ) . 'index.php';
+		if ( ! file_exists( $index_file ) ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			file_put_contents( $index_file, "<?php\n// Silence is golden.\n" );
+		}
+
+		$htaccess_file = trailingslashit( $dir ) . '.htaccess';
+		if ( ! file_exists( $htaccess_file ) ) {
+			$rules = "# Deny all direct access to this temporary import directory.\n"
+				. "<IfModule mod_authz_core.c>\n\tRequire all denied\n</IfModule>\n"
+				. "<IfModule !mod_authz_core.c>\n\tDeny from all\n</IfModule>\n"
+				. "\n# Never execute scripts from this directory, even if access is misconfigured.\n"
+				. "<FilesMatch \"\\.(php|php\\d?|phtml|phar|pl|py|rb|cgi|sh|asp|aspx|jsp)$\">\n"
+				. "\t<IfModule mod_authz_core.c>\n\t\tRequire all denied\n\t</IfModule>\n"
+				. "\t<IfModule !mod_authz_core.c>\n\t\tDeny from all\n\t</IfModule>\n"
+				. "</FilesMatch>\n";
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			file_put_contents( $htaccess_file, $rules );
+		}
+	}
+
+	/**
+	 * Public wrapper around delete_directory_secure(), used by
+	 * PEIWM_Main::cleanup_orphaned_media_import_dirs() to remove
+	 * abandoned per-batch temp_<uuid> directories on a schedule.
+	 *
+	 * @since 1.13.2
+	 * @param string $dir Absolute directory path to remove.
+	 */
+	public function delete_directory_secure_public( $dir ) {
+		$this->delete_directory_secure( $dir );
+	}
+
+	/**
 	 * Delete directory securely
 	 *
 	 * @param string $dir Directory path
@@ -796,15 +942,10 @@ class PEIWM_Media_Handler {
 		 * independently validated to prevent extension-bypass writes (CWE-434).
 		 */
 		$safe_filename = sanitize_file_name( $file_data['filename'] );
-		$dest_ext      = strtolower( pathinfo( $safe_filename, PATHINFO_EXTENSION ) );
+		$dest_ext      = $this->resolve_safe_extension( $file_data['filename'] );
 
 		// Always block dangerous server-side executable extensions — regardless of allowlist.
-		$blocked_extensions = array(
-			'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'phar',
-			'pl', 'py', 'rb', 'cgi', 'asp', 'aspx', 'jsp',
-			'sh', 'bash', 'exe', 'bat', 'cmd', 'htaccess', 'htpasswd',
-		);
-		if ( in_array( $dest_ext, $blocked_extensions, true ) ) {
+		if ( in_array( $dest_ext, self::$always_blocked_extensions, true ) ) {
 			return new WP_Error(
 				'blocked_extension',
 				esc_html__( 'File type not permitted for import.', 'post-export-import-with-media' )

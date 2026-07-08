@@ -241,7 +241,7 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 
 == Changelog ==
 
-= 1.13.2 – 28 June 2026 =
+= 1.13.2 – 08 July 2026 =
 * **Fix:** Resolved password hash query issues.
 * **Fix:** Improved security by hardening the exports directory.
 * **Fix:** Implemented unguessable export filenames using random tokens and directory hardening.
