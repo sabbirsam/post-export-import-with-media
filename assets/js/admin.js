@@ -1716,6 +1716,7 @@ jQuery(document).ready(function ($) {
             const downloadMissingImages = $('#peiwm-download-missing-images').is(':checked') ? '1' : '0';
             const checkMediaLibrary = $('#peiwm-check-media-library').is(':checked') ? '1' : '0';
             const forceStatus = post._force_status || 'original';
+            const mediaMatchMode = $('input[name="peiwm_media_match_mode"]:checked').val() || 'match_and_reuse';
             
             $.ajax({
                 url: peiwm_ajax.ajax_url,
@@ -1727,6 +1728,7 @@ jQuery(document).ready(function ($) {
                     post_data: JSON.stringify(post),
                     download_missing_images: downloadMissingImages,
                     check_media_library: checkMediaLibrary,
+                    media_match_mode: mediaMatchMode,
                     force_status: forceStatus,
                     peiwm_smart_author_mapping: $('#peiwm_smart_author_mapping').is(':checked') ? '1' : '0',
                     peiwm_author_fallback: $('input[name="peiwm_author_fallback"]:checked').val() || 'current_user',

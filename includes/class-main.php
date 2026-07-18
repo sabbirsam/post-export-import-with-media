@@ -455,6 +455,35 @@ class PEIWM_Main {
 				'default'           => false,
 			)
 		);
+
+		/**
+		 * Media match mode setting for import behavior
+		 */
+		register_setting(
+			'peiwm_settings',
+			'peiwm_media_match_mode',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => array( $this, 'sanitize_media_match_mode' ),
+				'default'           => 'match_and_reuse',
+			)
+		);
+	}
+
+	/**
+	 * Sanitize media match mode value
+	 *
+	 * @param string $value Input value
+	 * @return string Sanitized value
+	 */
+	public function sanitize_media_match_mode( $value ) {
+		$allowed_modes = array( 'match_and_reuse', 'always_verify', 'always_download' );
+		
+		if ( ! in_array( $value, $allowed_modes, true ) ) {
+			return 'match_and_reuse'; // Default fallback
+		}
+		
+		return $value;
 	}
 
 	/**

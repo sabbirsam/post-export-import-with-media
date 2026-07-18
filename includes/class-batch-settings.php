@@ -60,7 +60,12 @@ class PEIWM_Batch_Settings {
 	 */
 	private function __construct() {
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
-		add_action( 'admin_menu', array( $this, 'add_settings_page' ), 30 );
+		
+		// Show the menu in the free version to prevents duplicate menus with pro user 
+		if ( ! class_exists( 'PEIWM_Main' ) || ! PEIWM_Main::get_instance()->is_pro_active() ) {
+			add_action( 'admin_menu', array( $this, 'add_settings_page' ), 30 );
+		}
+		
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_batch_scripts' ) );
 		add_action( 'wp_ajax_peiwm_get_content_stats', array( $this, 'ajax_get_content_stats' ) );
 	}

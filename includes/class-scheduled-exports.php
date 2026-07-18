@@ -39,6 +39,7 @@ class PEIWM_Scheduled_Exports {
 	}
 
 	private function __construct() {
+		// Always register the menu, because PRO relies on the Free version to render the UI
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ), 40 );
 		add_action( 'wp_ajax_peiwm_get_scheduled_backups',     array( $this, 'ajax_get_scheduled_backups' ) );
 		add_action( 'wp_ajax_peiwm_delete_scheduled_backup',   array( $this, 'ajax_delete_scheduled_backup' ) );

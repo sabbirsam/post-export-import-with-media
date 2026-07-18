@@ -311,7 +311,13 @@ class PEIWM_Post_Handler {
 			$post_data_raw = isset( $_POST['post_data'] ) ? wp_unslash( $_POST['post_data'] ) : '';
 			$download_missing_images = isset( $_POST['download_missing_images'] ) && $_POST['download_missing_images'] === '1';
 			$check_media_library = isset( $_POST['check_media_library'] ) && $_POST['check_media_library'] === '1';
-
+			
+			// Read media match mode from POST parameter (set by user in UI)
+			$media_match_mode = isset( $_POST['media_match_mode'] ) ? sanitize_key( wp_unslash( $_POST['media_match_mode'] ) ) : 'match_and_reuse';
+			$allowed_match_modes = array( 'match_and_reuse', 'always_verify', 'always_download' );
+			if ( ! in_array( $media_match_mode, $allowed_match_modes, true ) ) {
+				$media_match_mode = 'match_and_reuse';
+			}
 
 			
 			if ( empty( $post_data_raw ) ) {
@@ -466,12 +472,10 @@ class PEIWM_Post_Handler {
 				$this->import_post_meta_secure( $post_id, $sanitized_post_data['meta'] );
 			}
 
-
-
 			// Import content images first and update post content
 			$updated_content = $sanitized_post_data['post_content'];
 			if ( $check_media_library && ! empty( $sanitized_post_data['content_images'] ) ) {
-				$updated_content = $this->import_content_images_secure( $post_id, $sanitized_post_data['content_images'], $sanitized_post_data['post_content'], $download_missing_images );
+				$updated_content = $this->import_content_images_secure( $post_id, $sanitized_post_data['content_images'], $sanitized_post_data['post_content'], $download_missing_images, $media_match_mode );
 			}
 			// If not checking media, we skip image processing entirely - images remain as placeholders in content
 
@@ -489,7 +493,7 @@ class PEIWM_Post_Handler {
 
 			// Import featured image
 			if ( $check_media_library && ! empty( $sanitized_post_data['featured_image'] ) ) {
-				$this->import_featured_image_secure( $post_id, $sanitized_post_data['featured_image'], $download_missing_images );
+				$this->import_featured_image_secure( $post_id, $sanitized_post_data['featured_image'], $download_missing_images, $media_match_mode );
 			}
 
 			// Update post content if it was modified
@@ -571,13 +575,15 @@ class PEIWM_Post_Handler {
 				throw new Exception( esc_html__( 'Invalid image data', 'post-export-import-with-media' ) );
 			}
 
-			$filename = isset( $image_data['filename'] ) ? sanitize_file_name( $image_data['filename'] ) : ''; // Sanitize input data properly
+			$filename  = isset( $image_data['filename'] ) ? sanitize_file_name( $image_data['filename'] ) : ''; // Sanitize input data properly
+			$file_path = isset( $image_data['file_path'] ) ? sanitize_text_field( $image_data['file_path'] ) : ''; 
+			
 			if ( empty( $filename ) ) {
 				throw new Exception( esc_html__( 'No filename provided', 'post-export-import-with-media' ) );
 			}
 
-			// Try to find existing attachment by filename
-			$attachment_id = $this->find_existing_attachment_by_filename( $filename );
+			// Try to find existing attachment by filename and precise file_path
+			$attachment_id = $this->find_existing_attachment_by_filename( $filename, $file_path );
 
 			if ( $attachment_id ) {
 				wp_send_json_success( array(
@@ -599,7 +605,8 @@ class PEIWM_Post_Handler {
 			$image_title = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
 			$image_alt = isset( $image_data['alt'] ) ? sanitize_text_field( $image_data['alt'] ) : '';
 
-			$attachment_id = $this->download_and_create_attachment( $image_url, $post_id, $image_title, $image_alt );
+			// Pass file_path to download_and_create_attachment for date folder preservation
+			$attachment_id = $this->download_and_create_attachment( $image_url, $post_id, $image_title, $image_alt, $file_path );
 
 			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
 				wp_send_json_success( array(
@@ -727,7 +734,9 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Get featured image securely
+	 * Add file_path to featured image export data
+	 *
+	 * Get featured image securely with precise relative path for import matching
 	 *
 	 * @param int $post_id Post ID
 	 * @return array|null Featured image data
@@ -744,12 +753,22 @@ class PEIWM_Post_Handler {
 			return null;
 		}
 
+		// Calculate relative file path for precise year/month matching on import
+		$full_path   = get_attached_file( $thumbnail_id );
+		$upload_dir  = wp_upload_dir();
+		$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
+		$rel_path    = $full_path
+						 ? ltrim( str_replace( $upload_base, '', $full_path ), '/\\' )
+						 : sanitize_file_name( basename( $full_path ) );
+		$rel_path    = str_replace( DIRECTORY_SEPARATOR, '/', $rel_path ); // normalize to forward slashes
+
 		return array(
-			'id'       => absint( $thumbnail_id ),
-			'url'      => esc_url( wp_get_attachment_url( $thumbnail_id ) ),
-			'title'    => sanitize_text_field( $attachment->post_title ),
-			'alt'      => sanitize_text_field( get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) ),
-			'filename' => sanitize_file_name( basename( get_attached_file( $thumbnail_id ) ) ),
+			'id'        => absint( $thumbnail_id ),
+			'url'       => esc_url( wp_get_attachment_url( $thumbnail_id ) ),
+			'title'     => sanitize_text_field( $attachment->post_title ),
+			'alt'       => sanitize_text_field( get_post_meta( $thumbnail_id, '_wp_attachment_image_alt', true ) ),
+			'filename'  => sanitize_file_name( basename( get_attached_file( $thumbnail_id ) ) ),
+			'file_path' => $rel_path, // NEW: precise relative path e.g. "2020/04/ministerium.jpg"
 		);
 	}
 
@@ -853,22 +872,115 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Import featured image securely
+	 * Content verification via remote size check
 	 *
-	 * @param int   $post_id Post ID
-	 * @param array $image_data Image data
-	 * @param bool  $download_missing Whether to download missing images
+	 * Verify local attachment matches remote source by comparing file sizes.
+	 * Prevents reusing a different image that happens to have the same filename.
+	 * Gracefully skips verification if HEAD request fails (never blocks imports).
+	 *
+	 * @param int    $attachment_id Local attachment ID
+	 * @param string $remote_url    Remote source URL
+	 * @return bool True if sizes match (or verification skipped), false if sizes differ
 	 */
-	private function import_featured_image_secure( $post_id, $image_data, $download_missing = false ) {
+	private function verify_remote_content_size( $attachment_id, $remote_url ) {
+		if ( empty( $remote_url ) ) {
+			return true; // No URL to verify against - allow match
+		}
+
+		$local_file = get_attached_file( $attachment_id );
+		if ( ! $local_file || ! file_exists( $local_file ) ) {
+			return true; // Can't verify local file - allow match (graceful)
+		}
+
+		$local_size = filesize( $local_file );
+
+		// Perform lightweight HEAD request to get Content-Length
+		$response = wp_remote_head( $remote_url, array(
+			'timeout'     => 5,
+			'redirection' => 2,
+		) );
+
+		// Gracefully skip verification if HEAD request fails
+		if ( is_wp_error( $response ) ) {
+			return true; // Network error - don't block the match
+		}
+
+		$remote_size = wp_remote_retrieve_header( $response, 'content-length' );
+		if ( empty( $remote_size ) ) {
+			return true; // No Content-Length header - can't verify, allow match
+		}
+
+		$remote_size = absint( $remote_size );
+		if ( $remote_size === 0 ) {
+			return true; // Invalid size - allow match (graceful)
+		}
+
+		// Compare sizes: allow small variance (1% or 1KB) for compression differences
+		$size_diff = abs( $local_size - $remote_size );
+		$threshold = max( 1024, (int) ( $local_size * 0.01 ) );
+
+		if ( $size_diff > $threshold ) {
+			// Significant size difference detected - different images with same filename
+			return false;
+		}
+
+		return true; // Sizes match - valid reuse
+	}
+
+	/**
+	 * Thread file_path through to find_existing_attachment_by_filename()
+	 * Add content verification before reusing matched attachment
+	 * Respect media match mode setting
+	 *
+	 * Import featured image securely with precise path matching and size verification
+	 *
+	 * @param int    $post_id Post ID
+	 * @param array  $image_data Image data
+	 * @param bool   $download_missing Whether to download missing images
+	 * @param string $match_mode Media match mode (match_and_reuse, always_verify, always_download)
+	 */
+	private function import_featured_image_secure( $post_id, $image_data, $download_missing = false, $match_mode = 'match_and_reuse' ) {
 		if ( ! is_array( $image_data ) || empty( $image_data['filename'] ) ) {
 			return;
 		}
 
-		$filename = sanitize_file_name( $image_data['filename'] );
+		$filename  = sanitize_file_name( $image_data['filename'] );
+		$file_path = isset( $image_data['file_path'] ) ? sanitize_text_field( $image_data['file_path'] ) : '';
 		$image_alt = isset( $image_data['alt'] ) ? sanitize_text_field( $image_data['alt'] ) : '';
+		$image_url = isset( $image_data['url'] ) ? esc_url_raw( $image_data['url'] ) : '';
 
-		// Try to find existing attachment by filename
-		$attachment_id = $this->find_existing_attachment_by_filename( $filename );
+		// Handle always_download mode - skip matching entirely
+		if ( 'always_download' === $match_mode ) {
+			if ( $download_missing && ! empty( $image_url ) ) {
+				$image_title = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
+				$attachment_id = $this->download_and_create_attachment( $image_url, $post_id, $image_title, $image_alt, $file_path );
+				
+				if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+					set_post_thumbnail( $post_id, $attachment_id );
+				}
+			}
+			return;
+		}
+
+		// Try to find existing attachment by filename and precise file_path
+		$matched_exact = false;
+		$attachment_id = $this->find_existing_attachment_by_filename( $filename, $file_path, $matched_exact );
+
+		//  Verify content size before reusing
+		// always_verify mode: always check size
+		// match_and_reuse mode: only check if match was via fallback (not exact path)
+		if ( $attachment_id ) {
+			$should_verify = ( 'always_verify' === $match_mode ) || ! $matched_exact;
+			
+			if ( $should_verify ) {
+				$is_valid_match = $this->verify_remote_content_size( $attachment_id, $image_url );
+				
+				if ( ! $is_valid_match ) {
+					// Size mismatch detected - treat as "not found" to trigger fresh download
+					$attachment_id = null;
+				}
+			}
+		}
 
 		if ( $attachment_id ) {
 			// Record that featured image was found locally
@@ -886,12 +998,11 @@ class PEIWM_Post_Handler {
 
 			// Fix _wp_attached_file meta to ensure proper srcset generation
 			$this->fix_attachment_meta( $attachment_id );
-		} else if ( $download_missing && ! empty( $image_data['url'] ) ) {
+		} else if ( $download_missing && ! empty( $image_url ) ) {
 			// Try to download the featured image from original URL
-			$image_url = esc_url_raw( $image_data['url'] );
 			$image_title = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
 			
-			$attachment_id = $this->download_and_create_attachment( $image_url, $post_id, $image_title, $image_alt );
+			$attachment_id = $this->download_and_create_attachment( $image_url, $post_id, $image_title, $image_alt, $file_path );
 			
 			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
 				set_post_thumbnail( $post_id, $attachment_id );
@@ -1116,28 +1227,68 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Find existing attachment by filename
+	 * Fix filename LIKE wildcard boundary to prevent substring collisions
+	 * Add exact file_path matching for precise, fast lookups
+	 * Report whether the match was via exact file_path (vs a fallback tier)
+	 *
+	 * Find existing attachment by filename or full file path.
+	 * When file_path is provided (e.g. "2020/04/photo.jpg"), tries exact match first.
+	 * Falls back to boundary-safe filename LIKE search for cross-folder deduplication.
 	 *
 	 * @param string $filename Filename to search for
+	 * @param string $file_path Optional precise relative path (e.g. "2020/04/ministerium.jpg")
+	 * @param bool   $matched_exact Output param — true only if matched via exact file_path equality
 	 * @return int|null Attachment ID if found
 	 */
-	private function find_existing_attachment_by_filename( $filename ) {
+	private function find_existing_attachment_by_filename( $filename, $file_path = '', &$matched_exact = false ) {
 		global $wpdb;
+		$matched_exact = false;
 		
-		// Use direct database query for better performance
+		// Try exact file_path match first when provided (fastest, most precise)
+		if ( ! empty( $file_path ) ) {
+			$attachment_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT post_id FROM {$wpdb->postmeta} 
+				WHERE meta_key = '_wp_attached_file' 
+				AND meta_value = %s 
+				LIMIT 1",
+				$file_path
+			) );
+
+			if ( $attachment_id ) {
+				$matched_exact = true;
+				return absint( $attachment_id );
+			}
+		}
+
+		// Boundary-safe filename LIKE search (requires '/' before filename)
+		// This prevents "ministerium.jpg" from matching "propaganda-ministerium.jpg"
 		$attachment_id = $wpdb->get_var( $wpdb->prepare(
 			"SELECT post_id FROM {$wpdb->postmeta} 
 			WHERE meta_key = '_wp_attached_file' 
 			AND meta_value LIKE %s 
 			LIMIT 1",
-			'%' . $wpdb->esc_like( $filename )
+			'%/' . $wpdb->esc_like( $filename )
 		) );
 
 		if ( $attachment_id ) {
 			return absint( $attachment_id );
 		}
 
-		// If not found, try searching by post title (filename without extension)
+		// Fallback for root-level files (uploads_use_yearmonth_folders disabled)
+		// Exact match with no subfolder at all
+		$attachment_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->postmeta} 
+			WHERE meta_key = '_wp_attached_file' 
+			AND meta_value = %s 
+			LIMIT 1",
+			$filename
+		) );
+
+		if ( $attachment_id ) {
+			return absint( $attachment_id );
+		}
+
+		// If still not found, try searching by post title (filename without extension)
 		$title = pathinfo( $filename, PATHINFO_FILENAME );
 		$attachment_id = $wpdb->get_var( $wpdb->prepare(
 			"SELECT ID FROM {$wpdb->posts} 
@@ -1174,15 +1325,20 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Import content images securely and update content URLs
+	 * Thread file_path through to find_existing_attachment_by_filename()
+	 * Add content verification before reusing matched attachment
+	 * Respect media match mode setting
+	 *
+	 * Import content images securely and update content URLs with precise path matching
 	 *
 	 * @param int    $post_id Post ID
 	 * @param array  $images_data Images data
 	 * @param string $content Original content
 	 * @param bool   $download_missing Whether to download missing images
+	 * @param string $match_mode Media match mode (match_and_reuse, always_verify, always_download)
 	 * @return string Updated content
 	 */
-	private function import_content_images_secure( $post_id, $images_data, $content, $download_missing = false ) {
+	private function import_content_images_secure( $post_id, $images_data, $content, $download_missing = false, $match_mode = 'match_and_reuse' ) {
 		$updated_content = $content;
 
 		foreach ( $images_data as $image_data ) {
@@ -1191,12 +1347,35 @@ class PEIWM_Post_Handler {
 			}
 
 			$filename    = sanitize_file_name( $image_data['filename'] );
+			$file_path   = isset( $image_data['file_path'] ) ? sanitize_text_field( $image_data['file_path'] ) : '';
 			$image_title = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
 			$image_alt   = isset( $image_data['alt'] )   ? sanitize_text_field( $image_data['alt'] )   : '';
 			$old_url     = isset( $image_data['url'] )   ? esc_url_raw( $image_data['url'] )          : '';
 
-			// Try to find existing attachment by filename
-			$attachment_id = $this->find_existing_attachment_by_filename( $filename );
+			$attachment_id = null;
+
+			// Handle always_download mode - skip matching entirely
+			if ( 'always_download' !== $match_mode ) {
+				// Try to find existing attachment by filename and precise file_path
+				$matched_exact = false;
+				$attachment_id = $this->find_existing_attachment_by_filename( $filename, $file_path, $matched_exact );
+
+				// Verify content size before reusing
+				// always_verify mode: always check size
+				// match_and_reuse mode: only check if match was via fallback (not exact path)
+				if ( $attachment_id ) {
+					$should_verify = ( 'always_verify' === $match_mode ) || ! $matched_exact;
+					
+					if ( $should_verify ) {
+						$is_valid_match = $this->verify_remote_content_size( $attachment_id, $old_url );
+						
+						if ( ! $is_valid_match ) {
+							// Size mismatch detected - treat as "not found" to trigger fresh download
+							$attachment_id = null;
+						}
+					}
+				}
+			}
 
 			if ( $attachment_id ) {
 				// Record that image was found locally
@@ -1216,7 +1395,7 @@ class PEIWM_Post_Handler {
 
 			} elseif ( $download_missing && ! empty( $old_url ) ) {
 				// Try to download the image from original URL
-				$attachment_id = $this->download_and_create_attachment( $old_url, $post_id, $image_title, $image_alt );
+				$attachment_id = $this->download_and_create_attachment( $old_url, $post_id, $image_title, $image_alt, $file_path );
 			}
 
 			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
@@ -1323,7 +1502,9 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Check for missing images in post data
+	 * Thread file_path through to find_existing_attachment_by_filename()
+	 *
+	 * Check for missing images in post data with precise path matching
 	 *
 	 * @param array $post_data Post data
 	 * @return array Missing image filenames
@@ -1333,8 +1514,9 @@ class PEIWM_Post_Handler {
 
 		// Check featured image
 		if ( ! empty( $post_data['featured_image']['filename'] ) ) {
-			$filename = $post_data['featured_image']['filename'];
-			if ( ! $this->find_existing_attachment_by_filename( $filename ) ) {
+			$filename  = $post_data['featured_image']['filename'];
+			$file_path = isset( $post_data['featured_image']['file_path'] ) ? $post_data['featured_image']['file_path'] : '';
+			if ( ! $this->find_existing_attachment_by_filename( $filename, $file_path ) ) {
 				$missing[] = $filename;
 			}
 		}
@@ -1343,8 +1525,9 @@ class PEIWM_Post_Handler {
 		if ( ! empty( $post_data['content_images'] ) ) {
 			foreach ( $post_data['content_images'] as $image ) {
 				if ( ! empty( $image['filename'] ) ) {
-					$filename = $image['filename'];
-					if ( ! $this->find_existing_attachment_by_filename( $filename ) ) {
+					$filename  = $image['filename'];
+					$file_path = isset( $image['file_path'] ) ? $image['file_path'] : '';
+					if ( ! $this->find_existing_attachment_by_filename( $filename, $file_path ) ) {
 						$missing[] = $filename;
 					}
 				}
@@ -1383,15 +1566,19 @@ class PEIWM_Post_Handler {
 	}
 
 	/**
-	 * Download and create attachment from URL
+	 * Preserve source date-folder structure on fresh downloads
+	 * Fix unsafe remove_all_filters() call to avoid breaking other plugins
+	 *
+	 * Download and create attachment from URL with optional date folder preservation
 	 *
 	 * @param string $image_url Image URL
 	 * @param int    $post_id Post ID
 	 * @param string $image_title Image title
 	 * @param string $image_alt Image alt text
+	 * @param string $file_path Optional source file path (e.g. "2020/04/photo.jpg") for date folder extraction
 	 * @return int|WP_Error|null Attachment ID or error
 	 */
-	private function download_and_create_attachment( $image_url, $post_id, $image_title = '', $image_alt = '' ) {
+	private function download_and_create_attachment( $image_url, $post_id, $image_title = '', $image_alt = '', $file_path = '' ) {
 		$filename = basename( wp_parse_url( $image_url, PHP_URL_PATH ) );
 		
 		// Record download attempt
@@ -1402,15 +1589,46 @@ class PEIWM_Post_Handler {
 			'message' => 'Downloading image: ' . $filename,
 		);
 
+		// Parse YYYY/MM from file_path and temporarily override upload_dir
+		$upload_filter_applied = false;
+		$upload_dir_override   = null;
+
+		if ( ! empty( $file_path ) && get_option( 'uploads_use_yearmonth_folders' ) ) {
+			// Extract YYYY/MM from file_path (e.g. "2020/04/photo.jpg")
+			if ( preg_match( '#^(\d{4})/(\d{2})/#', $file_path, $matches ) ) {
+				$upload_override_year  = $matches[1];
+				$upload_override_month = $matches[2];
+
+				// Store closure in named variable so it can be removed specifically
+				$upload_dir_override = function( $upload_dir ) use ( $upload_override_year, $upload_override_month ) {
+					$subdir = '/' . $upload_override_year . '/' . $upload_override_month;
+					$upload_dir['path']   = $upload_dir['basedir'] . $subdir;
+					$upload_dir['url']    = $upload_dir['baseurl'] . $subdir;
+					$upload_dir['subdir'] = $subdir;
+					return $upload_dir;
+				};
+
+				add_filter( 'upload_dir', $upload_dir_override, 10, 1 );
+				$upload_filter_applied = true;
+			}
+		}
+
 		// Add timeout and error handling for media_sideload_image
 		add_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
 		add_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
 		
-		$attachment_id = media_sideload_image( $image_url, $post_id, $image_title, 'id' );
-		
-		// Remove filters
-		remove_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
-		remove_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
+		try {
+			$attachment_id = media_sideload_image( $image_url, $post_id, $image_title, 'id' );
+		} finally {
+			// Remove specific callback, not all filters at priority 10
+			if ( $upload_filter_applied && $upload_dir_override ) {
+				remove_filter( 'upload_dir', $upload_dir_override, 10 );
+			}
+
+			// Remove timeout filters
+			remove_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
+			remove_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
+		}
 		
 		if ( is_wp_error( $attachment_id ) ) {
 			// Record download failure
