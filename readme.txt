@@ -4,7 +4,7 @@ Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable Tag: 1.13.3
+Stable Tag: 1.14.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,11 @@ Whether you're moving to a new host, creating staging sites, or backing up your 
 - Smart image handling - reuses existing media, downloads missing files
 - Support for featured images and inline content images
 - Enable WPML multilingual language support
+- Smart Image Matching Strategy:
+  - Verify only fallback matches (fastest)
+  - Verify all matches (prevents duplicate filename mismatches)
+  - Always download fresh images
+- Link reused media to imported posts by updating the **Uploaded to** relationship
 - Selective Export & Import
   - Export specific posts or pages instead of entire content
   - Export content by date range
@@ -53,6 +58,15 @@ Whether you're moving to a new host, creating staging sites, or backing up your 
     - Send welcome email with login credentials (if email is configured)
     - Try to preserve original user IDs (conflicts logged)
 
+#### **Media & Image Handling**
+* Automatic media detection and download during import
+* Smart Image Matching Strategy:
+  * Verify only fallback matches (fastest)
+  * Verify all matches (verifies file size to prevent duplicate filename mismatches)
+  * Always download fresh images from the source
+* Reuse existing media when possible
+* Link reused media to imported posts by updating the **Uploaded to** relationship
+* Full support for featured images and inline content images
 
 #### **Pages Export/Import**
 * Complete page hierarchy preservation
@@ -241,7 +255,13 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 
 == Changelog ==
 
-= 1.13.3 – 08 July 2026 =
+= 1.14.0 – 24 July 2026 =
+* **New:** Added Image Matching Strategy with three modes:
+  * Verify only fallback matches – Verify only filename-based matches for faster imports.
+  * Verify all matches – Verify file size for every match to prevent duplicate filename mismatches.
+  * Always download fresh – Always download images from the source without reusing existing media.
+* **New:** Added option to link reused media to imported posts by updating the Media Library **Uploaded to** relationship.
+* **Improved:** * Update SDK 
 
 = 1.13.2 – 08 July 2026 =
 * **Fix:** Resolved password hash query issues.

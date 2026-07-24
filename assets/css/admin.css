@@ -2227,7 +2227,7 @@ input:focus {
 .peiwm-locked-section {
     position: relative;
     padding: 20px;
-    margin: 10px;
+    margin: 10px 0px 0px 0px;
 }
 
 .peiwm-locked-section::before {
@@ -3335,10 +3335,35 @@ p.description-hint {
 }
 
 .peiwm-advanced-panel.is-open {
-    max-height: 870px;
-    /* larger than any realistic content */
+    max-height: 970px;
     opacity: 1;
     margin-top: 10px;
+    overflow-y: scroll;
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #f2f2f2;
+}
+
+/* Chrome, Edge, Safari */
+.peiwm-advanced-panel.is-open::-webkit-scrollbar {
+    width: 6px;
+}
+
+.peiwm-advanced-panel.is-open::-webkit-scrollbar-track {
+    background: #f2f2f2;
+    /* Deep white */
+    border-radius: 10px;
+}
+
+.peiwm-advanced-panel.is-open::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    /* White */
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+}
+
+.peiwm-advanced-panel.is-open::-webkit-scrollbar-thumb:hover {
+    background: #fafafa;
 }
 
 /* ============================================================
@@ -3356,6 +3381,7 @@ p.description-hint {
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     margin-bottom: 8px;
+    margin-top: 5px;
     background: #fafafa;
     position: relative;
 }

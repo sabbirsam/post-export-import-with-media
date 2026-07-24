@@ -230,6 +230,13 @@ class PEIWM_Page_Handler {
 			$page_data_raw = isset( $_POST['page_data'] ) ? wp_unslash( $_POST['page_data'] ) : '';
 			$download_missing_images = isset( $_POST['download_missing_images'] ) && $_POST['download_missing_images'] === '1';
 			$check_media_library     = isset( $_POST['check_media_library'] ) && $_POST['check_media_library'] === '1';
+
+			// Read media match mode from POST parameter (set by user in UI)
+			$media_match_mode = isset( $_POST['media_match_mode'] ) ? sanitize_key( wp_unslash( $_POST['media_match_mode'] ) ) : 'match_and_reuse';
+			$allowed_match_modes = array( 'match_and_reuse', 'always_verify', 'always_download' );
+			if ( ! in_array( $media_match_mode, $allowed_match_modes, true ) ) {
+				$media_match_mode = 'match_and_reuse';
+			}
 			
 			if ( empty( $page_data_raw ) ) {
 				throw new Exception( esc_html__( 'No page data provided', 'post-export-import-with-media' ) );
@@ -303,20 +310,54 @@ class PEIWM_Page_Handler {
 			$existing_pages = $existing_page ? array( $existing_page ) : array();
 
 			if ( ! empty( $existing_pages ) ) {
-				$existing_page = $existing_pages[0];
+				$existing_page    = $existing_pages[0];
+				$existing_page_id = $existing_page->ID;
+
 				// If force_status is set and differs from current, update the status
 				if ( $force_status !== 'original' && in_array( $force_status, $allowed_statuses, true ) && $existing_page->post_status !== $force_status ) {
 					wp_update_post( array(
-						'ID'          => $existing_page->ID,
+						'ID'          => $existing_page_id,
 						'post_status' => $force_status,
 					) );
-					wp_reset_postdata();
+				}
+
+				// BUG-FIX: Update image URLs in existing page content (mirrors post handler fix)
+				if ( $check_media_library ) {
+					$existing_content = $existing_page->post_content;
+					$updated_content  = $existing_content;
+
+					if ( ! empty( $sanitized_page_data['content_images'] ) ) {
+						$updated_content = $this->import_content_images_secure( $existing_page_id, $sanitized_page_data['content_images'], $existing_content, $download_missing_images, $media_match_mode );
+					}
+
+					if ( ! empty( $sanitized_page_data['featured_image'] ) ) {
+						$this->import_featured_image_secure( $existing_page_id, $sanitized_page_data['featured_image'], $download_missing_images, $media_match_mode );
+					}
+
+					$source_url = isset( $sanitized_page_data['source_url'] ) ? esc_url_raw( $sanitized_page_data['source_url'] ) : '';
+					$dest_url   = untrailingslashit( home_url() );
+					if ( ! empty( $source_url ) ) {
+						$source_url = untrailingslashit( $source_url );
+						if ( $source_url !== $dest_url ) {
+							$updated_content = str_replace( $source_url, $dest_url, $updated_content );
+						}
+					}
+
+					if ( $updated_content !== $existing_content ) {
+						wp_update_post( array(
+							'ID'           => $existing_page_id,
+							'post_content' => $updated_content,
+						) );
+					}
+				}
+
+				wp_reset_postdata();
+				if ( $force_status !== 'original' && in_array( $force_status, $allowed_statuses, true ) && $existing_page->post_status !== $force_status ) {
 					wp_send_json_success( array(
 						'status' => 'updated',
 						'reason' => sprintf( 'Status updated to %s', $force_status ),
 					) );
 				}
-				wp_reset_postdata();
 				wp_send_json_success( array(
 					'status' => 'skipped',
 					'reason' => esc_html__( 'Page already exists', 'post-export-import-with-media' ),
@@ -373,7 +414,7 @@ class PEIWM_Page_Handler {
 			// Import content images first and update page content
 			$updated_content = $sanitized_page_data['post_content'];
 			if ( $check_media_library && ! empty( $sanitized_page_data['content_images'] ) ) {
-				$updated_content = $this->import_content_images_secure( $page_id, $sanitized_page_data['content_images'], $sanitized_page_data['post_content'], $download_missing_images );
+				$updated_content = $this->import_content_images_secure( $page_id, $sanitized_page_data['content_images'], $sanitized_page_data['post_content'], $download_missing_images, $media_match_mode );
 			}
 			// If not checking media, we skip image processing entirely - images remain as placeholders in content
 
@@ -389,7 +430,7 @@ class PEIWM_Page_Handler {
 
 			// Import featured image
 			if ( $check_media_library && ! empty( $sanitized_page_data['featured_image'] ) ) {
-				$this->import_featured_image_secure( $page_id, $sanitized_page_data['featured_image'], $download_missing_images );
+				$this->import_featured_image_secure( $page_id, $sanitized_page_data['featured_image'], $download_missing_images, $media_match_mode );
 			}
 
 			// Update page content if it was modified
@@ -672,10 +713,6 @@ class PEIWM_Page_Handler {
 		return $content;
 	}
 
-	// Add other helper methods similar to post handler...
-	// (import_page_meta_secure, import_content_images_secure, import_featured_image_secure, etc.)
-	// These would be nearly identical to the post handler methods
-
 	/**
 	 * Get import results for detailed feedback
 	 *
@@ -718,59 +755,67 @@ class PEIWM_Page_Handler {
 	}
 
 	/**
-	 * Find existing attachment by filename
+	 * Find existing attachment by filename with boundary-safe matching and exact path support.
 	 *
-	 * @param string $filename Filename to search for
+	 * @param string $filename     Filename to search for
+	 * @param string $file_path    Optional relative path (e.g. "2020/04/photo.jpg")
+	 * @param bool   $matched_exact Output — true only if matched via exact file_path equality
 	 * @return int|null Attachment ID if found
 	 */
-	private function find_existing_attachment_by_filename( $filename ) {
-		// First try exact filename match
-		$attachments = get_posts( array(
-			'post_type' => 'attachment',
-			'meta_query' => array(
-				array(
-					'key' => '_wp_attached_file',
-					'value' => $filename,
-					'compare' => 'LIKE'
-				)
-			),
-			'posts_per_page' => 1
-		) );
+	private function find_existing_attachment_by_filename( $filename, $file_path = '', &$matched_exact = false ) {
+		global $wpdb;
+		$matched_exact = false;
 
-		if ( ! empty( $attachments ) ) {
-			wp_reset_postdata(); // Reset before returning
-			return $attachments[0]->ID;
+		// Exact file_path match first (fastest, most precise)
+		if ( ! empty( $file_path ) ) {
+			$attachment_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT post_id FROM {$wpdb->postmeta}
+				WHERE meta_key = '_wp_attached_file'
+				AND meta_value = %s
+				LIMIT 1",
+				$file_path
+			) );
+			if ( $attachment_id ) {
+				$matched_exact = true;
+				return absint( $attachment_id );
+			}
 		}
 
-		// Reset after first query
-		wp_reset_postdata();
-
-		// If not found, try searching by post title (filename without extension)
-		$title = pathinfo( $filename, PATHINFO_FILENAME );
-		$attachments = get_posts( array(
-			'post_type' => 'attachment',
-			'title' => $title,
-			'posts_per_page' => 1
+		// Boundary-safe LIKE — requires '/' before filename to prevent substring collisions
+		$attachment_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->postmeta}
+			WHERE meta_key = '_wp_attached_file'
+			AND meta_value LIKE %s
+			LIMIT 1",
+			'%/' . $wpdb->esc_like( $filename )
 		) );
-
-		if ( ! empty( $attachments ) ) {
-			wp_reset_postdata(); // Reset before returning
-			return $attachments[0]->ID;
+		if ( $attachment_id ) {
+			return absint( $attachment_id );
 		}
 
-		// Reset after second query
-		wp_reset_postdata();
+		// Fallback: root-level file (no sub-folder)
+		$attachment_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT post_id FROM {$wpdb->postmeta}
+			WHERE meta_key = '_wp_attached_file'
+			AND meta_value = %s
+			LIMIT 1",
+			$filename
+		) );
+		if ( $attachment_id ) {
+			return absint( $attachment_id );
+		}
 
-		// Last resort: search by filename in post_title
-		$attachments = get_posts( array(
-			'post_type' => 'attachment',
-			's' => $title,
-			'posts_per_page' => 1
+		// Last resort: match by post title
+		$title         = pathinfo( $filename, PATHINFO_FILENAME );
+		$attachment_id = $wpdb->get_var( $wpdb->prepare(
+			"SELECT ID FROM {$wpdb->posts}
+			WHERE post_type = 'attachment'
+			AND post_title = %s
+			LIMIT 1",
+			$title
 		) );
 
-		$result = ! empty( $attachments ) ? $attachments[0]->ID : null;
-		wp_reset_postdata(); // Always reset at the end
-		return $result;
+		return $attachment_id ? absint( $attachment_id ) : null;
 	}
 
 	
@@ -894,7 +939,7 @@ class PEIWM_Page_Handler {
 	 * @param bool   $download_missing Whether to download missing images
 	 * @return string Updated content
 	 */
-	private function import_content_images_secure( $page_id, $images_data, $content, $download_missing = false ) {
+	private function import_content_images_secure( $page_id, $images_data, $content, $download_missing = false, $match_mode = 'match_and_reuse' ) {
 		$updated_content = $content;
 		$url_mapping = array();
 
@@ -909,7 +954,18 @@ class PEIWM_Page_Handler {
 			$old_url = isset( $image_data['url'] ) ? esc_url_raw( $image_data['url'] ) : '';
 
 			// Try to find existing attachment by filename
-			$attachment_id = $this->find_existing_attachment_by_filename( $filename );
+			$file_path     = isset( $image_data['file_path'] ) ? sanitize_text_field( $image_data['file_path'] ) : '';
+			$attachment_id = null;
+			if ( 'always_download' !== $match_mode ) {
+				$matched_exact = false;
+				$attachment_id = $this->find_existing_attachment_by_filename( $filename, $file_path, $matched_exact );
+				if ( $attachment_id ) {
+					$should_verify = ( 'always_verify' === $match_mode ) || ! $matched_exact;
+					if ( $should_verify && ! $this->verify_remote_content_size( $attachment_id, $old_url ) ) {
+						$attachment_id = null;
+					}
+				}
+			}
 
 			if ( $attachment_id ) {
 				// Record that image was found locally
@@ -950,9 +1006,9 @@ class PEIWM_Page_Handler {
 						$updated_content
 					);
 				}
-			} else if ( $download_missing && ! empty( $old_url ) ) {
+			} elseif ( $download_missing && ! empty( $old_url ) ) {
 				// Try to download the image from original URL
-				$attachment_id = $this->download_and_create_attachment( $old_url, $page_id, $image_title, $image_alt );
+				$attachment_id = $this->download_and_create_attachment( $old_url, $page_id, $image_title, $image_alt, $file_path );
 				
 				if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
 					// Successfully downloaded and created attachment
@@ -964,13 +1020,11 @@ class PEIWM_Page_Handler {
 					// Update image ID references in content
 					if ( isset( $image_data['id'] ) ) {
 						$old_id = absint( $image_data['id'] );
-						// Update wp:image blocks
 						$updated_content = preg_replace(
 							'/("id":)' . $old_id . '([,}])/',
 							'${1}' . $attachment_id . '${2}',
 							$updated_content
 						);
-						// Update wp-image class
 						$updated_content = str_replace(
 							'wp-image-' . $old_id,
 							'wp-image-' . $attachment_id,
@@ -978,10 +1032,6 @@ class PEIWM_Page_Handler {
 						);
 					}
 				}
-				// If download failed, image will be reported as missing
-			} else {
-				// Image not found in media library - will be reported in response
-				// No error_log needed as this will be shown in the UI
 			}
 		}
 
@@ -1000,48 +1050,58 @@ class PEIWM_Page_Handler {
 	 * @param array $image_data Image data
 	 * @param bool  $download_missing Whether to download missing images
 	 */
-	private function import_featured_image_secure( $page_id, $image_data, $download_missing = false ) {
+	private function import_featured_image_secure( $page_id, $image_data, $download_missing = false, $match_mode = 'match_and_reuse' ) {
 		if ( ! is_array( $image_data ) || empty( $image_data['filename'] ) ) {
 			return;
 		}
 
-		$filename = sanitize_file_name( $image_data['filename'] );
+		$filename  = sanitize_file_name( $image_data['filename'] );
+		$file_path = isset( $image_data['file_path'] ) ? sanitize_text_field( $image_data['file_path'] ) : '';
 		$image_alt = isset( $image_data['alt'] ) ? sanitize_text_field( $image_data['alt'] ) : '';
+		$image_url = isset( $image_data['url'] ) ? esc_url_raw( $image_data['url'] ) : '';
 
-		// Try to find existing attachment by filename
-		$attachment_id = $this->find_existing_attachment_by_filename( $filename );
+		// Handle always_download mode - skip matching entirely
+		if ( 'always_download' === $match_mode ) {
+			if ( $download_missing && ! empty( $image_url ) ) {
+				$image_title   = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
+				$attachment_id = $this->download_and_create_attachment( $image_url, $page_id, $image_title, $image_alt, $file_path );
+				if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
+					set_post_thumbnail( $page_id, $attachment_id );
+				}
+			}
+			return;
+		}
+
+		$matched_exact = false;
+		$attachment_id = $this->find_existing_attachment_by_filename( $filename, $file_path, $matched_exact );
 
 		if ( $attachment_id ) {
-			// Record that featured image was found locally
-			$this->import_results[] = array(
-				'type' => 'found_local',
-				'filename' => $filename,
-				'attachment_id' => $attachment_id,
-				'message' => 'Found featured image in media library: ' . $filename,
-			);
+			$should_verify = ( 'always_verify' === $match_mode ) || ! $matched_exact;
+			if ( $should_verify ) {
+				if ( ! $this->verify_remote_content_size( $attachment_id, $image_url ) ) {
+					$attachment_id = null;
+				}
+			}
+		}
 
+		if ( $attachment_id ) {
+			$this->import_results[] = array(
+				'type'          => 'found_local',
+				'filename'      => $filename,
+				'attachment_id' => $attachment_id,
+				'message'       => 'Found featured image in media library: ' . $filename,
+			);
 			set_post_thumbnail( $page_id, $attachment_id );
-			
 			if ( ! empty( $image_alt ) ) {
 				update_post_meta( $attachment_id, '_wp_attachment_image_alt', $image_alt );
 			}
-
-			// Fix _wp_attached_file meta to ensure proper srcset generation
 			$this->fix_attachment_meta( $attachment_id );
-		} else if ( $download_missing && ! empty( $image_data['url'] ) ) {
-			// Try to download the featured image from original URL
-			$image_url = esc_url_raw( $image_data['url'] );
-			$image_title = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
-			
-			$attachment_id = $this->download_and_create_attachment( $image_url, $page_id, $image_title, $image_alt );
-			
+		} elseif ( $download_missing && ! empty( $image_url ) ) {
+			$image_title   = isset( $image_data['title'] ) ? sanitize_text_field( $image_data['title'] ) : '';
+			$attachment_id = $this->download_and_create_attachment( $image_url, $page_id, $image_title, $image_alt, $file_path );
 			if ( $attachment_id && ! is_wp_error( $attachment_id ) ) {
 				set_post_thumbnail( $page_id, $attachment_id );
 			}
-			// If download failed, featured image will be reported as missing
-		} else {
-			// Featured image not found in media library - will be reported in response
-			// No error_log needed as this will be shown in the UI
 		}
 	}
 
@@ -1054,28 +1114,79 @@ class PEIWM_Page_Handler {
 	 * @param string $image_alt Image alt text
 	 * @return int|WP_Error|null Attachment ID or error
 	 */
-	private function download_and_create_attachment( $image_url, $page_id, $image_title = '', $image_alt = '' ) {
+	private function download_and_create_attachment( $image_url, $page_id, $image_title = '', $image_alt = '', $file_path = '' ) {
 		$filename = basename( wp_parse_url( $image_url, PHP_URL_PATH ) );
-		
-		// Record download attempt
+
 		$this->import_results[] = array(
-			'type' => 'download_start',
+			'type'    => 'download_start',
 			'filename' => $filename,
-			'url' => $image_url,
+			'url'     => $image_url,
 			'message' => 'Downloading image: ' . $filename,
 		);
 
-		// Add timeout and error handling for media_sideload_image
+		// BUG-FIX: Check if file already physically exists — prevent duplicates on re-import
+		$upload_dir_check = wp_upload_dir();
+		$target_subdir    = '';
+		if ( ! empty( $file_path ) && preg_match( '#^(\d{4}/\d{2})/#', $file_path, $m ) ) {
+			$target_subdir = $m[1];
+		} elseif ( get_option( 'uploads_use_yearmonth_folders' ) ) {
+			$target_subdir = gmdate( 'Y/m' );
+		}
+		$target_path = $upload_dir_check['basedir']
+			. ( $target_subdir ? '/' . $target_subdir : '' )
+			. '/' . $filename;
+
+		if ( file_exists( $target_path ) ) {
+			global $wpdb;
+			$rel         = ( $target_subdir ? $target_subdir . '/' : '' ) . $filename;
+			$existing_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_wp_attached_file' AND meta_value = %s LIMIT 1",
+				$rel
+			) );
+			if ( $existing_id ) {
+				$this->import_results[] = array(
+					'type'          => 'found_local',
+					'filename'      => $filename,
+					'attachment_id' => (int) $existing_id,
+					'message'       => 'File already exists, reusing: ' . $filename,
+				);
+				return (int) $existing_id;
+			}
+		}
+
+		// Preserve source date-folder structure
+		$upload_filter_applied = false;
+		$upload_dir_override   = null;
+
+		if ( ! empty( $file_path ) && get_option( 'uploads_use_yearmonth_folders' ) ) {
+			if ( preg_match( '#^(\d{4})/(\d{2})/#', $file_path, $matches ) ) {
+				$upload_override_year  = $matches[1];
+				$upload_override_month = $matches[2];
+				$upload_dir_override   = function( $upload_dir ) use ( $upload_override_year, $upload_override_month ) {
+					$subdir = '/' . $upload_override_year . '/' . $upload_override_month;
+					$upload_dir['path']   = $upload_dir['basedir'] . $subdir;
+					$upload_dir['url']    = $upload_dir['baseurl'] . $subdir;
+					$upload_dir['subdir'] = $subdir;
+					return $upload_dir;
+				};
+				add_filter( 'upload_dir', $upload_dir_override, 10, 1 );
+				$upload_filter_applied = true;
+			}
+		}
+
 		add_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
 		add_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
-		
-		$attachment_id = media_sideload_image( $image_url, $page_id, $image_title, 'id' );
-		
-		// Remove filters
-		remove_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
-		remove_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
-		
-		// Reset global post data after media_sideload_image (creates attachment posts)
+
+		try {
+			$attachment_id = media_sideload_image( $image_url, $page_id, $image_title, 'id' );
+		} finally {
+			if ( $upload_filter_applied && $upload_dir_override ) {
+				remove_filter( 'upload_dir', $upload_dir_override, 10 );
+			}
+			remove_filter( 'http_request_timeout', array( $this, 'set_import_timeout' ) );
+			remove_filter( 'http_request_args', array( $this, 'set_import_request_args' ) );
+		}
+
 		wp_reset_postdata();
 		
 		if ( is_wp_error( $attachment_id ) ) {
@@ -1123,21 +1234,53 @@ class PEIWM_Page_Handler {
 		$upload_dir = wp_upload_dir();
 		$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
 		
-		// Calculate correct relative path
 		$relative_path = str_replace( $upload_base, '', $file_path );
 		$relative_path = ltrim( $relative_path, '/\\' );
 		$relative_path = str_replace( DIRECTORY_SEPARATOR, '/', $relative_path );
 		
-		// Update the _wp_attached_file meta with correct path
 		update_post_meta( $attachment_id, '_wp_attached_file', $relative_path );
 		
-		// Regenerate attachment metadata to fix srcset
 		require_once ABSPATH . 'wp-admin/includes/image.php';
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $file_path );
 		wp_update_attachment_metadata( $attachment_id, $metadata );
 		
-		// Reset global post data after metadata operations
 		wp_reset_postdata();
+	}
+
+	/**
+	 * Verify remote image size matches local attachment to prevent wrong-image reuse.
+	 *
+	 * @param int    $attachment_id Local attachment ID
+	 * @param string $remote_url    Remote source URL
+	 * @return bool True if sizes match or verification skipped, false on mismatch
+	 */
+	private function verify_remote_content_size( $attachment_id, $remote_url ) {
+		if ( empty( $remote_url ) ) {
+			return true;
+		}
+
+		$local_path = get_attached_file( $attachment_id );
+		if ( ! $local_path || ! file_exists( $local_path ) ) {
+			return true;
+		}
+
+		$local_size = filesize( $local_path );
+		if ( ! $local_size ) {
+			return true;
+		}
+
+		$response = wp_remote_head( $remote_url, array( 'timeout' => 5, 'redirection' => 3 ) );
+		if ( is_wp_error( $response ) ) {
+			return true; // Can't verify — allow match
+		}
+
+		$remote_size = (int) wp_remote_retrieve_header( $response, 'content-length' );
+		if ( $remote_size <= 0 ) {
+			return true; // No content-length header — allow match
+		}
+
+		$variance = max( (int) ( $remote_size * 0.01 ), 1024 );
+		return abs( $local_size - $remote_size ) <= $variance;
 	}
 
 	/**

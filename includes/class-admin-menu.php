@@ -803,7 +803,6 @@ class PEIWM_Admin_Menu {
 						<!-- Advanced Panel (Collapsible) -->
 						<div class="peiwm-advanced-panel" id="peiwm-advanced-import-posts" aria-hidden="true">
 							
-							<!-- Media Match Mode Setting -->
 							<label class="peiwm-checkbox-label">
 								<input type="checkbox" id="peiwm-check-media-library" checked>
 								<span class="peiwm-checkbox-text">
@@ -852,7 +851,7 @@ class PEIWM_Admin_Menu {
 								</label>
 							</div>
 
-					
+							<!-- Media Match Mode Setting -->
 							<!-- Row: Image Matching Strategy -->
 							<div class="peiwm-inline-row <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">
 								<div style="flex: 1;">
@@ -882,7 +881,7 @@ class PEIWM_Admin_Menu {
 													<?php endif; ?>
 												</strong>
 												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Verify file size for every match. Slower but prevents any mismatch. Use if you suspect duplicate filenames.', 'post-export-import-with-media' ); ?>
+													<?php echo esc_html__( 'Verify file size for every match. Use if you suspect duplicate filenames.', 'post-export-import-with-media' ); ?>
 												</small>
 											</span>
 										</label>
@@ -897,6 +896,23 @@ class PEIWM_Admin_Menu {
 												</strong>
 												<small class="peiwm-checkbox-description">
 													<?php echo esc_html__( 'Never reuse existing images, always download from source.', 'post-export-import-with-media' ); ?>
+												</small>
+											</span>
+										</label>
+
+										<br>
+										<!-- PRO: Link reused media to imported post checkbox -->
+										<label class="peiwm-checkbox-label <?php echo ! $is_pro ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
+											<input type="checkbox" id="peiwm-attach-media-to-post" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php checked( get_option( 'peiwm_attach_media_to_post', false ) ); ?>>
+											<span class="peiwm-checkbox-text">
+												<strong>
+													<?php echo esc_html__( 'Link reused media to imported post', 'post-export-import-with-media' ); ?>
+													<?php if ( ! $is_pro ) : ?>
+														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+													<?php endif; ?>
+												</strong>
+												<small class="peiwm-checkbox-description">
+													<?php echo esc_html__( "Sets the 'Uploaded to' column in Media Library for matched/reused images, linking them to the imported post. (Downloaded missing images are always linked automatically by WordPress.)", 'post-export-import-with-media' ); ?>
 												</small>
 											</span>
 										</label>
@@ -1274,16 +1290,90 @@ class PEIWM_Admin_Menu {
 						</div>
 					</div>
 					
+					<div style="margin-top:24px;padding:20px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
+						<h3 style="margin:0 0 10px;font-size:18px;font-weight:600;color:#111827;">
+							<?php echo esc_html__( 'Smart Media Matching', 'post-export-import-with-media' ); ?>
+						</h3>
+
+						<p style="margin:0 0 18px;font-size:14px;line-height:1.7;color:#4b5563;">
+							<?php echo esc_html__( 'When importing posts, the plugin first checks whether an image already exists in your Media Library. Choose how it should handle matching existing media.', 'post-export-import-with-media' ); ?>
+						</p>
+
+						<ol style="margin:0;padding-left:22px;line-height:1.8;color:#374151;">
+
+							<li style="margin-bottom:18px;">
+								<strong style="color:#111827;">
+									<?php echo esc_html__( 'Verify Only Fallback Matches (Recommended)', 'post-export-import-with-media' ); ?>
+								</strong>
+								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
+									<?php echo esc_html__( 'Best for most websites. If the original upload path is found, the image is reused instantly. When only the filename matches, the plugin performs one extra safety check before reusing it.', 'post-export-import-with-media' ); ?>
+								</p>
+							</li>
+
+							<li style="margin-bottom:18px;">
+								<strong style="color:#111827;">
+									<?php echo esc_html__( 'Verify All Matches (PRO)', 'post-export-import-with-media' ); ?>
+								</strong>
+								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
+									<?php echo esc_html__( 'Checks every reused image before linking it. Recommended if your Media Library has changed over time or you want the highest level of matching accuracy.', 'post-export-import-with-media' ); ?>
+								</p>
+							</li>
+
+							<li style="margin-bottom:18px;">
+								<strong style="color:#111827;">
+									<?php echo esc_html__( 'Always Download Fresh (PRO)', 'post-export-import-with-media' ); ?>
+								</strong>
+								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
+									<?php echo esc_html__( 'Skips existing Media Library images and downloads fresh copies from the source website whenever available. Best if you always want newly imported files.', 'post-export-import-with-media' ); ?>
+								</p>
+							</li>
+
+						</ol>
+
+						<div style="margin-top:18px;padding:14px 16px;background:#f8fafc;border-radius:6px;">
+							<strong style="display:block;margin-bottom:6px;color:#111827;">
+								<?php echo esc_html__( '⭐ PRO: Link Reused Media to Imported Post', 'post-export-import-with-media' ); ?>
+							</strong>
+
+							<p style="margin:0;font-size:14px;line-height:1.7;color:#4b5563;">
+								<?php echo esc_html__( 'When an existing image is reused, this option also links it to the imported post. The "Uploaded To" column in the Media Library will correctly show the imported post as the image owner.', 'post-export-import-with-media' ); ?>
+							</p>
+						</div>
+					</div>
+
+					
 					<div class="peiwm-workflow-tips">
 						<h4><?php echo esc_html__( 'Pro Tips', 'post-export-import-with-media' ); ?></h4>
 						<ul>
 							<li><?php echo esc_html__( '✓ Always import media before posts for complete image restoration', 'post-export-import-with-media' ); ?></li>
 							<li><?php echo esc_html__( '✓ The plugin will show which images are missing during post import', 'post-export-import-with-media' ); ?></li>
 							<li><?php echo esc_html__( '✓ Run the System Test first to ensure your server can handle large files', 'post-export-import-with-media' ); ?></li>
+							<li><?php echo esc_html__( '✓ Enable "Download missing images from original URLs" if the source site is still online. This imports images directly without requiring a media ZIP, but may take longer.', 'post-export-import-with-media' ); ?></li>
+							<li><?php echo esc_html__( '⭐ PRO: Choose how existing media is matched—verify fallback matches, verify every match for maximum accuracy, or always download fresh copies.', 'post-export-import-with-media' ); ?></li>
+							<li><?php echo esc_html__( '⭐ PRO: Automatically link reused media to imported posts, updating the "Uploaded To" relationship in the Media Library.', 'post-export-import-with-media' ); ?></li>
 							<li><?php echo esc_html__( '✓ Existing images with the same filename will be reused automatically', 'post-export-import-with-media' ); ?></li>
 							<li><?php echo esc_html__( '✓ If you enable "Download missing images from original URLs" and ensure the source site is live, media will be fetched directly from the original URLs. This means you won’t need to import media files separately, though the process may take additional time to download and complete.', 'post-export-import-with-media' ); ?></li>
 						</ul>
 					</div>
+
+					<div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;text-align:center;">
+						<p style="margin:0;font-size:13px;color:#6b7280;">
+							📚 <?php echo wp_kses_post( sprintf(
+								__( 'For more guides, tutorials, and troubleshooting, visit our <a href="%s" target="_blank" rel="noopener noreferrer">Documentation Center</a>.', 'post-export-import-with-media' ),
+								'https://wpazleen.com/docs/post-import-image-matching-settings/'
+							) ); ?>
+						</p>
+					</div>
+
+					<div style="margin-top:14px;text-align:center;">
+						<p style="margin:0;font-size:13px;color:#6b7280;line-height:1.7;">
+							💬 <?php echo wp_kses_post( sprintf(
+								__( 'Have a question or a feature request? <a href="%1$s" target="_blank" rel="noopener noreferrer">Contact our support team</a> by filling out the support form or start a live chat using the chat widget on our website.', 'post-export-import-with-media' ),
+								'https://wpazleen.com/support/'
+							) ); ?>
+						</p>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -1479,25 +1569,7 @@ class PEIWM_Admin_Menu {
 						
 						<!-- Free Options (Always Visible) -->
 						<div class="peiwm-import-options" style="margin-top: 1rem;">
-							<label class="peiwm-checkbox-label">
-								<input type="checkbox" id="peiwm-check-media-library-pages" checked>
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Check media library for page images', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description">
-										<?php echo esc_html__( 'Search for images in your media library before downloading. Uncheck for faster import if you plan to add images manually later.', 'post-export-import-with-media' ); ?>
-									</small>
-								</span>
-							</label>
 							
-							<label class="peiwm-checkbox-label" style="margin-top: 0.5rem;">
-								<input type="checkbox" id="peiwm-download-missing-page-images">
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Download missing images from original URLs', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description">
-										<?php echo esc_html__( 'If images are not found in media library, try to download them from their original locations', 'post-export-import-with-media' ); ?>
-									</small>
-								</span>
-							</label>
 						</div>
 
 						<?php
@@ -1519,6 +1591,97 @@ class PEIWM_Admin_Menu {
 
 						<!-- Advanced Panel (Collapsible) -->
 						<div class="peiwm-advanced-panel" id="peiwm-advanced-import-pages" aria-hidden="true">
+
+							<label class="peiwm-checkbox-label">
+								<input type="checkbox" id="peiwm-check-media-library-pages" checked>
+								<span class="peiwm-checkbox-text">
+									<?php echo esc_html__( 'Check media library for page images', 'post-export-import-with-media' ); ?>
+									<small class="peiwm-checkbox-description">
+										<?php echo esc_html__( 'Search for images in your media library before downloading. Uncheck for faster import if you plan to add images manually later.', 'post-export-import-with-media' ); ?>
+									</small>
+								</span>
+							</label>
+							
+							<label class="peiwm-checkbox-label" style="margin-top: 0.5rem;">
+								<input type="checkbox" id="peiwm-download-missing-page-images">
+								<span class="peiwm-checkbox-text">
+									<?php echo esc_html__( 'Download missing images from original URLs', 'post-export-import-with-media' ); ?>
+									<small class="peiwm-checkbox-description">
+										<?php echo esc_html__( 'If images are not found in media library, try to download them from their original locations', 'post-export-import-with-media' ); ?>
+									</small>
+								</span>
+							</label>
+
+							<!-- Media Match Mode Setting (Pages) -->
+							 <div class="peiwm-inline-row <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">
+								<div style="margin-top: 0.75rem; padding: 0.75rem; background: #f9f9f9;">
+									<label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e1e1e;">
+										<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
+									</label>
+									<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+										<?php
+										$current_match_mode_pages = get_option( 'peiwm_media_match_mode', 'match_and_reuse' );
+										?>
+										<label class="peiwm-checkbox-label" style="margin: 0;">
+											<input type="radio" name="peiwm_media_match_mode_pages" value="match_and_reuse" <?php checked( $current_match_mode_pages, 'match_and_reuse' ); ?>>
+											<span class="peiwm-checkbox-text">
+												<strong><?php echo esc_html__( 'Verify only fallback matches', 'post-export-import-with-media' ); ?></strong>
+												<small class="peiwm-checkbox-description">
+													<?php echo esc_html__( 'Skip verification for exact path matches, verify only filename-based matches. Fast and reliable.', 'post-export-import-with-media' ); ?>
+												</small>
+											</span>
+										</label>
+										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
+											<input type="radio" name="peiwm_media_match_mode_pages" value="always_verify" <?php checked( $current_match_mode_pages, 'always_verify' ); ?>>
+											<span class="peiwm-checkbox-text">
+												<strong>
+													<?php echo esc_html__( 'Safe: Verify all matches', 'post-export-import-with-media' ); ?>
+													<?php if ( ! $is_pro_exp ) : ?>
+														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+													<?php endif; ?>
+												</strong>
+												<small class="peiwm-checkbox-description">
+													<?php echo esc_html__( 'Verify file size for every match. Use if you suspect duplicate filenames.', 'post-export-import-with-media' ); ?>
+												</small>
+											</span>
+										</label>
+										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
+											<input type="radio" name="peiwm_media_match_mode_pages" value="always_download" <?php checked( $current_match_mode_pages, 'always_download' ); ?>>
+											<span class="peiwm-checkbox-text">
+												<strong>
+													<?php echo esc_html__( 'Safest: Always download fresh', 'post-export-import-with-media' ); ?>
+													<?php if ( ! $is_pro_exp ) : ?>
+														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+													<?php endif; ?>
+												</strong>
+												<small class="peiwm-checkbox-description">
+													<?php echo esc_html__( 'Never reuse existing images, always download from source. Slowest, may create duplicates. Use only for critical imports.', 'post-export-import-with-media' ); ?>
+												</small>
+											</span>
+											</label>
+									</div>
+
+									<br>
+									<!-- PRO: Link reused media to imported page checkbox -->
+									<label class="peiwm-checkbox-label <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
+										<input type="checkbox" id="peiwm-attach-media-to-page" <?php echo ! $is_pro_pages ? 'disabled' : ''; ?> <?php checked( get_option( 'peiwm_attach_media_to_page', false ) ); ?>>
+										<span class="peiwm-checkbox-text">
+											<strong>
+												<?php echo esc_html__( 'Link reused media to imported page', 'post-export-import-with-media' ); ?>
+												<?php if ( ! $is_pro_pages ) : ?>
+													<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+												<?php endif; ?>
+											</strong>
+											<small class="peiwm-checkbox-description">
+												<?php echo esc_html__( "Sets the 'Uploaded to' column in Media Library for matched/reused images, linking them to the imported page. (Downloaded missing images are always linked automatically by WordPress.)", 'post-export-import-with-media' ); ?>
+											</small>
+										</span>
+									</label>
+								</div>
+								<?php if ( ! $is_pro_pages ) : ?>
+									<a class="peiwm-pro-upgrade-link peiwm-open-premium-modal"  href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a>
+								<?php endif; ?>
+							</div>
 							
 							<!-- PRO Row: Import individually -->
 							<div class="peiwm-inline-row <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">

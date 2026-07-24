@@ -791,6 +791,7 @@ jQuery(document).ready(function ($) {
 
                     const downloadMissingImages = $('#peiwm-download-missing-images').is(':checked') ? '1' : '0';
                     const checkMediaLibrary = $('#peiwm-check-media-library').is(':checked') ? '1' : '0';
+                    const mediaMatchMode = $('input[name="peiwm_media_match_mode"]:checked').val() || 'match_and_reuse';
 
                     // BUG FIX: Track whether this specific request already handled failure
                     // to prevent double-counting in both error() AND complete() callbacks.
@@ -806,6 +807,8 @@ jQuery(document).ready(function ($) {
                             post_data: JSON.stringify(post),
                             download_missing_images: downloadMissingImages,
                             check_media_library: checkMediaLibrary,
+                            media_match_mode: mediaMatchMode,
+                            attach_media_to_post: document.getElementById('peiwm-attach-media-to-post') && document.getElementById('peiwm-attach-media-to-post').checked ? '1' : '0',
                             force_status: post._force_status || 'original',
                             peiwm_smart_author_mapping: $('#peiwm_smart_author_mapping').is(':checked') ? '1' : '0',
                             peiwm_author_fallback: $('input[name="peiwm_author_fallback"]:checked').val() || 'current_user',
@@ -985,8 +988,9 @@ jQuery(document).ready(function ($) {
                     currentIndex++;
                     activeRequests++;
 
-                    const downloadMissingImages = $('#peiwm-download-missing-images').is(':checked') ? '1' : '0';
-                    const checkMediaLibrary = $('#peiwm-check-media-library').is(':checked') ? '1' : '0';
+                    const downloadMissingImages = $('#peiwm-download-missing-page-images').is(':checked') ? '1' : '0';
+                    const checkMediaLibrary = $('#peiwm-check-media-library-pages').is(':checked') ? '1' : '0';
+                    const mediaMatchMode = $('input[name="peiwm_media_match_mode_pages"]:checked').val() || 'match_and_reuse';
 
                     $.ajax({
                         url: peiwm_ajax.ajax_url,
@@ -998,6 +1002,8 @@ jQuery(document).ready(function ($) {
                             page_data: JSON.stringify(page),
                             download_missing_images: downloadMissingImages,
                             check_media_library: checkMediaLibrary,
+                            media_match_mode: mediaMatchMode,
+                            attach_media_to_post: document.getElementById('peiwm-attach-media-to-page') && document.getElementById('peiwm-attach-media-to-page').checked ? '1' : '0',
                             force_status: page._force_status || 'original'
                         },
                         success: function (response) {

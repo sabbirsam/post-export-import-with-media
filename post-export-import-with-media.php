@@ -11,7 +11,7 @@
  * Plugin Name: Post Export Import with Media
  * Plugin URI: https://wordpress.org/plugins/post-export-import-with-media/
  * Description: Post Export Import with Media: A secure plugin to export and import WordPress posts and media files with real-time progress.
- * Version:           1.13.3
+ * Version:           1.14.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            wpazleen
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Define plugin constants for better maintainability
 if ( ! defined( 'PEIWM_VERSION' ) ) {
-	define( 'PEIWM_VERSION', '1.13.3' );
+	define( 'PEIWM_VERSION', '1.14.0' );
 }
 
 if ( ! defined( 'PEIWM_PLUGIN_URL' ) ) {

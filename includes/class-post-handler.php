@@ -401,13 +401,49 @@ class PEIWM_Post_Handler {
 
 			if ( ! empty( $existing_posts ) ) {
 				$existing_post = $existing_posts[0];
+				$existing_post_id = $existing_post->ID;
+
 				// If force_status is set and differs from current, update the status
 				if ( $force_status !== 'original' && in_array( $force_status, $allowed_statuses, true ) && $existing_post->post_status !== $force_status ) {
 					wp_update_post( array(
-						'ID'          => $existing_post->ID,
+						'ID'          => $existing_post_id,
 						'post_status' => $force_status,
 					) );
-					wp_reset_postdata();
+				}
+
+				// BUG-FIX: Update image URLs in existing post content (e.g. when always_download re-maps URLs)
+				if ( $check_media_library ) {
+					$existing_content = $existing_post->post_content;
+					$updated_content  = $existing_content;
+
+					if ( ! empty( $sanitized_post_data['content_images'] ) ) {
+						$updated_content = $this->import_content_images_secure( $existing_post_id, $sanitized_post_data['content_images'], $existing_content, $download_missing_images, $media_match_mode );
+					}
+
+					if ( ! empty( $sanitized_post_data['featured_image'] ) ) {
+						$this->import_featured_image_secure( $existing_post_id, $sanitized_post_data['featured_image'], $download_missing_images, $media_match_mode );
+					}
+
+					// Replace source URLs in content
+					$source_url = isset( $sanitized_post_data['source_url'] ) ? esc_url_raw( $sanitized_post_data['source_url'] ) : '';
+					$dest_url   = untrailingslashit( home_url() );
+					if ( ! empty( $source_url ) ) {
+						$source_url = untrailingslashit( $source_url );
+						if ( $source_url !== $dest_url ) {
+							$updated_content = str_replace( $source_url, $dest_url, $updated_content );
+						}
+					}
+
+					if ( $updated_content !== $existing_content ) {
+						wp_update_post( array(
+							'ID'           => $existing_post_id,
+							'post_content' => $updated_content,
+						) );
+					}
+				}
+
+				wp_reset_postdata();
+				if ( $force_status !== 'original' && in_array( $force_status, $allowed_statuses, true ) && $existing_post->post_status !== $force_status ) {
 					wp_send_json_success( array(
 						'status' => 'updated',
 						'reason' => sprintf( 'Status updated to %s', $force_status ),
@@ -1588,6 +1624,43 @@ class PEIWM_Post_Handler {
 			'url' => $image_url,
 			'message' => 'Downloading image: ' . $filename,
 		);
+
+		// BUG-FIX: Check if file already physically exists in the target folder.
+		// Prevents duplicate media entries when "always_download" is used on re-import.
+		$upload_dir_check = wp_upload_dir();
+		$target_subdir    = '';
+
+		if ( ! empty( $file_path ) && preg_match( '#^(\d{4}/\d{2})/#', $file_path, $m ) ) {
+			$target_subdir = $m[1];
+		} elseif ( get_option( 'uploads_use_yearmonth_folders' ) ) {
+			$target_subdir = gmdate( 'Y/m' );
+		}
+
+		$target_path = $upload_dir_check['basedir']
+			. ( $target_subdir ? '/' . $target_subdir : '' )
+			. '/' . $filename;
+
+		if ( file_exists( $target_path ) ) {
+			// File already on disk — find or create the attachment record for it
+			global $wpdb;
+			$rel = ( $target_subdir ? $target_subdir . '/' : '' ) . $filename;
+			$existing_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT post_id FROM {$wpdb->postmeta}
+				WHERE meta_key = '_wp_attached_file'
+				AND meta_value = %s
+				LIMIT 1",
+				$rel
+			) );
+			if ( $existing_id ) {
+				$this->import_results[] = array(
+					'type'          => 'found_local',
+					'filename'      => $filename,
+					'attachment_id' => (int) $existing_id,
+					'message'       => 'File already exists, reusing: ' . $filename,
+				);
+				return (int) $existing_id;
+			}
+		}
 
 		// Parse YYYY/MM from file_path and temporarily override upload_dir
 		$upload_filter_applied = false;

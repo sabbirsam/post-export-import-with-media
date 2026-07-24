@@ -631,6 +631,7 @@ jQuery(document).ready(function ($) {
             const page = pages[currentIndex];
             const downloadMissingImages = $('#peiwm-download-missing-page-images').is(':checked') ? '1' : '0';
             const checkMediaLibrary = $('#peiwm-check-media-library-pages').is(':checked') ? '1' : '0';
+            const mediaMatchMode = $('input[name="peiwm_media_match_mode_pages"]:checked').val() || 'match_and_reuse';
             
             // Show what we're about to do
             addLog('📝 Processing: ' + page.post_title, log, 'peiwm-log-info');
@@ -656,6 +657,8 @@ jQuery(document).ready(function ($) {
                     page_data: JSON.stringify(page),
                     download_missing_images: downloadMissingImages,
                     check_media_library: checkMediaLibrary,
+                    media_match_mode: mediaMatchMode,
+                    attach_media_to_post: document.getElementById('peiwm-attach-media-to-page') && document.getElementById('peiwm-attach-media-to-page').checked ? '1' : '0',
                     force_status: page._force_status || 'original'
                 },
                 success: function (response) {

@@ -1729,6 +1729,7 @@ jQuery(document).ready(function ($) {
                     download_missing_images: downloadMissingImages,
                     check_media_library: checkMediaLibrary,
                     media_match_mode: mediaMatchMode,
+                    attach_media_to_post: document.getElementById('peiwm-attach-media-to-post') && document.getElementById('peiwm-attach-media-to-post').checked ? '1' : '0',
                     force_status: forceStatus,
                     peiwm_smart_author_mapping: $('#peiwm_smart_author_mapping').is(':checked') ? '1' : '0',
                     peiwm_author_fallback: $('input[name="peiwm_author_fallback"]:checked').val() || 'current_user',
