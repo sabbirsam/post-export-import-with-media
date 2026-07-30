@@ -3587,3 +3587,64 @@ p.description-hint {
         transition: none !important;
     }
 }
+
+/* ============================================================
+   Drag and Drop Modal UI
+   ============================================================ */
+.peiwm-drag-drop-modal-content {
+    max-width: 500px !important;
+}
+
+.peiwm-dropzone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 40px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.peiwm-dropzone:hover,
+.peiwm-dropzone.peiwm-dragover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.peiwm-dropzone-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    /* Let the parent handle drop events */
+}
+
+.peiwm-dropzone-icon {
+    color: #94a3b8;
+    margin-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+.peiwm-dropzone:hover .peiwm-dropzone-icon,
+.peiwm-dropzone.peiwm-dragover .peiwm-dropzone-icon {
+    color: #3b82f6;
+}
+
+.peiwm-dropzone h4 {
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    color: #334155;
+    font-weight: 600;
+}
+
+.peiwm-dropzone p {
+    margin: 0 0 20px 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.peiwm-dropzone-browse-btn {
+    pointer-events: auto;
+}

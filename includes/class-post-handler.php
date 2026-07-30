@@ -141,27 +141,27 @@ class PEIWM_Post_Handler {
 		}
 
 		try {
+			// error_log('PEIWM DEBUG [Free]: ajax_export_posts_chunk STARTING. Offset: ' . (isset($_POST['offset']) ? $_POST['offset'] : '0') . ', Chunk: ' . (isset($_POST['chunk_size']) ? $_POST['chunk_size'] : '50'));
+			// error_log('PEIWM DEBUG [Free]: Initial Memory: ' . memory_get_usage() / 1024 / 1024 . 'MB');
+
 			@ini_set( 'memory_limit', '512M' );
+			wp_suspend_cache_addition( true ); // Disable object cache
 
 			$offset     = isset( $_POST['offset'] ) ? absint( $_POST['offset'] ) : 0;
 			$chunk_size = isset( $_POST['chunk_size'] ) ? absint( $_POST['chunk_size'] ) : 50;
-			$chunk_size = max( 1, min( $chunk_size, 100 ) );
+			
+			// Removed wp_count_posts() as it causes fatal memory errors on gigantic databases.
+			// The aggressive cache flushing handles the memory issues regardless of total posts.
+			$chunk_size = max( 1, min( $chunk_size, 50 ) ); // Cap chunk size at 50 for safety
 
-			$query_args = array(
-				'post_type'              => 'post',
-				'numberposts'            => $chunk_size,
-				'offset'                 => $offset,
-				'post_status'            => array( 'publish', 'draft', 'private', 'pending', 'future' ),
-				'orderby'                => 'date',
-				'order'                  => 'DESC',
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-			);
-
-			$posts       = get_posts( $query_args );
-			$export_data = array();
 			global $wpdb;
+			$posts = $wpdb->get_results( $wpdb->prepare(
+				"SELECT * FROM {$wpdb->posts} WHERE post_type = 'post' AND post_status IN ('publish', 'draft', 'pending') ORDER BY ID ASC LIMIT %d OFFSET %d",
+				$chunk_size,
+				$offset
+			) );
 
+			$export_data = array();
 			foreach ( $posts as $post ) {
 				$post_data = array(
 					'ID'            => absint( $post->ID ),
@@ -176,21 +176,45 @@ class PEIWM_Post_Handler {
 					'post_name'     => sanitize_title( $post->post_name ),
 					'post_format'   => get_post_format( $post->ID ) ?: 'standard',
 					'page_template' => 'page' === $post->post_type ? ( get_page_template_slug( $post->ID ) ?: 'default' ) : '',
-					'categories'     => $this->get_post_categories_secure( $post->ID ),
-					'tags'           => $this->get_post_tags_secure( $post->ID ),
-					'meta'           => $this->get_post_meta_secure( $post->ID ),
-					'featured_image' => $this->get_featured_image_secure( $post->ID ),
-					'content_images' => $this->get_content_images_secure( $post->post_content ),
 					'source_url'    => home_url(),
 					'acf_fields'    => array(),
 				);
 
+				wp_cache_flush();
+				$post_data['categories'] = $this->get_post_categories_secure( $post->ID );
+
+				wp_cache_flush();
+				$post_data['tags'] = $this->get_post_tags_secure( $post->ID );
+
+				wp_cache_flush();
+				$post_data['meta'] = $this->get_post_meta_secure( $post->ID );
+
+				wp_cache_flush();
+				$post_data['featured_image'] = $this->get_featured_image_secure( $post->ID );
+
+				wp_cache_flush();
+				$post_data['content_images'] = $this->get_content_images_secure( $post->post_content );
+
 				$export_data[] = $post_data;
+				
+				// Memory cleanup: Clear WordPress object cache after each post to prevent memory buildup
+				wp_cache_flush();
+				$wpdb->queries = array();
+				
+				// Periodically force PHP garbage collection
+				if ( count( $export_data ) % 5 === 0 && function_exists( 'gc_collect_cycles' ) ) {
+					gc_collect_cycles();
+				}
 			}
 
+			// Final cache flush before sending response
+			wp_suspend_cache_addition( false );
+			wp_cache_flush();
 			wp_reset_postdata();
 
 			$has_more = count( $posts ) === $chunk_size;
+			
+			// error_log('PEIWM DEBUG [Free]: Export Chunk Finished. Memory: ' . memory_get_usage() / 1024 / 1024 . 'MB. Has More: ' . ($has_more ? 'Yes' : 'No'));
 
 			wp_send_json_success( array(
 				'data'        => $export_data,
@@ -658,6 +682,7 @@ class PEIWM_Post_Handler {
 			}
 
 		} catch ( Exception $e ) {
+			error_log('PEIWM ERROR [Free]: ajax_export_posts_chunk EXCEPTION: ' . $e->getMessage());
 			wp_send_json_error( array( 'message' => $e->getMessage() ) );
 		}
 	}

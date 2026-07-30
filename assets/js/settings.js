@@ -127,7 +127,17 @@ jQuery(document).ready(function ($) {
 
     // Select Settings File
     $('#peiwm-select-settings-file').on('click', function () {
-        $('#peiwm-settings-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-settings-file', {
+                title: 'Select JSON File',
+                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
+                description: 'Drag & drop JSON file or click to browse',
+                accept: '.json',
+                multiple: false
+            });
+        } else {
+            $('#peiwm-settings-file').click();
+        }
     });
 
     $('#peiwm-settings-file').on('change', function () {
@@ -415,7 +425,17 @@ jQuery(document).ready(function ($) {
 
     // Widgets & Menus Import Functions
     $('#peiwm-select-widgets-menus-file').on('click', function () {
-        $('#peiwm-widgets-menus-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-widgets-menus-file', {
+                title: 'Select JSON File',
+                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
+                description: 'Drag & drop JSON file or click to browse',
+                accept: '.json',
+                multiple: false
+            });
+        } else {
+            $('#peiwm-widgets-menus-file').click();
+        }
     });
 
     $('#peiwm-widgets-menus-file').on('change', function () {

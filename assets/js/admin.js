@@ -188,13 +188,27 @@ jQuery(document).ready(function ($) {
         });
     });
 
+    // --- End Drag and Drop Modal Logic ---
+
     // File input handlers
     $('#peiwm-select-posts-file').on('click', function () {
-        $('#peiwm-posts-file').click();
+        window.peiwmShowDragDropModal('#peiwm-posts-file', {
+            title: 'Select JSON File(s)',
+            subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
+            description: 'Drag & drop JSON files or click to browse',
+            accept: '.json',
+            multiple: true
+        });
     });
 
     $('#peiwm-select-media-file').on('click', function () {
-        $('#peiwm-media-file').click();
+        window.peiwmShowDragDropModal('#peiwm-media-file', {
+            title: 'Select ZIP File(s)',
+            subtitle: 'Select one or more ZIP files. The modal will close automatically. Then, click Start Import.',
+            description: 'Drag & drop ZIP files or click to browse',
+            accept: '.zip',
+            multiple: true
+        });
     });
 
     $('#peiwm-posts-file').on('change', function () {

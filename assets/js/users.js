@@ -91,7 +91,17 @@ jQuery(document).ready(function ($) {
 
     // ── File picker ────────────────────────────────────────────────────────
     $('#peiwm-users-select-file').on('click', function () {
-        $('#peiwm-users-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-users-file', {
+                title: 'Select JSON File',
+                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
+                description: 'Drag & drop JSON file or click to browse',
+                accept: '.json',
+                multiple: false
+            });
+        } else {
+            $('#peiwm-users-file').click();
+        }
     });
 
     $('#peiwm-users-file').on('change', function () {

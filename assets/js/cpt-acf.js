@@ -351,7 +351,17 @@
 
 		// --- Import: file selection (supports multiple JSON files like post import) ---
 		$( '#peiwm-cpt-select-import-file' ).on( 'click', function () {
-			$( '#peiwm-cpt-import-file' ).trigger( 'click' );
+			if (typeof window.peiwmShowDragDropModal === 'function') {
+				window.peiwmShowDragDropModal('#peiwm-cpt-import-file', {
+					title: 'Select JSON File(s)',
+					subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
+					description: 'Drag & drop JSON files or click to browse',
+					accept: '.json',
+					multiple: true
+				});
+			} else {
+				$( '#peiwm-cpt-import-file' ).trigger( 'click' );
+			}
 		} );
 
 		$( '#peiwm-cpt-import-file' ).on( 'change', function () {

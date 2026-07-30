@@ -146,22 +146,22 @@ class PEIWM_Ajax_Handler {
 		}
 
 		try {
-			@ini_set( 'memory_limit', '512M' );
+			// error_log('PEIWM DEBUG [Free]: ajax_get_media_stats STARTING.');
+			// error_log('PEIWM DEBUG [Free]: Initial Memory: ' . memory_get_usage() / 1024 / 1024 . 'MB');
 
-			// Use wp_count_posts for fast total count - no memory issue
-			$counts     = wp_count_posts( 'attachment' );
-			$unique_files = (int) $counts->inherit;
+			@ini_set( 'memory_limit', '512M' );
+			wp_suspend_cache_addition( true ); // Disable object cache
+			global $wpdb;
+
+			// Clear queries to save memory if SAVEQUERIES is on
+			$wpdb->queries = array();
+
+			// Use raw SQL to count attachments. wp_count_posts() causes fatal memory errors on huge DBs.
+			$unique_files = (int) $wpdb->get_var( "SELECT COUNT(ID) FROM {$wpdb->posts} WHERE post_type = 'attachment' AND post_status = 'inherit'" );
 
 			// Fetch only IDs to calculate sizes - much less memory than full objects
-			$attachment_ids = get_posts( array(
-				'post_type'              => 'attachment',
-				'numberposts'            => -1,
-				'post_status'            => 'inherit',
-				'fields'                 => 'ids',
-				'no_found_rows'          => true,
-				'update_post_meta_cache' => false,
-				'update_post_term_cache' => false,
-			) );
+			$batch_size = 50;
+			$offset = 0;
 
 			$total_size   = 0;
 			$unique_size  = 0;
@@ -172,68 +172,124 @@ class PEIWM_Ajax_Handler {
 			$missing_files = 0;
 			$missing_files_list = array();
 
-			foreach ( $attachment_ids as $id ) {
-				$file_path = get_attached_file( $id );
-				$mime_type = get_post_mime_type( $id );
-				if ( $file_path && @file_exists( $file_path ) ) {
-					// Count the original file
-					$total_physical_files++;
-					$available_files++;
+			while ( true ) {
+				// Bypass WP_Query AND all WordPress helper functions entirely
+				// Fetch raw attachment data directly from database to prevent 3rd party plugin hooks
+				$attachments_data = $wpdb->get_results( $wpdb->prepare(
+					"SELECT p.ID, p.post_title, p.post_date, p.post_mime_type, 
+					        pm1.meta_value as file_path,
+					        pm2.meta_value as metadata
+					 FROM {$wpdb->posts} p
+					 LEFT JOIN {$wpdb->postmeta} pm1 ON p.ID = pm1.post_id AND pm1.meta_key = '_wp_attached_file'
+					 LEFT JOIN {$wpdb->postmeta} pm2 ON p.ID = pm2.post_id AND pm2.meta_key = '_wp_attachment_metadata'
+					 WHERE p.post_type = 'attachment' AND p.post_status != 'trash'
+					 ORDER BY p.ID ASC
+					 LIMIT %d OFFSET %d",
+					$batch_size,
+					$offset
+				), OBJECT );
+				
+				if ( empty( $attachments_data ) ) {
+					break;
+				}
+
+				foreach ( $attachments_data as $attachment ) {
+					$id = absint( $attachment->ID );
+					$mime_type = $attachment->post_mime_type;
 					
-					$file_size = @filesize( $file_path );
-					if ( $file_size === false ) $file_size = 0;
-					$total_size += $file_size;
-					$unique_size += $file_size; // Track unique files size separately
-
-					$mime = sanitize_mime_type( $mime_type );
-					$file_types[ $mime ] = ( $file_types[ $mime ] ?? 0 ) + 1;
-
-					if ( $file_size > $largest_file['size'] ) {
-						$largest_file = array(
-							'size' => $file_size,
-							'name' => sanitize_text_field( basename( $file_path ) ),
-						);
+					// Build full file path manually (same logic as get_attached_file but without hooks)
+					$file_path = '';
+					if ( ! empty( $attachment->file_path ) ) {
+						if ( strpos( $attachment->file_path, '/' ) === 0 || preg_match( '/^[a-zA-Z]:/', $attachment->file_path ) ) {
+							// Already absolute path
+							$file_path = $attachment->file_path;
+						} else {
+							// Relative path, prepend upload dir
+							$upload_dir = wp_upload_dir();
+							$file_path = $upload_dir['basedir'] . '/' . $attachment->file_path;
+						}
 					}
+					
+					if ( $file_path && @file_exists( $file_path ) ) {
+						// Count the original file
+						$total_physical_files++;
+						$available_files++;
+						
+						$file_size = @filesize( $file_path );
+						if ( $file_size === false ) $file_size = 0;
+						$total_size += $file_size;
+						$unique_size += $file_size;
 
-					// Count image size variations
-					if ( wp_attachment_is_image( $id ) ) {
-						$metadata = wp_get_attachment_metadata( $id );
-						if ( ! empty( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ) {
-							foreach ( $metadata['sizes'] as $size_name => $size_data ) {
-								if ( ! empty( $size_data['file'] ) ) {
-									$size_file_path = path_join( dirname( $file_path ), $size_data['file'] );
-									if ( @file_exists( $size_file_path ) ) {
-										$total_physical_files++;
-										$size_file_size = @filesize( $size_file_path );
-										if ( $size_file_size !== false ) {
-											$total_size += $size_file_size; // Add to total but NOT to unique
+						$mime = sanitize_mime_type( $mime_type );
+						$file_types[ $mime ] = ( $file_types[ $mime ] ?? 0 ) + 1;
+
+						if ( $file_size > $largest_file['size'] ) {
+							$largest_file = array(
+								'size' => $file_size,
+								'name' => sanitize_text_field( basename( $file_path ) ),
+							);
+						}
+
+						// Count image size variations - check if image by mime type
+						if ( strpos( $mime_type, 'image/' ) === 0 && ! empty( $attachment->metadata ) ) {
+							$metadata = maybe_unserialize( $attachment->metadata );
+							if ( is_array( $metadata ) && ! empty( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ) {
+								foreach ( $metadata['sizes'] as $size_name => $size_data ) {
+									if ( ! empty( $size_data['file'] ) ) {
+										$size_file_path = dirname( $file_path ) . '/' . $size_data['file'];
+										if ( @file_exists( $size_file_path ) ) {
+											$total_physical_files++;
+											$size_file_size = @filesize( $size_file_path );
+											if ( $size_file_size !== false ) {
+												$total_size += $size_file_size;
+											}
 										}
 									}
 								}
 							}
 						}
+					} else {
+						// File is missing from disk
+						$missing_files++;
+						if ( count( $missing_files_list ) < 100 ) {
+							$missing_files_list[] = array(
+								'id'       => $id,
+								'title'    => ! empty( $attachment->post_title ) ? $attachment->post_title : 'Unknown',
+								'filename' => $file_path ? basename( $file_path ) : 'Unknown',
+								'path'     => $file_path ? $file_path : 'Unknown',
+								'date'     => ! empty( $attachment->post_date ) ? $attachment->post_date : '',
+							);
+						}
 					}
-				} else {
-					// File is missing from disk
-					$missing_files++;
-					$post = get_post( $id );
-					$missing_files_list[] = array(
-						'id'       => $id,
-						'title'    => $post ? $post->post_title : 'Unknown',
-						'filename' => $file_path ? basename( $file_path ) : 'Unknown',
-						'path'     => $file_path ? $file_path : 'Unknown',
-						'date'     => $post ? $post->post_date : '',
-					);
+				}
+				
+				// Memory cleanup: Clear cache after each batch
+				wp_cache_flush();
+				wp_reset_postdata();
+				$wpdb->queries = array();
+
+				$offset += $batch_size;
+
+				// Safety limit to prevent infinite loops (max 50,000 attachments)
+				if ( $offset > 50000 ) {
+					break;
 				}
 			}
 
 			arsort( $file_types );
+
+			wp_suspend_cache_addition( false );
+
+			// error_log('PEIWM DEBUG [Free]: ajax_get_media_stats FINISHED. Memory: ' . memory_get_usage() / 1024 / 1024 . 'MB. Time elapsed: ' . (microtime(true) - (isset($_SERVER["REQUEST_TIME_FLOAT"]) ? $_SERVER["REQUEST_TIME_FLOAT"] : time())) . 's');
 
 			wp_send_json_success( array(
 				'unique_files'         => $unique_files,
 				'available_files'      => $available_files,
 				'missing_files'        => $missing_files,
 				'missing_files_list'   => $missing_files_list,
+				'missing_files_note'   => count( $missing_files_list ) < $missing_files 
+					? 'Showing first 100 of ' . $missing_files . ' missing files' 
+					: '',
 				'total_physical_files' => $total_physical_files,
 				'unique_size'          => $unique_size,
 				'unique_size_formatted'=> $this->format_file_size( $unique_size ),

@@ -217,13 +217,53 @@ class PEIWM_Media_Handler {
 			$skipped_files = 0;
 			$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
 
-			// FIX: Loop over IDs only. Fetch only what we need per file — no WP_Post object needed.
-			foreach ( $attachment_ids as $id ) {
-				$file_path = get_attached_file( $id );
+			// Fetch ALL attachment data in ONE query to avoid plugin hooks
+			global $wpdb;
+			$ids_string = implode( ',', array_map( 'absint', $attachment_ids ) );
+			$attachments_data = $wpdb->get_results(
+				"SELECT p.ID, p.post_title, p.post_content, p.post_mime_type, p.post_date,
+				        pm1.meta_value as file_path,
+				        pm2.meta_value as metadata
+				 FROM {$wpdb->posts} p
+				 LEFT JOIN {$wpdb->postmeta} pm1 ON p.ID = pm1.post_id AND pm1.meta_key = '_wp_attached_file'
+				 LEFT JOIN {$wpdb->postmeta} pm2 ON p.ID = pm2.post_id AND pm2.meta_key = '_wp_attachment_metadata'
+				 WHERE p.ID IN ({$ids_string})
+				 ORDER BY FIELD(p.ID, {$ids_string})",
+				OBJECT
+			);
+
+			// Also fetch ALL postmeta in one query
+			$all_meta = $wpdb->get_results(
+				"SELECT post_id, meta_key, meta_value 
+				 FROM {$wpdb->postmeta} 
+				 WHERE post_id IN ({$ids_string})",
+				OBJECT
+			);
+			
+			// Group meta by post_id
+			$meta_by_post = array();
+			foreach ( $all_meta as $meta_row ) {
+				if ( ! isset( $meta_by_post[ $meta_row->post_id ] ) ) {
+					$meta_by_post[ $meta_row->post_id ] = array();
+				}
+				$meta_by_post[ $meta_row->post_id ][ $meta_row->meta_key ] = array( $meta_row->meta_value );
+			}
+
+			foreach ( $attachments_data as $attachment ) {
+				$id = absint( $attachment->ID );
+				
+				// Build file path manually (same as get_attached_file but no hooks)
+				$file_path = '';
+				if ( ! empty( $attachment->file_path ) ) {
+					if ( strpos( $attachment->file_path, '/' ) === 0 || preg_match( '/^[a-zA-Z]:/', $attachment->file_path ) ) {
+						$file_path = $attachment->file_path;
+					} else {
+						$file_path = $upload_base . '/' . $attachment->file_path;
+					}
+				}
 
 				if ( ! $file_path || ! file_exists( $file_path ) ) {
 					$skipped_files++;
-					// error_log( 'PEIWM: Skipping attachment ID ' . $id . ' - file not found: ' . $file_path );
 					continue;
 				}
 
@@ -239,10 +279,10 @@ class PEIWM_Media_Handler {
 
 				$added_files++;
 
-				// Export all image sizes if requested
-				if ( $export_all_sizes && wp_attachment_is_image( $id ) ) {
-					$metadata = wp_get_attachment_metadata( $id );
-					if ( ! empty( $metadata['sizes'] ) ) {
+				// Export all image sizes if requested - check by mime type
+				if ( $export_all_sizes && strpos( $attachment->post_mime_type, 'image/' ) === 0 && ! empty( $attachment->metadata ) ) {
+					$metadata = maybe_unserialize( $attachment->metadata );
+					if ( is_array( $metadata ) && ! empty( $metadata['sizes'] ) ) {
 						$upload_dir_path = dirname( $file_path );
 						foreach ( $metadata['sizes'] as $size_name => $size_data ) {
 							$size_file = $upload_dir_path . DIRECTORY_SEPARATOR . $size_data['file'];
@@ -259,28 +299,17 @@ class PEIWM_Media_Handler {
 					}
 				}
 
-				// FIX: Fetch post fields individually instead of loading WP_Post object
-				$post = get_post( $id );
-				if ( ! $post ) {
-					continue;
-				}
-
 				$media_data[] = array(
 					'ID'          => $id,
 					'filename'    => basename( $file_path ),
-					'title'       => $post->post_title,
-					'description' => $post->post_content,
-					'mime_type'   => $post->post_mime_type,
-					'upload_date' => $post->post_date,
+					'title'       => $attachment->post_title,
+					'description' => $attachment->post_content,
+					'mime_type'   => $attachment->post_mime_type,
+					'upload_date' => $attachment->post_date,
 					'file_size'   => (int) @filesize( $file_path ),
 					'file_path'   => $relative_path,
-					'meta'        => get_post_meta( $id ),
+					'meta'        => isset( $meta_by_post[ $id ] ) ? $meta_by_post[ $id ] : array(),
 				);
-
-				// Free memory every 100 files
-				if ( $added_files % 100 === 0 ) {
-					wp_cache_flush();
-				}
 			}
 
 			// Add metadata JSON to ZIP

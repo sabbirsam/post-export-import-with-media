@@ -557,9 +557,36 @@ class PEIWM_Batch_Processor {
 			$current_batch      = array();
 			$current_batch_size = 0;
 
-			// FIX: Loop over IDs only — get_attached_file() is a lightweight meta lookup
+			// Fetch ALL file paths in ONE query to avoid plugin hooks
+			global $wpdb;
+			$ids_string = implode( ',', array_map( 'absint', $attachment_ids ) );
+			$file_paths_data = $wpdb->get_results(
+				"SELECT p.ID, pm.meta_value as file_path
+				 FROM {$wpdb->posts} p
+				 LEFT JOIN {$wpdb->postmeta} pm ON p.ID = pm.post_id AND pm.meta_key = '_wp_attached_file'
+				 WHERE p.ID IN ({$ids_string})",
+				OBJECT
+			);
+			
+			// Build lookup array
+			$upload_dir = wp_upload_dir();
+			$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
+			$file_paths_by_id = array();
+			foreach ( $file_paths_data as $row ) {
+				$file_path = '';
+				if ( ! empty( $row->file_path ) ) {
+					if ( strpos( $row->file_path, '/' ) === 0 || preg_match( '/^[a-zA-Z]:/', $row->file_path ) ) {
+						$file_path = $row->file_path;
+					} else {
+						$file_path = $upload_base . '/' . $row->file_path;
+					}
+				}
+				$file_paths_by_id[ $row->ID ] = $file_path;
+			}
+
+			// Now loop through with file sizes already resolved
 			foreach ( $attachment_ids as $id ) {
-				$file_path = get_attached_file( $id );
+				$file_path = isset( $file_paths_by_id[ $id ] ) ? $file_paths_by_id[ $id ] : '';
 				$file_size = ( $file_path && file_exists( $file_path ) ) ? (int) @filesize( $file_path ) : 0;
 
 				if ( $current_batch_size + $file_size > $zip_size_limit_bytes && ! empty( $current_batch ) ) {
@@ -676,14 +703,51 @@ class PEIWM_Batch_Processor {
 			$added_files = 0;
 			$skipped_files = 0;
 
-			foreach ( $attachment_ids as $attachment_id ) {
-				$attachment = get_post( $attachment_id );
-				if ( ! $attachment ) {
-					$skipped_files++;
-					continue;
-				}
+			// Fetch all attachment data in ONE query to avoid plugin hooks
+			global $wpdb;
+			$ids_string = implode( ',', array_map( 'absint', $attachment_ids ) );
+			$attachments_data = $wpdb->get_results(
+				"SELECT p.ID, p.post_title, p.post_content, p.post_mime_type, p.post_date,
+				        pm1.meta_value as file_path,
+				        pm2.meta_value as metadata
+				 FROM {$wpdb->posts} p
+				 LEFT JOIN {$wpdb->postmeta} pm1 ON p.ID = pm1.post_id AND pm1.meta_key = '_wp_attached_file'
+				 LEFT JOIN {$wpdb->postmeta} pm2 ON p.ID = pm2.post_id AND pm2.meta_key = '_wp_attachment_metadata'
+				 WHERE p.ID IN ({$ids_string})
+				 ORDER BY FIELD(p.ID, {$ids_string})",
+				OBJECT
+			);
 
-				$file_path = get_attached_file( $attachment_id );
+			// Also fetch ALL postmeta in one query for metadata JSON
+			$all_meta = $wpdb->get_results(
+				"SELECT post_id, meta_key, meta_value 
+				 FROM {$wpdb->postmeta} 
+				 WHERE post_id IN ({$ids_string})",
+				OBJECT
+			);
+			
+			// Group meta by post_id
+			$meta_by_post = array();
+			foreach ( $all_meta as $meta_row ) {
+				if ( ! isset( $meta_by_post[ $meta_row->post_id ] ) ) {
+					$meta_by_post[ $meta_row->post_id ] = array();
+				}
+				$meta_by_post[ $meta_row->post_id ][ $meta_row->meta_key ] = array( $meta_row->meta_value );
+			}
+
+			foreach ( $attachments_data as $attachment ) {
+				$attachment_id = absint( $attachment->ID );
+				
+				// Build file path manually (same as get_attached_file but no hooks)
+				$file_path = '';
+				if ( ! empty( $attachment->file_path ) ) {
+					if ( strpos( $attachment->file_path, '/' ) === 0 || preg_match( '/^[a-zA-Z]:/', $attachment->file_path ) ) {
+						$file_path = $attachment->file_path;
+					} else {
+						$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
+						$file_path = $upload_base . '/' . $attachment->file_path;
+					}
+				}
 				
 				if ( $file_path && file_exists( $file_path ) ) {
 					$upload_base = rtrim( $upload_dir['basedir'], '/\\' );
@@ -696,10 +760,10 @@ class PEIWM_Batch_Processor {
 					if ( $zip_result ) {
 						$added_files++;
 						
-						// Export all image sizes if requested
-						if ( $export_all_sizes && wp_attachment_is_image( $attachment_id ) ) {
-							$metadata = wp_get_attachment_metadata( $attachment_id );
-							if ( ! empty( $metadata['sizes'] ) ) {
+						// Export all image sizes if requested - check by mime type
+						if ( $export_all_sizes && strpos( $attachment->post_mime_type, 'image/' ) === 0 && ! empty( $attachment->metadata ) ) {
+							$metadata = maybe_unserialize( $attachment->metadata );
+							if ( is_array( $metadata ) && ! empty( $metadata['sizes'] ) ) {
 								$upload_dir_path = dirname( $file_path );
 								foreach ( $metadata['sizes'] as $size_name => $size_data ) {
 									$size_file = $upload_dir_path . DIRECTORY_SEPARATOR . $size_data['file'];
@@ -725,7 +789,7 @@ class PEIWM_Batch_Processor {
 							'upload_date' => $attachment->post_date,
 							'file_size' => filesize( $file_path ),
 							'file_path' => $relative_path,
-							'meta' => get_post_meta( $attachment_id ),
+							'meta' => isset( $meta_by_post[ $attachment_id ] ) ? $meta_by_post[ $attachment_id ] : array(),
 						);
 					} else {
 						$skipped_files++;

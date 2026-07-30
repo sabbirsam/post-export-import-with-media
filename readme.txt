@@ -4,7 +4,7 @@ Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable Tag: 1.14.0
+Stable Tag: 1.14.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -204,6 +204,18 @@ Build instructions:
 3. Run `npm run build` to compile the JavaScript and CSS.
 4. Compiled output is written to /build/js/ and /build/css/, matching what ships in the plugin.
 
+== Competitor Analysis ==
+ 
+Search the WordPress plugin directory for a way to export WordPress posts with their media, and the results split into two groups: large general-purpose export tools built for spreadsheets, and small single-purpose add-ons built to patch one gap in the native exporter. Post Export Import with Media sits in a third position: a dedicated export and import tool built around content plus media plus the rest of the site.
+ 
+WP All Export is the closest thing to a household name in this space support for exporting almost any post type or custom field into CSV, XML, or Excel. Its own FAQ is direct about the trade-off: you export one post type at a time, there is no way to export a full site in a single pass, and to get WordPress media specifically you export the post type that the images are attached to rather than treating media as its own export target. Post Export Import with Media treats media as the primary concern rather than a side effect, with automatic detection of featured and inline images, three image-matching strategies, and reuse of existing Media Library files. Where WP All Export pulls ahead is field-level flexibility, letting you rename and reorder every CSV or XML column by hand, which is a real advantage for anyone building a custom data feed rather than migrating a site.
+ 
+Export media with selected content, by DKZR, is a small, well-loved plugin that solves one specific problem: the native WordPress export screen leaves attachments out by default, and this plugin adds a checkbox to include them. It is a genuinely useful patch for the built-in exporter, but it stops there; there is no image-matching logic, no rewriting of image URLs for a new domain, and no support for users, widgets, menus, themes, plugins, or settings. Post Export Import with Media replaces the native exporter entirely rather than patching it, and covers the rest of a site migration or backup in the same place.
+ 
+Product Import Export for WooCommerce and Order Export & Order Import for WooCommerce, both are mature, widely installed tools built specifically around WooCommerce products, coupons, and orders moving in and out of CSV files, with the product plugin adding ChatGPT-generated descriptions for products missing one. Both are strong choices if WooCommerce commerce data is the whole job. Post Export Import with Media is not scoped to WooCommerce data types; it is built for general WordPress content, so it handles standard posts, pages, and CPTs alongside the WooCommerce user data (billing, shipping, activity) it picks up when exporting users, rather than orders or coupons themselves.
+ 
+So of everything that turns up in an "export WordPress posts with media" or "WordPress migration plugin" search, the gap Post Export Import with Media fills is the one in the middle: a plugin that treats content, media, users, widgets, menus, themes, plugins, and settings as one export and import job, with a progress bar and a preview step, rather than requiring a spreadsheet tool for content and a separate backup plugin for everything else.
+
 == Frequently Asked Questions ==
  
 = Does this plugin import featured images and galleries? =
@@ -229,6 +241,12 @@ Yes. Widgets and their sidebar assignments, full navigation menu structures, you
  
 = How does this handle large sites that normally time out during export? =
 Batch Processing Settings let you control how many items are processed per batch, how many requests run at once, and the maximum size of a single media ZIP before it splits. There's a recommended preset based on your content size if you don't want to configure it by hand, and anything that fails or times out is listed afterward with a one-click retry.
+
+= How is Post Export Import with Media different from WP All Export? =
+WP All Export is a general CSV/XML export tool that handles almost any post type or custom field but exports one post type at a time and treats media as a separate concern that its documentation says you must handle through the post export. Post Export Import with Media detects and downloads featured and inline images automatically as part of the same export, and adds users, widgets, menus, themes, plugins, and settings, all in the free version.
+ 
+= Is this a good alternative to Export media with selected content? =
+Export media with selected content is a small, well-regarded add-on that patches WordPress's native export screen so linked images are not left out. Post Export Import with Media is a complete export and import tool built around media from the start, with a Smart Image Matching Strategy, a rewrite of image URLs on import, and no dependency on the native exporter's format.
  
 = Can exports run automatically on a schedule? =
 Yes. Scheduled Exports supports Daily, Weekly, and Monthly frequencies for posts, pages, media, settings, CPT/ACF data, and users, with automatic email notifications and rotation of older backups.
@@ -254,6 +272,11 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 4. Dashboard of WordPress Settings Export/Import.
 
 == Changelog ==
+
+= 1.14.1 – 29 July 2026 =
+* **Fix:** Fixed minor bug in Export and Media Statistics Memory Exhaustion on large sites
+* **improvements:** Export and Media Statistics Memory Exhaustion bug fixed 
+* **Improvement:** Optimized memory usage for all export processes
 
 = 1.14.0 – 24 July 2026 =
 * **New:** Added Image Matching Strategy with three modes:

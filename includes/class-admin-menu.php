@@ -903,7 +903,7 @@ class PEIWM_Admin_Menu {
 										<br>
 										<!-- PRO: Link reused media to imported post checkbox -->
 										<label class="peiwm-checkbox-label <?php echo ! $is_pro ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="checkbox" id="peiwm-attach-media-to-post" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php checked( get_option( 'peiwm_attach_media_to_post', false ) ); ?>>
+											<input type="checkbox" id="peiwm-attach-media-to-post" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php echo $is_pro ? 'checked' : ''; ?>>
 											<span class="peiwm-checkbox-text">
 												<strong>
 													<?php echo esc_html__( 'Link reused media to imported post', 'post-export-import-with-media' ); ?>
@@ -935,7 +935,7 @@ class PEIWM_Admin_Menu {
 											<?php endif; ?>
 										</strong>
 										<span class="peiwm-checkbox-description">
-											<?php echo esc_html__( 'Choose which posts to import from the file instead of importing all. Even you can change the status before import.', 'post-export-import-with-media' ); ?>
+											<?php echo esc_html__( "Choose which posts to import instead of importing everything from the JSON file. You can also change each post's status before importing. To enable this option, first select a JSON file, then check the option. A section will appear below where you can choose individual posts.", 'post-export-import-with-media' ); ?>
 										</span>
 									</span>
 								</label>
@@ -957,7 +957,7 @@ class PEIWM_Admin_Menu {
 												<?php endif; ?>
 											</strong>
 											<span class="peiwm-checkbox-description">
-												<?php echo esc_html__( 'Recommended. Prevents posts being assigned to the wrong author when user IDs differ between sites.', 'post-export-import-with-media' ); ?>
+												<?php echo esc_html__( "Prevents posts from being assigned to the wrong author when user IDs differ between sites. If the original author doesn't exist on the destination site, select 'Automatically create missing users'. This will create the user with the same username and email address as the original author. Alternatively, you can export and import users separately using the dedicated User Export/Import feature before importing posts. Visit WP Toolkit > Settings to configure the auto-generated password. ", 'post-export-import-with-media' ); ?>
 											</span>
 										</span>
 									</label>
@@ -968,11 +968,11 @@ class PEIWM_Admin_Menu {
 										</p>
 										<label class="peiwm-checkbox-label" style="margin-bottom: 4px;">
 											<input type="radio" name="peiwm_author_fallback" value="current_user" <?php echo $is_pro ? 'checked' : 'disabled'; ?>>
-											<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Assign post to the current admin user', 'post-export-import-with-media' ); ?></span>
+											<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Assign posts to the current admin or existing authors', 'post-export-import-with-media' ); ?></span>
 										</label>
 										<label class="peiwm-checkbox-label">
 											<input type="radio" name="peiwm_author_fallback" value="create_user" <?php echo ! $is_pro ? 'disabled' : ''; ?>>
-											<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Automatically create the missing user', 'post-export-import-with-media' ); ?></span>
+											<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Automatically create the missing user if not exist.', 'post-export-import-with-media' ); ?></span>
 										</label>
 									</div>
 								</div>
@@ -1664,7 +1664,7 @@ class PEIWM_Admin_Menu {
 									<br>
 									<!-- PRO: Link reused media to imported page checkbox -->
 									<label class="peiwm-checkbox-label <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-										<input type="checkbox" id="peiwm-attach-media-to-page" <?php echo ! $is_pro_pages ? 'disabled' : ''; ?> <?php checked( get_option( 'peiwm_attach_media_to_page', false ) ); ?>>
+										<input type="checkbox" id="peiwm-attach-media-to-page" <?php echo ! $is_pro_pages ? 'disabled' : ''; ?> <?php echo $is_pro_pages ? 'checked' : ''; ?>>
 										<span class="peiwm-checkbox-text">
 											<strong>
 												<?php echo esc_html__( 'Link reused media to imported page', 'post-export-import-with-media' ); ?>
@@ -2818,6 +2818,154 @@ class PEIWM_Admin_Menu {
 				</div>
 			</div>
 		</div>
+
+		<!-- Drag and Drop Modal -->
+		<div id="peiwm-drag-drop-modal" class="peiwm-modal-overlay" style="display: none;">
+			<div class="peiwm-modal peiwm-drag-drop-modal-content">
+				<div class="peiwm-modal-header">
+					<div style="width: 100%;">
+						<h3 id="peiwm-drag-drop-title" style="margin-bottom: 5px;"><?php echo esc_html__( 'Select File(s)', 'post-export-import-with-media' ); ?></h3>
+						<p id="peiwm-drag-drop-subtitle" style="margin: 0 0 10px 0; color: #64748b; font-size: 0.9rem;"></p>
+					</div>
+					<button type="button" class="peiwm-modal-close" style="align-self: flex-start;">&times;</button>
+				</div>
+				<div class="peiwm-modal-body">
+					<div id="peiwm-dropzone" class="peiwm-dropzone">
+						<div class="peiwm-dropzone-inner">
+							<svg class="peiwm-dropzone-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+								<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+								<polyline points="17 8 12 3 7 8"></polyline>
+								<line x1="12" y1="3" x2="12" y2="15"></line>
+							</svg>
+							<h4><?php echo esc_html__( 'Drag & Drop files here', 'post-export-import-with-media' ); ?></h4>
+							<p id="peiwm-drag-drop-description"><?php echo esc_html__( 'or click to browse your computer', 'post-export-import-with-media' ); ?></p>
+							<button type="button" id="peiwm-dropzone-browse-btn" class="button button-secondary peiwm-dropzone-browse-btn">
+								<?php echo esc_html__( 'Browse Files', 'post-export-import-with-media' ); ?>
+							</button>
+							<!-- Hidden file input inside the modal to trigger OS file browser -->
+							<input type="file" id="peiwm-dropzone-file-input" style="display: none;">
+						</div>
+					</div>
+				</div>
+				<div class="peiwm-modal-footer">
+					<button type="button" class="peiwm-modal-close button button-secondary">
+						<?php echo esc_html__( 'Cancel', 'post-export-import-with-media' ); ?>
+					</button>
+				</div>
+			</div>
+		</div>
+		<script>
+			// --- Drag and Drop Modal Logic (Global) ---
+			window.peiwmShowDragDropModal = function(targetInputId, options) {
+				options = options || {};
+				const title = options.title || 'Select File(s)';
+				const subtitle = options.subtitle || '';
+				const description = options.description || 'or click to browse your computer';
+				const accept = options.accept || '*';
+				const multiple = options.multiple !== false;
+
+				const modal = jQuery('#peiwm-drag-drop-modal');
+				const dropzone = jQuery('#peiwm-dropzone');
+				const fileInput = jQuery('#peiwm-dropzone-file-input');
+
+				// Setup modal content
+				modal.find('#peiwm-drag-drop-title').text(title);
+				
+				const subtitleEl = modal.find('#peiwm-drag-drop-subtitle');
+				if (subtitle) {
+					subtitleEl.text(subtitle).show();
+				} else {
+					subtitleEl.hide();
+				}
+				
+				modal.find('#peiwm-drag-drop-description').text(description);
+				
+				// Setup hidden file input in modal
+				fileInput.attr('accept', accept);
+				if (multiple) {
+					fileInput.attr('multiple', 'multiple');
+				} else {
+					fileInput.removeAttr('multiple');
+				}
+				
+				// Reset state
+				fileInput.val('');
+				dropzone.removeClass('peiwm-dragover');
+
+				// Handle Browse button click
+				jQuery('#peiwm-dropzone-browse-btn, #peiwm-dropzone').off('click').on('click', function(e) {
+					if (e.target !== fileInput[0]) {
+						fileInput.click();
+					}
+				});
+
+				// Handle drag events
+				dropzone.off('dragover dragenter dragleave drop');
+				
+				dropzone.on('dragover dragenter', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					dropzone.addClass('peiwm-dragover');
+				});
+
+				dropzone.on('dragleave drop', function(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					dropzone.removeClass('peiwm-dragover');
+				});
+
+				// Handle drop event
+				dropzone.on('drop', function(e) {
+					let files = e.originalEvent.dataTransfer.files;
+					if (files && files.length > 0) {
+						peiwmHandleFilesSelected(files, targetInputId, multiple);
+						modal.removeClass('peiwm-show').hide();
+					}
+				});
+
+				// Handle file selection from browse
+				fileInput.off('change').on('change', function(e) {
+					if (this.files && this.files.length > 0) {
+						peiwmHandleFilesSelected(this.files, targetInputId, multiple);
+						modal.removeClass('peiwm-show').hide();
+					}
+				});
+
+				// Close handlers
+				modal.find('.peiwm-modal-close').off('click').on('click', function() {
+					modal.removeClass('peiwm-show').hide();
+				});
+				
+				modal.off('click').on('click', function(e) {
+					if (e.target === this) {
+						modal.removeClass('peiwm-show').hide();
+					}
+				});
+
+				// Show modal
+				modal.show().addClass('peiwm-show');
+			};
+
+			function peiwmHandleFilesSelected(files, targetInputId, multiple) {
+				const targetInput = jQuery(targetInputId)[0];
+				if (!targetInput) return;
+
+				try {
+					const dataTransfer = new DataTransfer();
+					if (multiple) {
+						for (let i = 0; i < files.length; i++) {
+							dataTransfer.items.add(files[i]);
+						}
+					} else {
+						dataTransfer.items.add(files[0]);
+					}
+					targetInput.files = dataTransfer.files;
+					jQuery(targetInput).trigger('change');
+				} catch (e) {
+					console.error("DataTransfer not supported, falling back to manual handling");
+				}
+			}
+		</script>
 
 		<!-- Premium Upgrade Modal -->
 		<div id="peiwm-premium-modal" class="peiwm-modal-overlay" style="display: none;">

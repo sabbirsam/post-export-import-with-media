@@ -669,7 +669,17 @@ jQuery(document).ready(function ($) {
 
     // Select themes file
     $('#peiwm-select-themes-file').on('click', function () {
-        $('#peiwm-themes-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-themes-file', {
+                title: 'Select ZIP File',
+                subtitle: 'You can select a single ZIP file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
+                description: 'Drag & drop ZIP file or click to browse',
+                accept: '.zip',
+                multiple: false
+            });
+        } else {
+            $('#peiwm-themes-file').click();
+        }
     });
 
     $('#peiwm-themes-file').on('change', function () {
@@ -688,7 +698,17 @@ jQuery(document).ready(function ($) {
 
     // Select plugins file
     $('#peiwm-select-plugins-file').on('click', function () {
-        $('#peiwm-plugins-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-plugins-file', {
+                title: 'Select ZIP File',
+                subtitle: 'You can select a single ZIP file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
+                description: 'Drag & drop ZIP file or click to browse',
+                accept: '.zip',
+                multiple: false
+            });
+        } else {
+            $('#peiwm-plugins-file').click();
+        }
     });
 
     $('#peiwm-plugins-file').on('change', function () {

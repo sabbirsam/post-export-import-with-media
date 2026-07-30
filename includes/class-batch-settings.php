@@ -30,7 +30,7 @@ class PEIWM_Batch_Settings {
 	 */
 	private $default_settings = array(
 		'preset_mode'                  => 'default',
-		'enable_batch_processing'      => false,
+		'enable_batch_processing'      => true,
 		'post_batch_size'              => 10,
 		'page_batch_size'              => 10,
 		'media_batch_size'             => 10,

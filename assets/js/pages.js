@@ -340,7 +340,17 @@ jQuery(document).ready(function ($) {
 
     // Select Pages File
     $('#peiwm-select-pages-file').on('click', function () {
-        $('#peiwm-pages-file').click();
+        if (typeof window.peiwmShowDragDropModal === 'function') {
+            window.peiwmShowDragDropModal('#peiwm-pages-file', {
+                title: 'Select JSON File(s)',
+                subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
+                description: 'Drag & drop JSON files or click to browse',
+                accept: '.json',
+                multiple: true
+            });
+        } else {
+            $('#peiwm-pages-file').click();
+        }
     });
 
     $('#peiwm-pages-file').on('change', function () {
