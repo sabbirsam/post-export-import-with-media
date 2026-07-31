@@ -125,49 +125,70 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    // Select Settings File
-    $('#peiwm-select-settings-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-settings-file', {
-                title: 'Select JSON File',
-                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
-                description: 'Drag & drop JSON file or click to browse',
-                accept: '.json',
-                multiple: false
-            });
-        } else {
-            $('#peiwm-settings-file').click();
-        }
-    });
+    // Select Settings File Drop Zone Setup
+    function setupDropZoneSettings(zoneId, inputId, isWidgets = false) {
+        const zone = $(zoneId);
+        const input = $(inputId);
 
-    $('#peiwm-settings-file').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-            if (file.type !== 'application/json') {
-                showError('Please select a JSON file.');
-                return;
+        zone.on('click', function() {
+            input.click();
+        });
+
+        zone.on('dragover', function(e) {
+            e.preventDefault();
+            zone.addClass('dragover');
+        });
+
+        zone.on('dragleave', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+        });
+
+        zone.on('drop', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+            if (e.originalEvent.dataTransfer.files.length) {
+                input[0].files = e.originalEvent.dataTransfer.files;
+                input.trigger('change');
             }
-            
-            $('#peiwm-select-settings-file').text(file.name);
-            
-            // Read and preview the settings file
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                try {
-                    const settingsData = JSON.parse(e.target.result);
-                    if (!settingsData.settings) {
-                        throw new Error('Invalid settings file format');
-                    }
-                    
-                    showSettingsPreview(settingsData);
-                    $('#peiwm-import-settings').show();
-                } catch (error) {
-                    showError('Invalid JSON file: ' + error.message);
+        });
+
+        input.on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
+                    showError('Please select a JSON file.');
+                    return;
                 }
-            };
-            reader.readAsText(file);
-        }
-    });
+                const label = this.files.length > 1 ? this.files.length + ' files selected' : file.name;
+                zone.html('<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><b style="font-size: 14.5px; margin-bottom: 2px; color: #1e1e1e;">' + label + '</b><span style="font-size: 13.5px; color: #6c7385;">Ready to import</span>');
+                
+                if (isWidgets) {
+                    $('#peiwm-import-widgets-menus').show();
+                    $('#peiwm-widgets-menus-import-options').show();
+                } else {
+                    // Read and preview the settings file
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        try {
+                            const settingsData = JSON.parse(e.target.result);
+                            if (!settingsData.settings) {
+                                throw new Error('Invalid settings file format');
+                            }
+                            
+                            showSettingsPreview(settingsData);
+                            $('#peiwm-import-settings').show();
+                        } catch (error) {
+                            showError('Invalid JSON file: ' + error.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            }
+        });
+    }
+
+    setupDropZoneSettings('#peiwm-select-settings-file', '#peiwm-settings-file', false);
 
     function showSettingsPreview(settingsData) {
         const preview = $('#peiwm-settings-preview');
@@ -423,34 +444,7 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    // Widgets & Menus Import Functions
-    $('#peiwm-select-widgets-menus-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-widgets-menus-file', {
-                title: 'Select JSON File',
-                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
-                description: 'Drag & drop JSON file or click to browse',
-                accept: '.json',
-                multiple: false
-            });
-        } else {
-            $('#peiwm-widgets-menus-file').click();
-        }
-    });
-
-    $('#peiwm-widgets-menus-file').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-            if (file.type !== 'application/json') {
-                showError('Please select a JSON file.');
-                return;
-            }
-            
-            $('#peiwm-select-widgets-menus-file').text(file.name);
-            $('#peiwm-import-widgets-menus').show();
-            $('#peiwm-widgets-menus-import-options').show();
-        }
-    });
+    setupDropZoneSettings('#peiwm-select-widgets-menus-file', '#peiwm-widgets-menus-file', true);
 
     $('#peiwm-import-widgets-menus').on('click', function () {
         const fileInput = $('#peiwm-widgets-menus-file')[0];
@@ -544,4 +538,48 @@ jQuery(document).ready(function ($) {
             $(document).off('keydown.peiwm-modal');
         }
     });
+    // Global tab switching functions for New-UI design
+    window.switchTab = window.switchTab || function(group, name) {
+        var tabs = document.querySelectorAll('.tabs[data-group="' + group + '"] .tab-btn');
+        tabs.forEach(function(b) {
+            b.classList.remove('active');
+            if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
+                b.classList.add('active');
+            }
+        });
+        document.querySelectorAll('.tab-panel[data-panel^="' + group + '-"]').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-panel[data-group="' + group + '"]').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        var targetPanel = document.querySelector('.tab-panel[data-group="' + group + '"][data-panel="' + name + '"]');
+        if (!targetPanel) {
+            targetPanel = document.querySelector('.tab-panel[data-panel="' + group + '-' + name + '"]');
+        }
+        if (targetPanel) {
+            targetPanel.classList.add('active');
+        }
+        var steps = document.querySelectorAll('.journey .step');
+        if (steps.length > 0) {
+            var foundActive = false;
+            steps.forEach(function(s) {
+                s.classList.remove('active', 'done');
+                if (s.getAttribute('onclick') && s.getAttribute('onclick').includes("'" + name + "'")) {
+                    s.classList.add('active');
+                    foundActive = true;
+                } else if (!foundActive) {
+                    s.classList.add('done');
+                }
+            });
+        }
+    };
+
+    window.switchTabByGroup = window.switchTabByGroup || function(group, name) {
+        window.switchTab(group, name);
+        var mainPage = document.getElementById('peiwm-main-content');
+        if (mainPage) {
+            mainPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 });

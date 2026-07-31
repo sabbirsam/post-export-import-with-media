@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-07-24 11:02+0600\n"
+"POT-Creation-Date: 2026-07-31 19:36+0600\n"
 "PO-Revision-Date: 2023-11-15 13:18+0600\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,29 +39,29 @@ msgstr ""
 #: includes/class-admin-download-buttons.php:244
 #: includes/class-admin-download-buttons.php:289
 #: includes/class-ajax-handler.php:75 includes/class-ajax-handler.php:113
-#: includes/class-ajax-handler.php:141 includes/class-ajax-handler.php:260
-#: includes/class-ajax-handler.php:340 includes/class-ajax-handler.php:423
-#: includes/class-ajax-handler.php:464 includes/class-ajax-handler.php:528
+#: includes/class-ajax-handler.php:141 includes/class-ajax-handler.php:316
+#: includes/class-ajax-handler.php:396 includes/class-ajax-handler.php:479
+#: includes/class-ajax-handler.php:520 includes/class-ajax-handler.php:584
 #: includes/class-batch-processor.php:80 includes/class-batch-processor.php:132
 #: includes/class-batch-processor.php:285
 #: includes/class-batch-processor.php:336
 #: includes/class-batch-processor.php:465
-#: includes/class-batch-processor.php:612
-#: includes/class-batch-processor.php:781
-#: includes/class-batch-processor.php:843
-#: includes/class-batch-processor.php:897
-#: includes/class-batch-processor.php:959
-#: includes/class-batch-processor.php:1219
+#: includes/class-batch-processor.php:639
+#: includes/class-batch-processor.php:845
+#: includes/class-batch-processor.php:907
+#: includes/class-batch-processor.php:961
+#: includes/class-batch-processor.php:1023
+#: includes/class-batch-processor.php:1283
 #: includes/class-generic-recommendations.php:164
 #: includes/class-media-handler.php:138 includes/class-media-handler.php:162
-#: includes/class-media-handler.php:325 includes/class-media-handler.php:541
-#: includes/class-media-handler.php:623 includes/class-media-handler.php:686
+#: includes/class-media-handler.php:354 includes/class-media-handler.php:570
+#: includes/class-media-handler.php:652 includes/class-media-handler.php:715
 #: includes/class-page-handler.php:69 includes/class-page-handler.php:176
 #: includes/class-page-handler.php:221 includes/class-page-handler.php:479
 #: includes/class-page-handler.php:827 includes/class-post-handler.php:70
-#: includes/class-post-handler.php:136 includes/class-post-handler.php:212
-#: includes/class-post-handler.php:302 includes/class-post-handler.php:588
-#: includes/class-post-handler.php:670 includes/class-scheduled-exports.php:79
+#: includes/class-post-handler.php:136 includes/class-post-handler.php:236
+#: includes/class-post-handler.php:326 includes/class-post-handler.php:612
+#: includes/class-post-handler.php:695 includes/class-scheduled-exports.php:79
 #: includes/class-scheduled-exports.php:94
 #: includes/class-scheduled-exports.php:118
 #: includes/class-settings-handler.php:154
@@ -87,27 +87,27 @@ msgstr ""
 #: includes/class-admin-download-buttons.php:248
 #: includes/class-admin-download-buttons.php:293
 #: includes/class-ajax-handler.php:79 includes/class-ajax-handler.php:117
-#: includes/class-ajax-handler.php:145 includes/class-ajax-handler.php:264
-#: includes/class-ajax-handler.php:344 includes/class-ajax-handler.php:427
-#: includes/class-ajax-handler.php:468 includes/class-ajax-handler.php:532
+#: includes/class-ajax-handler.php:145 includes/class-ajax-handler.php:320
+#: includes/class-ajax-handler.php:400 includes/class-ajax-handler.php:483
+#: includes/class-ajax-handler.php:524 includes/class-ajax-handler.php:588
 #: includes/class-batch-processor.php:84 includes/class-batch-processor.php:136
 #: includes/class-batch-processor.php:289
 #: includes/class-batch-processor.php:340
 #: includes/class-batch-processor.php:469
-#: includes/class-batch-processor.php:616
-#: includes/class-batch-processor.php:785
-#: includes/class-batch-processor.php:847
-#: includes/class-batch-processor.php:901
-#: includes/class-batch-processor.php:963
-#: includes/class-batch-processor.php:1223 includes/class-media-handler.php:142
-#: includes/class-media-handler.php:166 includes/class-media-handler.php:329
-#: includes/class-media-handler.php:545 includes/class-media-handler.php:627
-#: includes/class-media-handler.php:690 includes/class-page-handler.php:73
+#: includes/class-batch-processor.php:643
+#: includes/class-batch-processor.php:849
+#: includes/class-batch-processor.php:911
+#: includes/class-batch-processor.php:965
+#: includes/class-batch-processor.php:1027
+#: includes/class-batch-processor.php:1287 includes/class-media-handler.php:142
+#: includes/class-media-handler.php:166 includes/class-media-handler.php:358
+#: includes/class-media-handler.php:574 includes/class-media-handler.php:656
+#: includes/class-media-handler.php:719 includes/class-page-handler.php:73
 #: includes/class-page-handler.php:180 includes/class-page-handler.php:225
 #: includes/class-page-handler.php:483 includes/class-page-handler.php:831
 #: includes/class-post-handler.php:74 includes/class-post-handler.php:140
-#: includes/class-post-handler.php:216 includes/class-post-handler.php:306
-#: includes/class-post-handler.php:592 includes/class-post-handler.php:674
+#: includes/class-post-handler.php:240 includes/class-post-handler.php:330
+#: includes/class-post-handler.php:616 includes/class-post-handler.php:699
 #: includes/class-scheduled-exports.php:82
 #: includes/class-scheduled-exports.php:97
 #: includes/class-scheduled-exports.php:121
@@ -186,6 +186,7 @@ msgid "Export/Import Pages"
 msgstr ""
 
 #: includes/class-admin-menu.php:144 includes/class-admin-menu.php:145
+#: includes/class-admin-menu.php:1953
 msgid "WordPress Settings"
 msgstr ""
 
@@ -193,7 +194,7 @@ msgstr ""
 msgid "WP Toolkit"
 msgstr ""
 
-#: includes/class-admin-menu.php:164 includes/class-admin-menu.php:2870
+#: includes/class-admin-menu.php:164 includes/class-admin-menu.php:3361
 msgid "CPT & ACF Export/Import"
 msgstr ""
 
@@ -202,7 +203,7 @@ msgid "CPT Export/Import"
 msgstr ""
 
 #: includes/class-admin-menu.php:174 includes/class-admin-menu.php:175
-#: includes/class-admin-menu.php:2414
+#: includes/class-admin-menu.php:2691
 msgid "Users Export/Import"
 msgstr ""
 
@@ -244,7 +245,7 @@ msgstr ""
 
 #: includes/class-admin-menu.php:241 includes/class-admin-menu.php:284
 #: includes/class-admin-menu.php:317 includes/class-admin-menu.php:350
-#: includes/class-admin-menu.php:2788
+#: includes/class-admin-menu.php:3123
 msgid "Success!"
 msgstr ""
 
@@ -293,13 +294,12 @@ msgstr ""
 msgid "Are you sure? This will permanently delete all posts of this type. This action cannot be undone."
 msgstr ""
 
-#: includes/class-admin-menu.php:504 includes/class-admin-menu.php:2424
-#: includes/class-admin-menu.php:2567
+#: includes/class-admin-menu.php:504 includes/class-admin-menu.php:2741
+#: includes/class-admin-menu.php:2884
 msgid "Export Users"
 msgstr ""
 
-#: includes/class-admin-menu.php:505 includes/class-admin-menu.php:2585
-#: includes/class-admin-menu.php:2594
+#: includes/class-admin-menu.php:505 includes/class-admin-menu.php:2911
 msgid "Import Users"
 msgstr ""
 
@@ -355,1238 +355,1363 @@ msgstr ""
 msgid "Hide details"
 msgstr ""
 
-#: includes/class-admin-menu.php:551 includes/class-admin-menu.php:1390
-#: includes/class-admin-menu.php:1808 includes/class-admin-menu.php:1964
-#: includes/class-admin-menu.php:2382 includes/class-admin-menu.php:2409
-#: includes/class-admin-menu.php:2747 includes/class-batch-settings.php:310
+#: includes/class-admin-menu.php:551 includes/class-admin-menu.php:1396
+#: includes/class-admin-menu.php:1877 includes/class-admin-menu.php:2138
+#: includes/class-admin-menu.php:2651 includes/class-admin-menu.php:2678
+#: includes/class-admin-menu.php:3082 includes/class-batch-settings.php:310
 #: includes/class-scheduled-exports.php:144
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
-#: includes/class-admin-menu.php:557
-msgid "Export/Import Posts & Media"
+#: includes/class-admin-menu.php:564
+msgid "Posts & Media Migration"
 msgstr ""
 
-#: includes/class-admin-menu.php:566
-msgid "Posts Export/Import"
+#: includes/class-admin-menu.php:569
+msgid "Safely migrate your complete content structure including posts, pages, and their associated media files."
 msgstr ""
 
-#: includes/class-admin-menu.php:569 includes/class-admin-menu.php:754
-#: includes/class-admin-menu.php:1271
+#: includes/class-admin-menu.php:577
+msgid "Run System Test"
+msgstr ""
+
+#: includes/class-admin-menu.php:585
+msgid "Export Everything"
+msgstr ""
+
+#: includes/class-admin-menu.php:594
+msgid "Your Hassle-Free Migration Journey"
+msgstr ""
+
+#: includes/class-admin-menu.php:595
+msgid "Follow this order for a complete, image-safe transfer between sites."
+msgstr ""
+
+#: includes/class-admin-menu.php:596
+msgid "A faster, magic way to migrate posts without manual media handling."
+msgstr ""
+
+#: includes/class-admin-menu.php:600
+msgid "Mode 1"
+msgstr ""
+
+#: includes/class-admin-menu.php:603
+msgid "Mode 2"
+msgstr ""
+
+#: includes/class-admin-menu.php:612
+msgid "1. Export Media"
+msgstr ""
+
+#: includes/class-admin-menu.php:614
+msgid "Download every file e.g. image, video, PDF, etc., as a ZIP file."
+msgstr ""
+
+#: includes/class-admin-menu.php:620
+msgid "2. Export Posts"
+msgstr ""
+
+#: includes/class-admin-menu.php:622
+msgid "Export your Post, Categories, Tags, Taxonomy, Dates, SEO data, Custom Fields and image references."
+msgstr ""
+
+#: includes/class-admin-menu.php:628
+msgid "3. Import Media First"
+msgstr ""
+
+#: includes/class-admin-menu.php:630
+msgid "Upload the exported media files (ZIP) so images exist before posts arrive."
+msgstr ""
+
+#: includes/class-admin-menu.php:636
+msgid "4. Import Posts Last"
+msgstr ""
+
+#: includes/class-admin-menu.php:638
+msgid "Posts are automatically mapped to uploaded images, videos, and internal/external links."
+msgstr ""
+
+#: includes/class-admin-menu.php:646
+msgid "1. Export Posts"
+msgstr ""
+
+#: includes/class-admin-menu.php:648
+msgid "Export your post text, categories, and image references. No separate media export is required."
+msgstr ""
+
+#: includes/class-admin-menu.php:654
+msgid "2. Import Posts"
+msgstr ""
+
+#: includes/class-admin-menu.php:656
+msgid "Import posts. Ensure \"Download missing images from original URLs\" is checked to magically download and map images directly from source."
+msgstr ""
+
+#: includes/class-admin-menu.php:670 includes/class-admin-menu.php:2568
+#: includes/class-scheduled-exports.php:220
+msgid "Posts"
+msgstr ""
+
+#: includes/class-admin-menu.php:671
+msgid "Export and Import"
+msgstr ""
+
+#: includes/class-admin-menu.php:676 includes/class-admin-menu.php:1195
+#: includes/class-admin-menu.php:1472
+msgid "Export"
+msgstr ""
+
+#: includes/class-admin-menu.php:677 includes/class-admin-menu.php:1196
+#: includes/class-admin-menu.php:1473
+msgid "Import"
+msgstr ""
+
+#: includes/class-admin-menu.php:682 includes/class-admin-menu.php:866
 msgid "Export Posts"
 msgstr ""
 
-#: includes/class-admin-menu.php:570
+#: includes/class-admin-menu.php:683
 msgid "Export all posts with their metadata and featured images."
 msgstr ""
 
-#: includes/class-admin-menu.php:584 includes/class-admin-menu.php:1093
-#: includes/class-admin-menu.php:1422 includes/class-admin-menu.php:2452
-#: includes/class-admin-menu.php:2609
+#: includes/class-admin-menu.php:697 includes/class-admin-menu.php:1242
+#: includes/class-admin-menu.php:1492 includes/class-admin-menu.php:2772
+#: includes/class-admin-menu.php:2944
 msgid "Advanced options"
 msgstr ""
 
-#: includes/class-admin-menu.php:600 includes/class-admin-menu.php:2932
+#: includes/class-admin-menu.php:713 includes/class-admin-menu.php:3465
 msgid "Export individually (select specific posts)"
 msgstr ""
 
-#: includes/class-admin-menu.php:602 includes/class-admin-menu.php:625
-#: includes/class-admin-menu.php:670 includes/class-admin-menu.php:701
-#: includes/class-admin-menu.php:761 includes/class-admin-menu.php:880
-#: includes/class-admin-menu.php:894 includes/class-admin-menu.php:911
-#: includes/class-admin-menu.php:934 includes/class-admin-menu.php:956
-#: includes/class-admin-menu.php:1023 includes/class-admin-menu.php:1110
-#: includes/class-admin-menu.php:1151 includes/class-admin-menu.php:1439
-#: includes/class-admin-menu.php:1460 includes/class-admin-menu.php:1491
-#: includes/class-admin-menu.php:1550 includes/class-admin-menu.php:1640
-#: includes/class-admin-menu.php:1654 includes/class-admin-menu.php:1672
-#: includes/class-admin-menu.php:1694 includes/class-admin-menu.php:1772
-#: includes/class-admin-menu.php:2198 includes/class-admin-menu.php:2222
-#: includes/class-admin-menu.php:2257 includes/class-admin-menu.php:2283
-#: includes/class-admin-menu.php:2475 includes/class-admin-menu.php:2502
-#: includes/class-admin-menu.php:2520 includes/class-admin-menu.php:2539
-#: includes/class-admin-menu.php:2557 includes/class-admin-menu.php:2576
-#: includes/class-admin-menu.php:2627 includes/class-admin-menu.php:2654
-#: includes/class-admin-menu.php:2674 includes/class-admin-menu.php:2883
-#: includes/class-admin-menu.php:2979 includes/class-batch-settings.php:374
+#: includes/class-admin-menu.php:715 includes/class-admin-menu.php:738
+#: includes/class-admin-menu.php:783 includes/class-admin-menu.php:814
+#: includes/class-admin-menu.php:873 includes/class-admin-menu.php:1019
+#: includes/class-admin-menu.php:1043 includes/class-admin-menu.php:1071
+#: includes/class-admin-menu.php:1142 includes/class-admin-menu.php:1259
+#: includes/class-admin-menu.php:1300 includes/class-admin-menu.php:1509
+#: includes/class-admin-menu.php:1530 includes/class-admin-menu.php:1561
+#: includes/class-admin-menu.php:1619 includes/class-admin-menu.php:1733
+#: includes/class-admin-menu.php:1755 includes/class-admin-menu.php:1825
+#: includes/class-admin-menu.php:2472 includes/class-admin-menu.php:2499
+#: includes/class-admin-menu.php:2795 includes/class-admin-menu.php:2822
+#: includes/class-admin-menu.php:2840 includes/class-admin-menu.php:2859
+#: includes/class-admin-menu.php:2877 includes/class-admin-menu.php:2893
+#: includes/class-admin-menu.php:2962 includes/class-admin-menu.php:2989
+#: includes/class-admin-menu.php:3009 includes/class-admin-menu.php:3418
+#: includes/class-admin-menu.php:3522 includes/class-batch-settings.php:374
 #: includes/class-batch-settings.php:400
 #: includes/class-scheduled-exports.php:166
 #: includes/class-scheduled-exports.php:189 includes/email-template-page.php:38
 msgid "PRO"
 msgstr ""
 
-#: includes/class-admin-menu.php:606 includes/class-admin-menu.php:2933
+#: includes/class-admin-menu.php:719 includes/class-admin-menu.php:3466
 msgid "Choose which posts to export instead of exporting all."
 msgstr ""
 
-#: includes/class-admin-menu.php:611 includes/class-admin-menu.php:634
-#: includes/class-admin-menu.php:685 includes/class-admin-menu.php:721
-#: includes/class-admin-menu.php:922 includes/class-admin-menu.php:943
-#: includes/class-admin-menu.php:980 includes/class-admin-menu.php:1119
-#: includes/class-admin-menu.php:1160 includes/class-admin-menu.php:1448
-#: includes/class-admin-menu.php:1475 includes/class-admin-menu.php:1511
-#: includes/class-admin-menu.php:1682 includes/class-admin-menu.php:1703
-#: includes/class-admin-menu.php:2476 includes/class-admin-menu.php:2503
-#: includes/class-admin-menu.php:2521 includes/class-admin-menu.php:2540
-#: includes/class-admin-menu.php:2558 includes/class-admin-menu.php:2628
-#: includes/class-admin-menu.php:2655 includes/class-admin-menu.php:2675
+#: includes/class-admin-menu.php:724 includes/class-admin-menu.php:747
+#: includes/class-admin-menu.php:798 includes/class-admin-menu.php:834
+#: includes/class-admin-menu.php:1007 includes/class-admin-menu.php:1058
+#: includes/class-admin-menu.php:1108 includes/class-admin-menu.php:1268
+#: includes/class-admin-menu.php:1309 includes/class-admin-menu.php:1518
+#: includes/class-admin-menu.php:1545 includes/class-admin-menu.php:1581
+#: includes/class-admin-menu.php:1743 includes/class-admin-menu.php:1764
+#: includes/class-admin-menu.php:2796 includes/class-admin-menu.php:2823
+#: includes/class-admin-menu.php:2841 includes/class-admin-menu.php:2860
+#: includes/class-admin-menu.php:2878 includes/class-admin-menu.php:2963
+#: includes/class-admin-menu.php:2990 includes/class-admin-menu.php:3010
 msgid "Upgrade"
 msgstr ""
 
-#: includes/class-admin-menu.php:623 includes/class-admin-menu.php:1108
+#: includes/class-admin-menu.php:736 includes/class-admin-menu.php:1257
 msgid "Export by date range"
 msgstr ""
 
-#: includes/class-admin-menu.php:629
+#: includes/class-admin-menu.php:742
 msgid "Filter posts by published date range before selecting which to export."
 msgstr ""
 
-#: includes/class-admin-menu.php:642 includes/class-admin-menu.php:1127
+#: includes/class-admin-menu.php:755 includes/class-admin-menu.php:1276
 msgid "From"
 msgstr ""
 
-#: includes/class-admin-menu.php:648 includes/class-admin-menu.php:1133
+#: includes/class-admin-menu.php:761 includes/class-admin-menu.php:1282
 msgid "To"
 msgstr ""
 
-#: includes/class-admin-menu.php:654
+#: includes/class-admin-menu.php:767
 msgid "Apply Filter"
 msgstr ""
 
-#: includes/class-admin-menu.php:668 includes/class-admin-menu.php:1458
+#: includes/class-admin-menu.php:781 includes/class-admin-menu.php:1528
 msgid "Export custom ACF meta fields"
 msgstr ""
 
-#: includes/class-admin-menu.php:676 includes/class-admin-menu.php:1466
+#: includes/class-admin-menu.php:789 includes/class-admin-menu.php:1536
 msgid "Include Advanced Custom Fields data in the export with field keys."
 msgstr ""
 
-#: includes/class-admin-menu.php:678 includes/class-admin-menu.php:1468
+#: includes/class-admin-menu.php:791 includes/class-admin-menu.php:1538
 msgid "ACF (Advanced Custom Fields) plugin is not active. Install and activate ACF to use this option."
 msgstr ""
 
-#: includes/class-admin-menu.php:699 includes/class-admin-menu.php:1489
+#: includes/class-admin-menu.php:812 includes/class-admin-menu.php:1559
 msgid "Export WPML multilingual language data"
 msgstr ""
 
-#: includes/class-admin-menu.php:707
+#: includes/class-admin-menu.php:820
 msgid "Export language assignments with posts. Requires PRO version and WPML or Polylang plugin."
 msgstr ""
 
-#: includes/class-admin-menu.php:710 includes/class-admin-menu.php:1500
+#: includes/class-admin-menu.php:823 includes/class-admin-menu.php:1570
 #, php-format
 msgid "Include %s language assignments in the export. Required for preserving multilingual structure on import."
 msgstr ""
 
-#: includes/class-admin-menu.php:714 includes/class-admin-menu.php:846
-#: includes/class-admin-menu.php:1504 includes/class-admin-menu.php:1727
+#: includes/class-admin-menu.php:827 includes/class-admin-menu.php:961
+#: includes/class-admin-menu.php:1574 includes/class-admin-menu.php:1788
 msgid "Multilingual plugin (WPML or Polylang) is not active. Install and activate WPML or Polylang to use this option."
 msgstr ""
 
-#: includes/class-admin-menu.php:731 includes/class-admin-menu.php:2943
+#: includes/class-admin-menu.php:844 includes/class-admin-menu.php:3476
 msgid "Select Posts to Export"
 msgstr ""
 
-#: includes/class-admin-menu.php:736 includes/class-admin-menu.php:997
-#: includes/class-admin-menu.php:1526 includes/class-admin-menu.php:1746
-#: includes/class-admin-menu.php:2922 includes/class-admin-menu.php:2948
-#: includes/class-admin-menu.php:3030
+#: includes/class-admin-menu.php:849 includes/class-admin-menu.php:1125
+#: includes/class-admin-menu.php:1596 includes/class-admin-menu.php:1807
+#: includes/class-admin-menu.php:3455 includes/class-admin-menu.php:3481
+#: includes/class-admin-menu.php:3577
 msgid "Select All"
 msgstr ""
 
-#: includes/class-admin-menu.php:743
+#: includes/class-admin-menu.php:856
 msgid "Loading posts..."
 msgstr ""
 
-#: includes/class-admin-menu.php:747 includes/class-admin-menu.php:1005
-#: includes/class-admin-menu.php:1537 includes/class-admin-menu.php:1754
-#: includes/class-admin-menu.php:2954 includes/class-admin-menu.php:3038
+#: includes/class-admin-menu.php:860 includes/class-admin-menu.php:1133
+#: includes/class-admin-menu.php:1607 includes/class-admin-menu.php:1815
+#: includes/class-admin-menu.php:3487 includes/class-admin-menu.php:3585
 msgid "0 selected"
 msgstr ""
 
-#: includes/class-admin-menu.php:761 includes/class-admin-menu.php:1023
-#: includes/class-admin-menu.php:1550 includes/class-admin-menu.php:1772
-#: includes/class-admin-menu.php:2576
+#: includes/class-admin-menu.php:873 includes/class-admin-menu.php:1142
+#: includes/class-admin-menu.php:1619 includes/class-admin-menu.php:1825
+#: includes/class-admin-menu.php:2893
 msgid "This is a"
 msgstr ""
 
-#: includes/class-admin-menu.php:761 includes/class-admin-menu.php:1023
-#: includes/class-admin-menu.php:1550 includes/class-admin-menu.php:1772
-#: includes/class-admin-menu.php:2576
+#: includes/class-admin-menu.php:873 includes/class-admin-menu.php:1142
+#: includes/class-admin-menu.php:1619 includes/class-admin-menu.php:1825
+#: includes/class-admin-menu.php:2893
 msgid "feature. Upgrade to unlock it."
 msgstr ""
 
-#: includes/class-admin-menu.php:763 includes/class-admin-menu.php:1025
-#: includes/class-admin-menu.php:1552 includes/class-admin-menu.php:1774
-#: includes/class-admin-menu.php:2578
+#: includes/class-admin-menu.php:875 includes/class-admin-menu.php:1025
+#: includes/class-admin-menu.php:1049 includes/class-admin-menu.php:1077
+#: includes/class-admin-menu.php:1144 includes/class-admin-menu.php:1621
+#: includes/class-admin-menu.php:1827 includes/class-admin-menu.php:2895
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-admin-menu.php:769
+#: includes/class-admin-menu.php:882
 msgid "Import Posts"
 msgstr ""
 
-#: includes/class-admin-menu.php:770
+#: includes/class-admin-menu.php:883
 msgid "Import posts from a previously exported JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:774 includes/class-admin-menu.php:1563
-#: includes/class-admin-menu.php:1874 includes/class-admin-menu.php:1925
-msgid "Select JSON File"
+#: includes/class-admin-menu.php:891 includes/class-admin-menu.php:1638
+msgid "Drop your JSON file(s) here"
 msgstr ""
 
-#: includes/class-admin-menu.php:777 includes/class-admin-menu.php:1197
-#: includes/class-admin-menu.php:1566 includes/class-admin-menu.php:1877
-#: includes/class-admin-menu.php:1928 includes/class-admin-menu.php:2027
-#: includes/class-admin-menu.php:2117 includes/class-admin-menu.php:2991
+#: includes/class-admin-menu.php:892 includes/class-admin-menu.php:1348
+#: includes/class-admin-menu.php:1639 includes/class-admin-menu.php:2020
+#: includes/class-admin-menu.php:2098 includes/class-admin-menu.php:2274
+#: includes/class-admin-menu.php:2385 includes/class-admin-menu.php:2925
+#: includes/class-admin-menu.php:3534
+msgid "or click to browse"
+msgstr ""
+
+#: includes/class-admin-menu.php:896 includes/class-admin-menu.php:1352
+#: includes/class-admin-menu.php:1643 includes/class-admin-menu.php:2024
+#: includes/class-admin-menu.php:2102 includes/class-admin-menu.php:2278
+#: includes/class-admin-menu.php:2389 includes/class-admin-menu.php:2929
+#: includes/class-admin-menu.php:3538
 msgid "Start Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:797 includes/class-admin-menu.php:1586
+#: includes/class-admin-menu.php:912 includes/class-admin-menu.php:1658
 msgid "More options"
 msgstr ""
 
-#: includes/class-admin-menu.php:809 includes/class-admin-menu.php:2999
+#: includes/class-admin-menu.php:924 includes/class-admin-menu.php:3546
 msgid "Check media library for post images"
 msgstr ""
 
-#: includes/class-admin-menu.php:811
+#: includes/class-admin-menu.php:926
 msgid "Check if images already exist in media library before importing. Uncheck for faster import (images will be missing)."
 msgstr ""
 
-#: includes/class-admin-menu.php:819 includes/class-admin-menu.php:1608
-#: includes/class-admin-menu.php:3007
+#: includes/class-admin-menu.php:934 includes/class-admin-menu.php:1680
+#: includes/class-admin-menu.php:3554
 msgid "Download missing images from original URLs"
 msgstr ""
 
-#: includes/class-admin-menu.php:821
+#: includes/class-admin-menu.php:936
 msgid "If images are not found in media library, try to download them from their original locations. Uncheck for faster import."
 msgstr ""
 
-#: includes/class-admin-menu.php:836 includes/class-admin-menu.php:1717
+#: includes/class-admin-menu.php:951 includes/class-admin-menu.php:1778
 msgid "Enable WPML multilingual language support"
 msgstr ""
 
-#: includes/class-admin-menu.php:842
+#: includes/class-admin-menu.php:957
 #, php-format
 msgid "Preserve %s language assignments when importing posts. Requires multilingual plugin to be active on both source and destination sites."
 msgstr ""
 
-#: includes/class-admin-menu.php:859 includes/class-admin-menu.php:1619
+#: includes/class-admin-menu.php:972 includes/class-admin-menu.php:1690
 msgid "Image Matching Strategy"
 msgstr ""
 
-#: includes/class-admin-menu.php:868 includes/class-admin-menu.php:1628
+#: includes/class-admin-menu.php:980 includes/class-admin-menu.php:1698
 msgid "Verify only fallback matches"
 msgstr ""
 
-#: includes/class-admin-menu.php:870 includes/class-admin-menu.php:1630
-msgid "Skip verification for exact path matches, verify only filename-based matches. Fast and reliable."
+#: includes/class-admin-menu.php:981 includes/class-admin-menu.php:1699
+msgid "Fast & reliable for exact and filename-based matches."
 msgstr ""
 
-#: includes/class-admin-menu.php:878
+#: includes/class-admin-menu.php:987 includes/class-admin-menu.php:1705
 msgid "Verify all matches"
 msgstr ""
 
-#: includes/class-admin-menu.php:884 includes/class-admin-menu.php:1644
-msgid "Verify file size for every match. Use if you suspect duplicate filenames."
+#: includes/class-admin-menu.php:992 includes/class-admin-menu.php:1710
+msgid "Verifies file size for every match — for suspected duplicates."
 msgstr ""
 
-#: includes/class-admin-menu.php:892
+#: includes/class-admin-menu.php:998 includes/class-admin-menu.php:1716
 msgid "Always download fresh"
 msgstr ""
 
-#: includes/class-admin-menu.php:898
-msgid "Never reuse existing images, always download from source."
+#: includes/class-admin-menu.php:1003 includes/class-admin-menu.php:1721
+msgid "Never reuses existing images. Slowest, use for critical imports."
 msgstr ""
 
-#: includes/class-admin-menu.php:909
+#: includes/class-admin-menu.php:1017
 msgid "Link reused media to imported post"
 msgstr ""
 
-#: includes/class-admin-menu.php:915
-msgid "Sets the 'Uploaded to' column in Media Library for matched/reused images, linking them to the imported post. (Downloaded missing images are always linked automatically by WordPress.)"
+#: includes/class-admin-menu.php:1023
+msgid "Sets the 'Uploaded to' column in Media Library for matched/reused images."
 msgstr ""
 
-#: includes/class-admin-menu.php:932 includes/class-admin-menu.php:3015
+#: includes/class-admin-menu.php:1028
+msgid "Downloaded missing images are always linked automatically by WordPress — this setting only affects images that were matched and reused."
+msgstr ""
+
+#: includes/class-admin-menu.php:1041 includes/class-admin-menu.php:3562
 msgid "Import individually (select specific posts)"
 msgstr ""
 
-#: includes/class-admin-menu.php:938
-msgid "Choose which posts to import from the file instead of importing all. Even you can change the status before import."
-msgstr ""
-
-#: includes/class-admin-menu.php:954
-msgid "Smart author mapping"
-msgstr ""
-
-#: includes/class-admin-menu.php:960
-msgid "Recommended. Prevents posts being assigned to the wrong author when user IDs differ between sites."
-msgstr ""
-
-#: includes/class-admin-menu.php:967
-msgid "If the author is not found on this site:"
-msgstr ""
-
-#: includes/class-admin-menu.php:971
-msgid "Assign post to the current admin user"
-msgstr ""
-
-#: includes/class-admin-menu.php:975
-msgid "Automatically create the missing user"
-msgstr ""
-
-#: includes/class-admin-menu.php:992 includes/class-admin-menu.php:3025
-msgid "Select Posts to Import"
-msgstr ""
-
-#: includes/class-admin-menu.php:1002
-msgid "Select a JSON file above to load posts for selection."
-msgstr ""
-
-#: includes/class-admin-menu.php:1011 includes/class-admin-menu.php:1202
-#: includes/class-admin-menu.php:1760 includes/class-admin-menu.php:1887
-#: includes/class-admin-menu.php:1943 includes/class-admin-menu.php:2056
-#: includes/class-admin-menu.php:2146 includes/class-admin-menu.php:3045
-msgid "Import Progress"
-msgstr ""
-
-#: includes/class-admin-menu.php:1015 includes/class-admin-menu.php:1042
-#: includes/class-admin-menu.php:1206 includes/class-admin-menu.php:1223
-#: includes/class-admin-menu.php:1764 includes/class-admin-menu.php:1791
-#: includes/class-admin-menu.php:1891 includes/class-admin-menu.php:1947
-#: includes/class-admin-menu.php:2012 includes/class-admin-menu.php:2060
-#: includes/class-admin-menu.php:2102 includes/class-admin-menu.php:2150
-msgid "Starting..."
-msgstr ""
-
-#: includes/class-admin-menu.php:1031
-msgid "Delete Posts"
-msgstr ""
-
-#: includes/class-admin-menu.php:1032
-msgid "⚠️ Warning: This will permanently delete all posts. This action cannot be undone."
-msgstr ""
-
-#: includes/class-admin-menu.php:1034
-msgid "Delete All Posts"
-msgstr ""
-
-#: includes/class-admin-menu.php:1038 includes/class-admin-menu.php:1219
-msgid "Delete Progress"
-msgstr ""
-
-#: includes/class-admin-menu.php:1049
-msgid "Media Export/Import"
+#: includes/class-admin-menu.php:1047
+msgid "Choose which posts to import instead of everything in the file."
 msgstr ""
 
 #: includes/class-admin-menu.php:1052
-msgid "Media Statistics"
+msgid "You can also change each post's status before importing. To enable this option, first select a JSON file, then check the option. A section will appear below where you can choose individual posts."
 msgstr ""
 
-#: includes/class-admin-menu.php:1056
-msgid "Loading media statistics..."
+#: includes/class-admin-menu.php:1069
+msgid "Smart author mapping"
 msgstr ""
 
-#: includes/class-admin-menu.php:1057
-msgid "Analyzing your media library"
+#: includes/class-admin-menu.php:1075
+msgid "Matches posts to existing users by username/email instead of numeric ID."
 msgstr ""
 
-#: includes/class-admin-menu.php:1061
-msgid "Refresh Stats"
+#: includes/class-admin-menu.php:1083
+#, php-format
+msgid "If the original author doesn't exist on the destination site, select 'Automatically create missing users' — it will create the user with the same username and email address as the original author. Alternatively, export and import users separately using the dedicated User Export/Import feature before importing posts. Visit %1$sWP Toolkit > Settings%2$s to configure the auto-generated password."
 msgstr ""
 
-#: includes/class-admin-menu.php:1066 includes/class-admin-menu.php:1184
-msgid "Export Media"
+#: includes/class-admin-menu.php:1095
+msgid "If the author is not found on this site:"
 msgstr ""
 
-#: includes/class-admin-menu.php:1067
-msgid "Export all media files with their metadata as a ZIP file."
+#: includes/class-admin-menu.php:1099
+msgid "Assign posts to the current admin or existing authors"
 msgstr ""
 
-#: includes/class-admin-menu.php:1073
-msgid "Export all image sizes (thumbnails, medium, large)"
+#: includes/class-admin-menu.php:1103
+msgid "Automatically create the missing user if not exist."
 msgstr ""
 
-#: includes/class-admin-menu.php:1076
-msgid "Include all generated image size variations. Unchecked (default) exports only original files. WordPress will regenerate thumbnails on import."
+#: includes/class-admin-menu.php:1120 includes/class-admin-menu.php:3572
+msgid "Select Posts to Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:1114
-msgid "Filter media by upload date range before exporting."
+#: includes/class-admin-menu.php:1130
+msgid "Select a JSON file above to load posts for selection."
 msgstr ""
 
-#: includes/class-admin-menu.php:1149
-msgid "Export media by post"
+#: includes/class-admin-menu.php:1153 includes/class-admin-menu.php:1360
+#: includes/class-admin-menu.php:1836 includes/class-admin-menu.php:2034
+#: includes/class-admin-menu.php:2117 includes/class-admin-menu.php:2307
+#: includes/class-admin-menu.php:2418 includes/class-admin-menu.php:3592
+msgid "Import Progress"
 msgstr ""
 
-#: includes/class-admin-menu.php:1155
-msgid "Choose specific posts and export only the media attached to them."
+#: includes/class-admin-menu.php:1157 includes/class-admin-menu.php:1174
+#: includes/class-admin-menu.php:1364 includes/class-admin-menu.php:1381
+#: includes/class-admin-menu.php:1840 includes/class-admin-menu.php:1858
+#: includes/class-admin-menu.php:2038 includes/class-admin-menu.php:2121
+#: includes/class-admin-menu.php:2255 includes/class-admin-menu.php:2311
+#: includes/class-admin-menu.php:2366 includes/class-admin-menu.php:2422
+msgid "Starting..."
 msgstr ""
 
-#: includes/class-admin-menu.php:1168
-msgid "Select all"
+#: includes/class-admin-menu.php:1163
+msgid "Danger Zone: Delete Media"
 msgstr ""
 
-#: includes/class-admin-menu.php:1169
-msgid "Deselect all"
-msgstr ""
-
-#: includes/class-admin-menu.php:1172
-msgid "Loading posts…"
-msgstr ""
-
-#: includes/class-admin-menu.php:1189
-msgid "Import Media"
-msgstr ""
-
-#: includes/class-admin-menu.php:1190
-msgid "Import media files from a previously exported ZIP file. Maximum file size: 500MB."
-msgstr ""
-
-#: includes/class-admin-menu.php:1194 includes/class-admin-menu.php:2024
-#: includes/class-admin-menu.php:2114
-msgid "Select ZIP File"
-msgstr ""
-
-#: includes/class-admin-menu.php:1212
-msgid "Delete Media"
-msgstr ""
-
-#: includes/class-admin-menu.php:1213
+#: includes/class-admin-menu.php:1164
 msgid "⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone."
 msgstr ""
 
-#: includes/class-admin-menu.php:1215
+#: includes/class-admin-menu.php:1166
 msgid "Delete All Media"
 msgstr ""
 
-#: includes/class-admin-menu.php:1231
-msgid "System Test"
+#: includes/class-admin-menu.php:1170 includes/class-admin-menu.php:1377
+msgid "Delete Progress"
 msgstr ""
 
-#: includes/class-admin-menu.php:1232
-msgid "Test your server configuration to ensure compatibility."
+#: includes/class-admin-menu.php:1189 includes/class-admin-menu.php:2571
+#: includes/class-scheduled-exports.php:222
+msgid "Media"
 msgstr ""
 
-#: includes/class-admin-menu.php:1234
-msgid "Test Configuration"
+#: includes/class-admin-menu.php:1190
+msgid "Export and Import files"
 msgstr ""
 
-#: includes/class-admin-menu.php:1241
-msgid "How to Use This Plugin"
+#: includes/class-admin-menu.php:1201
+msgid "Media Statistics"
 msgstr ""
 
-#: includes/class-admin-menu.php:1242
-msgid "Follow these steps for successful export and import with all images intact:"
+#: includes/class-admin-menu.php:1205
+msgid "Loading media statistics..."
 msgstr ""
 
-#: includes/class-admin-menu.php:1250
-msgid "Export Media Files"
+#: includes/class-admin-menu.php:1206
+msgid "Analyzing your media library"
 msgstr ""
 
-#: includes/class-admin-menu.php:1254
-msgid "Start by exporting all your media files using the \"Export Media\" button above. This will create a ZIP file containing your images, videos, and documents."
+#: includes/class-admin-menu.php:1210
+msgid "Refresh Stats"
 msgstr ""
 
-#: includes/class-admin-menu.php:1260
-msgid "If your images are still available on the live site, you can enable \"Download missing images from original URLs\". This option downloads media directly from their original sources instead of the export file. Note that this may take more time. For faster imports, export the media first and keep this option unchecked."
+#: includes/class-admin-menu.php:1215 includes/class-admin-menu.php:1332
+msgid "Export Media"
 msgstr ""
 
-#: includes/class-admin-menu.php:1272
-msgid "Next, export your posts using the \"Export Posts\" button. This creates a JSON file with all post content and image references."
+#: includes/class-admin-menu.php:1216
+msgid "Export all media files with their metadata as a ZIP file."
 msgstr ""
 
-#: includes/class-admin-menu.php:1279
-msgid "Import Media First"
+#: includes/class-admin-menu.php:1222
+msgid "Export all image sizes (thumbnails, medium, large)"
 msgstr ""
 
-#: includes/class-admin-menu.php:1280
-msgid "On your destination site, import the media ZIP file first. This ensures all images are available before importing posts."
+#: includes/class-admin-menu.php:1225
+msgid "Include all generated image size variations. Unchecked (default) exports only original files. WordPress will regenerate thumbnails on import."
 msgstr ""
 
-#: includes/class-admin-menu.php:1287
-msgid "Import Posts Last"
+#: includes/class-admin-menu.php:1263
+msgid "Filter media by upload date range before exporting."
 msgstr ""
 
-#: includes/class-admin-menu.php:1288
-msgid "Finally, import the posts JSON file. The plugin will automatically link posts to the previously imported images."
+#: includes/class-admin-menu.php:1298
+msgid "Export media by post"
 msgstr ""
 
-#: includes/class-admin-menu.php:1295
-msgid "Smart Media Matching"
+#: includes/class-admin-menu.php:1304
+msgid "Choose specific posts and export only the media attached to them."
 msgstr ""
 
-#: includes/class-admin-menu.php:1299
-msgid "When importing posts, the plugin first checks whether an image already exists in your Media Library. Choose how it should handle matching existing media."
-msgstr ""
-
-#: includes/class-admin-menu.php:1306
-msgid "Verify Only Fallback Matches (Recommended)"
-msgstr ""
-
-#: includes/class-admin-menu.php:1309
-msgid "Best for most websites. If the original upload path is found, the image is reused instantly. When only the filename matches, the plugin performs one extra safety check before reusing it."
-msgstr ""
-
-#: includes/class-admin-menu.php:1315
-msgid "Verify All Matches (PRO)"
+#: includes/class-admin-menu.php:1317
+msgid "Select all"
 msgstr ""
 
 #: includes/class-admin-menu.php:1318
-msgid "Checks every reused image before linking it. Recommended if your Media Library has changed over time or you want the highest level of matching accuracy."
+msgid "Deselect all"
 msgstr ""
 
-#: includes/class-admin-menu.php:1324
-msgid "Always Download Fresh (PRO)"
+#: includes/class-admin-menu.php:1321
+msgid "Loading posts…"
 msgstr ""
 
-#: includes/class-admin-menu.php:1327
-msgid "Skips existing Media Library images and downloads fresh copies from the source website whenever available. Best if you always want newly imported files."
-msgstr ""
-
-#: includes/class-admin-menu.php:1335
-msgid "⭐ PRO: Link Reused Media to Imported Post"
+#: includes/class-admin-menu.php:1338
+msgid "Import Media"
 msgstr ""
 
 #: includes/class-admin-menu.php:1339
-msgid "When an existing image is reused, this option also links it to the imported post. The \"Uploaded To\" column in the Media Library will correctly show the imported post as the image owner."
+msgid "Import media files from a previously exported ZIP file. Maximum file size: 500MB."
 msgstr ""
 
-#: includes/class-admin-menu.php:1346
-msgid "Pro Tips"
+#: includes/class-admin-menu.php:1347
+msgid "Drop your ZIP file(s) here"
 msgstr ""
 
-#: includes/class-admin-menu.php:1348
-msgid "✓ Always import media before posts for complete image restoration"
-msgstr ""
-
-#: includes/class-admin-menu.php:1349
-msgid "✓ The plugin will show which images are missing during post import"
-msgstr ""
-
-#: includes/class-admin-menu.php:1350
-msgid "✓ Run the System Test first to ensure your server can handle large files"
-msgstr ""
-
-#: includes/class-admin-menu.php:1351
-msgid "✓ Enable \"Download missing images from original URLs\" if the source site is still online. This imports images directly without requiring a media ZIP, but may take longer."
-msgstr ""
-
-#: includes/class-admin-menu.php:1352
-msgid "⭐ PRO: Choose how existing media is matched—verify fallback matches, verify every match for maximum accuracy, or always download fresh copies."
-msgstr ""
-
-#: includes/class-admin-menu.php:1353
-msgid "⭐ PRO: Automatically link reused media to imported posts, updating the \"Uploaded To\" relationship in the Media Library."
-msgstr ""
-
-#: includes/class-admin-menu.php:1354
-msgid "✓ Existing images with the same filename will be reused automatically"
-msgstr ""
-
-#: includes/class-admin-menu.php:1355
-msgid "✓ If you enable \"Download missing images from original URLs\" and ensure the source site is live, media will be fetched directly from the original URLs. This means you won’t need to import media files separately, though the process may take additional time to download and complete."
-msgstr ""
-
-#: includes/class-admin-menu.php:1362
-#, php-format
-msgid "For more guides, tutorials, and troubleshooting, visit our <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">Documentation Center</a>."
+#: includes/class-admin-menu.php:1370
+msgid "Danger Zone: Delete All Posts"
 msgstr ""
 
 #: includes/class-admin-menu.php:1371
-#, php-format
-msgid "Have a question or a feature request? <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">Contact our support team</a> by filling out the support form or start a live chat using the chat widget on our website."
+msgid "⚠️ Warning: This will permanently delete all posts. This action cannot be undone."
 msgstr ""
 
-#: includes/class-admin-menu.php:1396 includes/class-admin-menu.php:1405
-msgid "Pages Export/Import"
-msgstr ""
-
-#: includes/class-admin-menu.php:1408 includes/class-admin-menu.php:1543
-msgid "Export Pages"
+#: includes/class-admin-menu.php:1373
+msgid "Delete All Posts"
 msgstr ""
 
 #: includes/class-admin-menu.php:1409
+msgid "Pages Export/Import"
+msgstr ""
+
+#: includes/class-admin-menu.php:1414 includes/class-admin-menu.php:1896
+#: includes/class-admin-menu.php:2156 includes/class-admin-menu.php:3366
+msgid "Export your page hierarchy with metadata and featured images, and import it back with the same structure."
+msgstr ""
+
+#: includes/class-admin-menu.php:1423 includes/class-admin-menu.php:1478
+#: includes/class-admin-menu.php:1612
+msgid "Export Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1432 includes/class-admin-menu.php:1905
+#: includes/class-admin-menu.php:2165 includes/class-admin-menu.php:2705
+#: includes/class-admin-menu.php:3375
+msgid "Your migration journey"
+msgstr ""
+
+#: includes/class-admin-menu.php:1433 includes/class-admin-menu.php:1906
+#: includes/class-admin-menu.php:2166 includes/class-admin-menu.php:2706
+#: includes/class-admin-menu.php:3376
+msgid "Follow this order for a complete transfer between sites."
+msgstr ""
+
+#: includes/class-admin-menu.php:1435 includes/class-admin-menu.php:1908
+#: includes/class-admin-menu.php:2168 includes/class-admin-menu.php:2708
+#: includes/class-admin-menu.php:3378
+msgid "Recommended order"
+msgstr ""
+
+#: includes/class-admin-menu.php:1442
+msgid "1. Export Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1444
+msgid "Download your complete page structure."
+msgstr ""
+
+#: includes/class-admin-menu.php:1450
+msgid "2. Import Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1452
+msgid "Restore your pages with hierarchy on the new site."
+msgstr ""
+
+#: includes/class-admin-menu.php:1466 includes/class-admin-menu.php:2574
+#: includes/class-scheduled-exports.php:221
+msgid "Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1467
+msgid "Export and Import Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1479
 msgid "Export all pages with their metadata, featured images, and hierarchy."
 msgstr ""
 
-#: includes/class-admin-menu.php:1437
+#: includes/class-admin-menu.php:1507
 msgid "Export individually (select specific pages)"
 msgstr ""
 
-#: includes/class-admin-menu.php:1443
+#: includes/class-admin-menu.php:1513
 msgid "Choose which pages to export instead of exporting all."
 msgstr ""
 
-#: includes/class-admin-menu.php:1497
+#: includes/class-admin-menu.php:1567
 msgid "Export language assignments with pages. Requires PRO version and WPML or Polylang plugin."
 msgstr ""
 
-#: includes/class-admin-menu.php:1521
+#: includes/class-admin-menu.php:1591
 msgid "Select Pages to Export"
 msgstr ""
 
-#: includes/class-admin-menu.php:1533
+#: includes/class-admin-menu.php:1603
 msgid "Loading pages..."
 msgstr ""
 
-#: includes/class-admin-menu.php:1558
+#: includes/class-admin-menu.php:1629
 msgid "Import Pages"
 msgstr ""
 
-#: includes/class-admin-menu.php:1559
+#: includes/class-admin-menu.php:1630
 msgid "Import pages from a previously exported JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:1598
+#: includes/class-admin-menu.php:1670
 msgid "Check media library for page images"
 msgstr ""
 
-#: includes/class-admin-menu.php:1600
+#: includes/class-admin-menu.php:1672
 msgid "Search for images in your media library before downloading. Uncheck for faster import if you plan to add images manually later."
 msgstr ""
 
-#: includes/class-admin-menu.php:1610
+#: includes/class-admin-menu.php:1682
 msgid "If images are not found in media library, try to download them from their original locations"
 msgstr ""
 
-#: includes/class-admin-menu.php:1638
-msgid "Safe: Verify all matches"
-msgstr ""
-
-#: includes/class-admin-menu.php:1652
-msgid "Safest: Always download fresh"
-msgstr ""
-
-#: includes/class-admin-menu.php:1658
-msgid "Never reuse existing images, always download from source. Slowest, may create duplicates. Use only for critical imports."
-msgstr ""
-
-#: includes/class-admin-menu.php:1670
+#: includes/class-admin-menu.php:1731
 msgid "Link reused media to imported page"
 msgstr ""
 
-#: includes/class-admin-menu.php:1676
+#: includes/class-admin-menu.php:1737
 msgid "Sets the 'Uploaded to' column in Media Library for matched/reused images, linking them to the imported page. (Downloaded missing images are always linked automatically by WordPress.)"
 msgstr ""
 
-#: includes/class-admin-menu.php:1692
+#: includes/class-admin-menu.php:1753
 msgid "Import individually (select specific pages)"
 msgstr ""
 
-#: includes/class-admin-menu.php:1698
+#: includes/class-admin-menu.php:1759
 msgid "Choose which pages to import from the file instead of importing all. Even you can change the status before import."
 msgstr ""
 
-#: includes/class-admin-menu.php:1723
+#: includes/class-admin-menu.php:1784
 #, php-format
 msgid "Preserve %s language assignments when importing pages. Requires multilingual plugin to be active on both source and destination sites."
 msgstr ""
 
-#: includes/class-admin-menu.php:1741
+#: includes/class-admin-menu.php:1802
 msgid "Select Pages to Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:1751
+#: includes/class-admin-menu.php:1812
 msgid "Select a JSON file above to load pages for selection."
 msgstr ""
 
-#: includes/class-admin-menu.php:1780 includes/class-admin-menu.php:1783
-msgid "Delete All Pages"
+#: includes/class-admin-menu.php:1847
+msgid "Danger Zone: Delete All Pages"
 msgstr ""
 
-#: includes/class-admin-menu.php:1781
+#: includes/class-admin-menu.php:1848
 msgid "Permanently delete all pages from your website. This action cannot be undone."
 msgstr ""
 
-#: includes/class-admin-menu.php:1787
+#: includes/class-admin-menu.php:1850
+msgid "Delete All Pages"
+msgstr ""
+
+#: includes/class-admin-menu.php:1854
 msgid "Deletion Progress"
 msgstr ""
 
-#: includes/class-admin-menu.php:1814 includes/class-admin-menu.php:1823
+#: includes/class-admin-menu.php:1891 includes/class-admin-menu.php:1954
 msgid "WordPress Settings Export/Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:1826 includes/class-admin-menu.php:1864
+#: includes/class-admin-menu.php:1915
+msgid "1. Export Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1917
+msgid "Download your WordPress settings."
+msgstr ""
+
+#: includes/class-admin-menu.php:1923
+msgid "2. Import Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1925
+msgid "Restore your WordPress settings."
+msgstr ""
+
+#: includes/class-admin-menu.php:1931
+msgid "3. Export Widgets"
+msgstr ""
+
+#: includes/class-admin-menu.php:1933
+msgid "Download your widgets and navigation menus."
+msgstr ""
+
+#: includes/class-admin-menu.php:1939
+msgid "4. Import Widgets"
+msgstr ""
+
+#: includes/class-admin-menu.php:1941
+msgid "Restore your widgets and menus."
+msgstr ""
+
+#: includes/class-admin-menu.php:1960 includes/class-admin-menu.php:1966
+#: includes/class-admin-menu.php:2003
 msgid "Export Settings"
 msgstr ""
 
-#: includes/class-admin-menu.php:1827
-msgid "Export WordPress configuration settings from General, Writing, Reading, Discussion, Media, Permalinks, and Privacy sections."
-msgstr ""
-
-#: includes/class-admin-menu.php:1830
-msgid "Select Settings Groups to Export:"
-msgstr ""
-
-#: includes/class-admin-menu.php:1834 includes/class-settings-handler.php:421
-msgid "General Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1838 includes/class-settings-handler.php:426
-msgid "Writing Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1842 includes/class-settings-handler.php:431
-msgid "Reading Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1846 includes/class-settings-handler.php:436
-msgid "Discussion Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1850 includes/class-settings-handler.php:441
-msgid "Media Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1854 includes/class-settings-handler.php:446
-msgid "Permalink Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1858 includes/class-settings-handler.php:451
-msgid "Privacy Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:1869
+#: includes/class-admin-menu.php:1961 includes/class-admin-menu.php:2010
 msgid "Import Settings"
 msgstr ""
 
-#: includes/class-admin-menu.php:1870
+#: includes/class-admin-menu.php:1967
+msgid "Export WordPress configuration settings from General, Writing, Reading, Discussion, Media, Permalinks, and Privacy sections."
+msgstr ""
+
+#: includes/class-admin-menu.php:1970
+msgid "Select Settings Groups to Export:"
+msgstr ""
+
+#: includes/class-admin-menu.php:1974 includes/class-settings-handler.php:421
+msgid "General Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1978 includes/class-settings-handler.php:426
+msgid "Writing Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1982 includes/class-settings-handler.php:431
+msgid "Reading Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1986 includes/class-settings-handler.php:436
+msgid "Discussion Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1990 includes/class-settings-handler.php:441
+msgid "Media Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1994 includes/class-settings-handler.php:446
+msgid "Permalink Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:1998 includes/class-settings-handler.php:451
+msgid "Privacy Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:2011
 msgid "Import WordPress settings from a previously exported JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:1882
+#: includes/class-admin-menu.php:2019 includes/class-admin-menu.php:2097
+#: includes/class-admin-menu.php:2924 includes/class-admin-menu.php:3533
+msgid "Drop your JSON file here"
+msgstr ""
+
+#: includes/class-admin-menu.php:2029
 msgid "Settings Preview & Selection:"
 msgstr ""
 
-#: includes/class-admin-menu.php:1899
-msgid "Widgets & Navigation Menus"
+#: includes/class-admin-menu.php:2053
+msgid "Widgets & Navigation"
 msgstr ""
 
-#: includes/class-admin-menu.php:1902
+#: includes/class-admin-menu.php:2054
+msgid "Widgets & Navigation Menus Export/Import"
+msgstr ""
+
+#: includes/class-admin-menu.php:2060
+msgid "Export Widgets/Menus"
+msgstr ""
+
+#: includes/class-admin-menu.php:2061
+msgid "Import Widgets/Menus"
+msgstr ""
+
+#: includes/class-admin-menu.php:2066
 msgid "Export Widgets & Menus"
 msgstr ""
 
-#: includes/class-admin-menu.php:1903
+#: includes/class-admin-menu.php:2067
 msgid "Export your widgets and navigation menus configuration."
 msgstr ""
 
-#: includes/class-admin-menu.php:1907
+#: includes/class-admin-menu.php:2071
 msgid "Export Widgets Only"
 msgstr ""
 
-#: includes/class-admin-menu.php:1910
+#: includes/class-admin-menu.php:2075
 msgid "Export Menus Only"
 msgstr ""
 
-#: includes/class-admin-menu.php:1913
+#: includes/class-admin-menu.php:2079
 msgid "Export Both"
 msgstr ""
 
-#: includes/class-admin-menu.php:1919
+#: includes/class-admin-menu.php:2087
 msgid "Import Widgets & Menus"
 msgstr ""
 
-#: includes/class-admin-menu.php:1920
+#: includes/class-admin-menu.php:2088
 msgid "Import widgets and navigation menus from a previously exported JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:1936
+#: includes/class-admin-menu.php:2110
 msgid "Replace existing widgets and menus"
 msgstr ""
 
-#: includes/class-admin-menu.php:1937
+#: includes/class-admin-menu.php:2111
 msgid "Clear existing widgets and menus before importing"
 msgstr ""
 
-#: includes/class-admin-menu.php:1969
-msgid "WP Themes & Plugins Toolkit"
+#: includes/class-admin-menu.php:2151
+msgid "WP Themes & Plugins Export/Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:1978
-msgid "Themes Backup"
-msgstr ""
-
-#: includes/class-admin-menu.php:1981 includes/class-admin-menu.php:2004
-msgid "Export Themes"
-msgstr ""
-
-#: includes/class-admin-menu.php:1982
-msgid "Create a backup of your themes as a ZIP file."
-msgstr ""
-
-#: includes/class-admin-menu.php:1987
-msgid "Active Theme Only"
-msgstr ""
-
-#: includes/class-admin-menu.php:1991
-msgid "All Installed Themes"
-msgstr ""
-
-#: includes/class-admin-menu.php:1995
-msgid "Selected Themes"
-msgstr ""
-
-#: includes/class-admin-menu.php:2008 includes/class-admin-menu.php:2098
-#: includes/class-admin-menu.php:2966
-msgid "Export Progress"
-msgstr ""
-
-#: includes/class-admin-menu.php:2018
-msgid "Import Themes"
-msgstr ""
-
-#: includes/class-admin-menu.php:2019
-msgid "Import themes from a previously exported ZIP file."
-msgstr ""
-
-#: includes/class-admin-menu.php:2035
-msgid "Replace existing themes"
-msgstr ""
-
-#: includes/class-admin-menu.php:2036
-msgid "Overwrite themes that already exist on this site"
-msgstr ""
-
-#: includes/class-admin-menu.php:2042 includes/class-admin-menu.php:2132
-msgid "Skip if already present"
-msgstr ""
-
-#: includes/class-admin-menu.php:2043
-msgid "Skip themes that already exist — do not overwrite"
-msgstr ""
-
-#: includes/class-admin-menu.php:2049
-msgid "Activate imported theme"
-msgstr ""
-
-#: includes/class-admin-menu.php:2050
-msgid "Switch to the first imported theme after import"
-msgstr ""
-
-#: includes/class-admin-menu.php:2068
-msgid "Plugins Backup"
-msgstr ""
-
-#: includes/class-admin-menu.php:2071 includes/class-admin-menu.php:2094
-msgid "Export Plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2072
-msgid "Create a backup of your plugins as a ZIP file."
-msgstr ""
-
-#: includes/class-admin-menu.php:2077
-msgid "Active Plugins Only"
-msgstr ""
-
-#: includes/class-admin-menu.php:2081
-msgid "All Installed Plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2085
-msgid "Selected Plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2108
-msgid "Import Plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2109
-msgid "Import plugins from a previously exported ZIP file."
-msgstr ""
-
-#: includes/class-admin-menu.php:2125
-msgid "Replace existing plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2126
-msgid "Overwrite plugins that already exist on this site"
-msgstr ""
-
-#: includes/class-admin-menu.php:2133
-msgid "Skip plugins that already exist — do not overwrite"
-msgstr ""
-
-#: includes/class-admin-menu.php:2139
-msgid "Activate imported plugins"
-msgstr ""
-
-#: includes/class-admin-menu.php:2140
-msgid "Automatically activate plugins after import"
-msgstr ""
-
-#: includes/class-admin-menu.php:2158 includes/class-scheduled-exports.php:223
-msgid "Settings"
-msgstr ""
-
-#: includes/class-admin-menu.php:2174
-msgid "Admin Download Buttons"
+#: includes/class-admin-menu.php:2175
+msgid "1. Export Themes"
 msgstr ""
 
 #: includes/class-admin-menu.php:2177
-msgid "Add download buttons to WordPress Themes and Plugins pages"
+msgid "Download your active themes as a ZIP file."
 msgstr ""
 
-#: includes/class-admin-menu.php:2180
-msgid "When enabled, download buttons will appear on the Appearance > Themes and Plugins pages, allowing you to download individual themes and plugins as ZIP files."
+#: includes/class-admin-menu.php:2183
+msgid "2. Import Themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2186
-msgid "Allowed Media File Types"
+#: includes/class-admin-menu.php:2185
+msgid "Upload and restore your themes."
 msgstr ""
 
-#: includes/class-admin-menu.php:2187
-msgid "Define which file types are allowed during media import. Files with extensions not in this list will be blocked for security."
+#: includes/class-admin-menu.php:2191
+msgid "3. Export Plugins"
 msgstr ""
 
-#: includes/class-admin-menu.php:2192
-msgid "File type validation"
+#: includes/class-admin-menu.php:2193
+msgid "Download your active plugins."
 msgstr ""
 
-#: includes/class-admin-menu.php:2207
-msgid "Allow all file types (bypass validation)"
+#: includes/class-admin-menu.php:2199
+msgid "4. Import Plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2201
+msgid "Restore plugins to the new site."
 msgstr ""
 
 #: includes/class-admin-menu.php:2215
-msgid "Allowed file extensions"
+msgid "Themes Backup"
 msgstr ""
 
-#: includes/class-admin-menu.php:2234
-msgid "Enter file extensions separated by commas (e.g., jpg,png,pdf,ods,mov). Common additions: ods (spreadsheets), mov (videos), xlsx, pptx, zip."
+#: includes/class-admin-menu.php:2216
+msgid "Create a backup of your themes as a ZIP file."
 msgstr ""
 
-#: includes/class-admin-menu.php:2243
-msgid "User Import Defaults"
+#: includes/class-admin-menu.php:2222 includes/class-admin-menu.php:2247
+msgid "Export Themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2244
-msgid "Set a default password during post import. If 'Automatically create missing users' is enabled, a welcome email will be sent when a new account is created."
+#: includes/class-admin-menu.php:2223 includes/class-admin-menu.php:2263
+msgid "Import Themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2250
-msgid "Default password for imported users"
+#: includes/class-admin-menu.php:2231
+msgid "Active Theme Only"
 msgstr ""
 
-#: includes/class-admin-menu.php:2268 includes/class-admin-menu.php:2638
-msgid "Leave blank to auto-generate a secure password per user."
+#: includes/class-admin-menu.php:2235
+msgid "All Installed Themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2271
-msgid "If no password hash exists in the import data and no default password is set, a secure password will be generated automatically for each user."
+#: includes/class-admin-menu.php:2239
+msgid "Selected Themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2277
-msgid "Welcome email"
+#: includes/class-admin-menu.php:2251 includes/class-admin-menu.php:2362
+#: includes/class-admin-menu.php:3498
+msgid "Export Progress"
 msgstr ""
 
-#: includes/class-admin-menu.php:2292
-msgid "Send welcome email to imported users by default"
+#: includes/class-admin-menu.php:2264
+msgid "Import themes from a previously exported ZIP file."
 msgstr ""
 
-#: includes/class-admin-menu.php:2314
-msgid "Frequently Asked Questions"
+#: includes/class-admin-menu.php:2273 includes/class-admin-menu.php:2384
+msgid "Drop your ZIP file here"
 msgstr ""
 
-#: includes/class-admin-menu.php:2334
-msgid "All"
+#: includes/class-admin-menu.php:2286
+msgid "Replace existing themes"
 msgstr ""
 
-#: includes/class-admin-menu.php:2337 includes/class-scheduled-exports.php:220
-msgid "Posts"
+#: includes/class-admin-menu.php:2287
+msgid "Overwrite themes that already exist on this site"
 msgstr ""
 
-#: includes/class-admin-menu.php:2340 includes/class-scheduled-exports.php:222
-msgid "Media"
+#: includes/class-admin-menu.php:2293 includes/class-admin-menu.php:2404
+msgid "Skip if already present"
 msgstr ""
 
-#: includes/class-admin-menu.php:2343 includes/class-scheduled-exports.php:221
-msgid "Pages"
+#: includes/class-admin-menu.php:2294
+msgid "Skip themes that already exist — do not overwrite"
+msgstr ""
+
+#: includes/class-admin-menu.php:2300
+msgid "Activate imported theme"
+msgstr ""
+
+#: includes/class-admin-menu.php:2301
+msgid "Switch to the first imported theme after import"
+msgstr ""
+
+#: includes/class-admin-menu.php:2326 includes/class-admin-menu.php:2333
+#: includes/class-admin-menu.php:2358
+msgid "Export Plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2327
+msgid "Create a backup of your plugins as a ZIP file."
+msgstr ""
+
+#: includes/class-admin-menu.php:2334 includes/class-admin-menu.php:2374
+msgid "Import Plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2342
+msgid "Active Plugins Only"
 msgstr ""
 
 #: includes/class-admin-menu.php:2346
+msgid "All Installed Plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2350
+msgid "Selected Plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2375
+msgid "Import plugins from a previously exported ZIP file."
+msgstr ""
+
+#: includes/class-admin-menu.php:2397
+msgid "Replace existing plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2398
+msgid "Overwrite plugins that already exist on this site"
+msgstr ""
+
+#: includes/class-admin-menu.php:2405
+msgid "Skip plugins that already exist — do not overwrite"
+msgstr ""
+
+#: includes/class-admin-menu.php:2411
+msgid "Activate imported plugins"
+msgstr ""
+
+#: includes/class-admin-menu.php:2412
+msgid "Automatically activate plugins after import"
+msgstr ""
+
+#: includes/class-admin-menu.php:2437 includes/class-admin-menu.php:2455
+#: includes/class-scheduled-exports.php:223
+msgid "Settings"
+msgstr ""
+
+#: includes/class-admin-menu.php:2459
+msgid "Admin download buttons"
+msgstr ""
+
+#: includes/class-admin-menu.php:2460
+msgid "Add download buttons to WordPress Themes and Plugins pages."
+msgstr ""
+
+#: includes/class-admin-menu.php:2475
+msgid "Allowed media file types"
+msgstr ""
+
+#: includes/class-admin-menu.php:2476
+msgid "Files with extensions not in this list will be blocked for security."
+msgstr ""
+
+#: includes/class-admin-menu.php:2478
+msgid "Allow all file types (bypass validation)"
+msgstr ""
+
+#: includes/class-admin-menu.php:2492
+msgid "Enter file extensions separated by commas. Common additions: odt (spreadsheets), mov (videos), xlsx, pptx, zip."
+msgstr ""
+
+#: includes/class-admin-menu.php:2502
+msgid "User import defaults"
+msgstr ""
+
+#: includes/class-admin-menu.php:2503
+msgid "Set a default password during post import. A welcome email is sent when a new account is created."
+msgstr ""
+
+#: includes/class-admin-menu.php:2505
+msgid "Default password for imported users"
+msgstr ""
+
+#: includes/class-admin-menu.php:2514
+msgid "Send welcome email to imported users by default"
+msgstr ""
+
+#: includes/class-admin-menu.php:2523
+msgid "Save Changes"
+msgstr ""
+
+#: includes/class-admin-menu.php:2543
+msgid "FAQ"
+msgstr ""
+
+#: includes/class-admin-menu.php:2565
+msgid "All"
+msgstr ""
+
+#: includes/class-admin-menu.php:2577
 msgid "Settings & Widgets"
 msgstr ""
 
-#: includes/class-admin-menu.php:2349
+#: includes/class-admin-menu.php:2580
 msgid "Themes & Plugins"
 msgstr ""
 
-#: includes/class-admin-menu.php:2352
+#: includes/class-admin-menu.php:2583
 msgid "CPT & ACF"
 msgstr ""
 
-#: includes/class-admin-menu.php:2355 includes/class-scheduled-exports.php:225
+#: includes/class-admin-menu.php:2586 includes/class-scheduled-exports.php:225
 msgid "Users"
 msgstr ""
 
-#: includes/class-admin-menu.php:2358
+#: includes/class-admin-menu.php:2589
 msgid "Batch & Scheduled"
 msgstr ""
 
-#: includes/class-admin-menu.php:2361
+#: includes/class-admin-menu.php:2592
 msgid "System & Email"
 msgstr ""
 
-#: includes/class-admin-menu.php:2391
+#: includes/class-admin-menu.php:2607
+msgid "System Test Results"
+msgstr ""
+
+#: includes/class-admin-menu.php:2614 includes/class-admin-menu.php:3151
+msgid "Close"
+msgstr ""
+
+#: includes/class-admin-menu.php:2660
 msgid "Discover powerful plugins to enhance your WordPress experience and boost your site's functionality"
 msgstr ""
 
-#: includes/class-admin-menu.php:2425
+#: includes/class-admin-menu.php:2696
+msgid "Export your users hierarchy with metadata and featured images, and import it back with the same structure."
+msgstr ""
+
+#: includes/class-admin-menu.php:2715
+msgid "1. Export Users"
+msgstr ""
+
+#: includes/class-admin-menu.php:2717
+msgid "Export your entire WordPress users, including detailed user profiles."
+msgstr ""
+
+#: includes/class-admin-menu.php:2723
+msgid "2. Import Users"
+msgstr ""
+
+#: includes/class-admin-menu.php:2725
+msgid "Restore your users with same hierarchy on the new site."
+msgstr ""
+
+#: includes/class-admin-menu.php:2742
 msgid "Export all WordPress users to a JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:2439
+#: includes/class-admin-menu.php:2759
 msgid "Necessary Info (always included)"
 msgstr ""
 
-#: includes/class-admin-menu.php:2441
+#: includes/class-admin-menu.php:2761
 msgid "user_login, user_email, display_name, user_registered, user_nicename, user_url, user_status, locale, roles"
 msgstr ""
 
-#: includes/class-admin-menu.php:2467
+#: includes/class-admin-menu.php:2787
 msgid "Password (hashed)"
 msgstr ""
 
-#: includes/class-admin-menu.php:2469
+#: includes/class-admin-menu.php:2789
 msgid "Include encrypted password hash so users can log in immediately after import."
 msgstr ""
 
-#: includes/class-admin-menu.php:2484
+#: includes/class-admin-menu.php:2804
 msgid "Security Warning:"
 msgstr ""
 
-#: includes/class-admin-menu.php:2485
+#: includes/class-admin-menu.php:2805
 msgid "Exporting password hashes allows users to login on the destination site with their current passwords. Only enable this if you trust the destination site and will secure the export file. If the export file is compromised, all user passwords are at risk of offline brute force attacks."
 msgstr ""
 
-#: includes/class-admin-menu.php:2495
+#: includes/class-admin-menu.php:2815
 msgid "User Meta & Capabilities"
 msgstr ""
 
-#: includes/class-admin-menu.php:2497
+#: includes/class-admin-menu.php:2817
 msgid "Custom capabilities, meta_capabilities, plugin-stored role data."
 msgstr ""
 
-#: includes/class-admin-menu.php:2513
+#: includes/class-admin-menu.php:2833
 msgid "WooCommerce Data"
 msgstr ""
 
-#: includes/class-admin-menu.php:2515
+#: includes/class-admin-menu.php:2835
 msgid "billing_address, shipping_address, wc_last_active."
 msgstr ""
 
-#: includes/class-admin-menu.php:2532
+#: includes/class-admin-menu.php:2852
 msgid "ACF User Fields"
 msgstr ""
 
-#: includes/class-admin-menu.php:2534
+#: includes/class-admin-menu.php:2854
 msgid "All Advanced Custom Fields attached to user profiles."
 msgstr ""
 
-#: includes/class-admin-menu.php:2550
+#: includes/class-admin-menu.php:2870
 msgid "Custom Post Type Authorship"
 msgstr ""
 
-#: includes/class-admin-menu.php:2552
+#: includes/class-admin-menu.php:2872
 msgid "Export which CPTs this user authored, for remapping on import."
 msgstr ""
 
-#: includes/class-admin-menu.php:2586
+#: includes/class-admin-menu.php:2912
 msgid "Import users from a previously exported JSON file. Existing users (matched by login or email) are skipped."
 msgstr ""
 
-#: includes/class-admin-menu.php:2591
-msgid "Choose File"
-msgstr ""
-
-#: includes/class-admin-menu.php:2623
+#: includes/class-admin-menu.php:2958
 msgid "Set a default password for all imported users"
 msgstr ""
 
-#: includes/class-admin-menu.php:2647
+#: includes/class-admin-menu.php:2973
+msgid "Leave blank to auto-generate a secure password per user."
+msgstr ""
+
+#: includes/class-admin-menu.php:2982
 msgid "Try to preserve original user IDs"
 msgstr ""
 
-#: includes/class-admin-menu.php:2649
+#: includes/class-admin-menu.php:2984
 msgid "Works only if the ID is not already taken on this site. Conflicts are logged in the import summary."
 msgstr ""
 
-#: includes/class-admin-menu.php:2666
+#: includes/class-admin-menu.php:3001
 msgid "Send welcome email with login credentials to imported users"
 msgstr ""
 
-#: includes/class-admin-menu.php:2668
+#: includes/class-admin-menu.php:3003
 msgid "If your server email is not configured, this will be silently skipped and noted in the import summary."
 msgstr ""
 
-#: includes/class-admin-menu.php:2693
+#: includes/class-admin-menu.php:3028
 msgid "PRO Feature"
 msgstr ""
 
-#: includes/class-admin-menu.php:2694
+#: includes/class-admin-menu.php:3029
 msgid "Upgrade to unlock advanced import options"
 msgstr ""
 
-#: includes/class-admin-menu.php:2696
+#: includes/class-admin-menu.php:3031
 msgid "Upgrade Now"
 msgstr ""
 
-#: includes/class-admin-menu.php:2767
+#: includes/class-admin-menu.php:3102
 msgid "Confirmation"
 msgstr ""
 
-#: includes/class-admin-menu.php:2771
+#: includes/class-admin-menu.php:3106
 msgid "Are you sure you want to proceed?"
 msgstr ""
 
-#: includes/class-admin-menu.php:2775 includes/class-scheduled-exports.php:343
+#: includes/class-admin-menu.php:3110 includes/class-admin-menu.php:3187
+#: includes/class-scheduled-exports.php:343
 #: includes/email-template-page.php:294
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-admin-menu.php:2778
+#: includes/class-admin-menu.php:3113
 msgid "Confirm"
 msgstr ""
 
-#: includes/class-admin-menu.php:2793
+#: includes/class-admin-menu.php:3128
 msgid "Operation completed successfully!"
 msgstr ""
 
-#: includes/class-admin-menu.php:2797
+#: includes/class-admin-menu.php:3132
 msgid "OK"
 msgstr ""
 
-#: includes/class-admin-menu.php:2807
+#: includes/class-admin-menu.php:3142
 msgid "Error"
 msgstr ""
 
-#: includes/class-admin-menu.php:2812
+#: includes/class-admin-menu.php:3147
 msgid "An error occurred."
 msgstr ""
 
-#: includes/class-admin-menu.php:2816
-msgid "Close"
+#: includes/class-admin-menu.php:3162
+msgid "Select File(s)"
 msgstr ""
 
-#: includes/class-admin-menu.php:2829 includes/class-batch-settings.php:649
+#: includes/class-admin-menu.php:3175
+msgid "Drag & Drop files here"
+msgstr ""
+
+#: includes/class-admin-menu.php:3176
+msgid "or click to browse your computer"
+msgstr ""
+
+#: includes/class-admin-menu.php:3178
+msgid "Browse Files"
+msgstr ""
+
+#: includes/class-admin-menu.php:3312 includes/class-batch-settings.php:649
 #: includes/class-scheduled-exports.php:362
 #: includes/email-template-page.php:258
 msgid "LIMITED TIME OFFER"
 msgstr ""
 
-#: includes/class-admin-menu.php:2832 includes/class-batch-settings.php:652
+#: includes/class-admin-menu.php:3315 includes/class-batch-settings.php:652
 #: includes/class-scheduled-exports.php:365
 #: includes/email-template-page.php:261
 msgid "Unlock PRO Features"
 msgstr ""
 
-#: includes/class-admin-menu.php:2833 includes/class-batch-settings.php:653
+#: includes/class-admin-menu.php:3316 includes/class-batch-settings.php:653
 #: includes/class-scheduled-exports.php:366
 msgid "You're one step away from powerful automation tools!"
 msgstr ""
 
-#: includes/class-admin-menu.php:2836 includes/class-batch-settings.php:656
+#: includes/class-admin-menu.php:3319 includes/class-batch-settings.php:656
 msgid "Selective Export & Import"
 msgstr ""
 
-#: includes/class-admin-menu.php:2837 includes/class-batch-settings.php:657
+#: includes/class-admin-menu.php:3320 includes/class-batch-settings.php:657
 #: includes/class-scheduled-exports.php:368
 msgid "Scheduled Automatic Exports"
 msgstr ""
 
-#: includes/class-admin-menu.php:2838 includes/class-batch-settings.php:655
+#: includes/class-admin-menu.php:3321 includes/class-batch-settings.php:655
 msgid "Batch Processing (100K+ posts)"
 msgstr ""
 
-#: includes/class-admin-menu.php:2839 includes/class-batch-settings.php:658
+#: includes/class-admin-menu.php:3322 includes/class-batch-settings.php:658
 msgid "Import Status Override"
 msgstr ""
 
-#: includes/class-admin-menu.php:2844 includes/class-batch-settings.php:662
+#: includes/class-admin-menu.php:3327 includes/class-batch-settings.php:662
 #: includes/class-scheduled-exports.php:375
 #: includes/email-template-page.php:271
 msgid "Special offer active — grab it before it's gone!"
 msgstr ""
 
-#: includes/class-admin-menu.php:2848 includes/class-batch-settings.php:665
+#: includes/class-admin-menu.php:3331 includes/class-batch-settings.php:665
 #: includes/class-scheduled-exports.php:378
 #: includes/email-template-page.php:274
 msgid "Get PRO Now →"
 msgstr ""
 
-#: includes/class-admin-menu.php:2850 includes/class-batch-settings.php:667
+#: includes/class-admin-menu.php:3333 includes/class-batch-settings.php:667
 #: includes/class-scheduled-exports.php:380
 #: includes/email-template-page.php:276
 msgid "Instant access · 14-day money back guarantee"
 msgstr ""
 
-#: includes/class-admin-menu.php:2886 includes/class-admin-menu.php:2961
+#: includes/class-admin-menu.php:3385
+msgid "1. Export CPT & ACF"
+msgstr ""
+
+#: includes/class-admin-menu.php:3387
+msgid "Download your complete CPT & ACF structure."
+msgstr ""
+
+#: includes/class-admin-menu.php:3393
+msgid "2. Import CPT & ACF"
+msgstr ""
+
+#: includes/class-admin-menu.php:3395
+msgid "Restore your CPT & ACF with hierarchy on the new site."
+msgstr ""
+
+#: includes/class-admin-menu.php:3410 includes/class-admin-menu.php:3493
 msgid "Export CPT Posts"
 msgstr ""
 
-#: includes/class-admin-menu.php:2887
+#: includes/class-admin-menu.php:3411
 msgid "Select a Custom Post Type and export all its posts with ACF fields, taxonomies, and media."
 msgstr ""
 
-#: includes/class-admin-menu.php:2890
+#: includes/class-admin-menu.php:3423
 msgid "Select Post Type:"
 msgstr ""
 
-#: includes/class-admin-menu.php:2892
+#: includes/class-admin-menu.php:3425
 msgid "— Loading post types…"
 msgstr ""
 
-#: includes/class-admin-menu.php:2901
+#: includes/class-admin-menu.php:3434
 msgid "Export all ACF meta fields"
 msgstr ""
 
-#: includes/class-admin-menu.php:2902
+#: includes/class-admin-menu.php:3435
 msgid "Include all Advanced Custom Fields data in each exported post."
 msgstr ""
 
-#: includes/class-admin-menu.php:2911
+#: includes/class-admin-menu.php:3444
 msgid "Select specific ACF fields to export:"
 msgstr ""
 
-#: includes/class-admin-menu.php:2919
+#: includes/class-admin-menu.php:3452
 msgid "Loading fields…"
 msgstr ""
 
-#: includes/class-admin-menu.php:2923
+#: includes/class-admin-menu.php:3456
 msgid "Deselect All"
 msgstr ""
 
-#: includes/class-admin-menu.php:2968 includes/class-admin-menu.php:3047
+#: includes/class-admin-menu.php:3500 includes/class-admin-menu.php:3594
 msgid "Starting…"
 msgstr ""
 
-#: includes/class-admin-menu.php:2982
+#: includes/class-admin-menu.php:3514
 msgid "Import CPT Posts"
 msgstr ""
 
-#: includes/class-admin-menu.php:2983
-msgid "Import posts from a previously exported CPT JSON file."
+#: includes/class-admin-menu.php:3515
+msgid "Import CPT posts from a previously exported CPT JSON file."
 msgstr ""
 
-#: includes/class-admin-menu.php:2988
-msgid "Select JSON File(s)"
-msgstr ""
-
-#: includes/class-admin-menu.php:3000
+#: includes/class-admin-menu.php:3547
 msgid "Check if images already exist in media library before importing."
 msgstr ""
 
-#: includes/class-admin-menu.php:3008
+#: includes/class-admin-menu.php:3555
 msgid "If images are not found in media library, try to download them from their original locations."
 msgstr ""
 
-#: includes/class-admin-menu.php:3016
+#: includes/class-admin-menu.php:3563
 msgid "Choose which posts to import from the file."
 msgstr ""
 
-#: includes/class-admin-menu.php:3035
+#: includes/class-admin-menu.php:3582
 msgid "👆 Select a JSON file above to load posts for selection."
 msgstr ""
 
@@ -1598,47 +1723,47 @@ msgstr ""
 msgid "Failed to get content statistics"
 msgstr ""
 
-#: includes/class-ajax-handler.php:251
+#: includes/class-ajax-handler.php:307
 msgid "Failed to get media statistics"
 msgstr ""
 
-#: includes/class-ajax-handler.php:311
+#: includes/class-ajax-handler.php:367
 #, php-format
 msgid "Successfully cleaned %d missing media attachment(s) from database."
 msgstr ""
 
-#: includes/class-ajax-handler.php:316
+#: includes/class-ajax-handler.php:372
 msgid "Some errors occurred but most were cleaned."
 msgstr ""
 
-#: includes/class-ajax-handler.php:326
+#: includes/class-ajax-handler.php:382
 msgid "No attachments were deleted. They may have already been cleaned."
 msgstr ""
 
-#: includes/class-ajax-handler.php:331
+#: includes/class-ajax-handler.php:387
 msgid "Failed to clean missing media"
 msgstr ""
 
-#: includes/class-ajax-handler.php:402
+#: includes/class-ajax-handler.php:458
 #, php-format
 msgid "Successfully fixed %d media file path(s). Files are now accessible."
 msgstr ""
 
-#: includes/class-ajax-handler.php:409
+#: includes/class-ajax-handler.php:465
 msgid "No fixable paths found. Missing files may be permanently deleted from server."
 msgstr ""
 
-#: includes/class-ajax-handler.php:414
+#: includes/class-ajax-handler.php:470
 msgid "Failed to fix media paths"
 msgstr ""
 
-#: includes/class-ajax-handler.php:433 includes/class-ajax-handler.php:474
-#: includes/class-ajax-handler.php:538
+#: includes/class-ajax-handler.php:489 includes/class-ajax-handler.php:530
+#: includes/class-ajax-handler.php:594
 msgid "File not specified"
 msgstr ""
 
-#: includes/class-ajax-handler.php:440 includes/class-ajax-handler.php:481
-#: includes/class-ajax-handler.php:545 includes/class-scheduled-exports.php:134
+#: includes/class-ajax-handler.php:496 includes/class-ajax-handler.php:537
+#: includes/class-ajax-handler.php:601 includes/class-scheduled-exports.php:134
 msgid "File not found"
 msgstr ""
 
@@ -1648,29 +1773,29 @@ msgstr ""
 
 #: includes/class-batch-processor.php:123
 #: includes/class-batch-processor.php:327
-#: includes/class-batch-processor.php:603
+#: includes/class-batch-processor.php:630
 msgid "Failed to start batch export"
 msgstr ""
 
 #: includes/class-batch-processor.php:144
 #: includes/class-batch-processor.php:348
-#: includes/class-batch-processor.php:624
-#: includes/class-batch-processor.php:855
-#: includes/class-batch-processor.php:971 includes/class-media-handler.php:554
+#: includes/class-batch-processor.php:651
+#: includes/class-batch-processor.php:919
+#: includes/class-batch-processor.php:1035 includes/class-media-handler.php:583
 msgid "Invalid batch ID"
 msgstr ""
 
 #: includes/class-batch-processor.php:150
 #: includes/class-batch-processor.php:354
-#: includes/class-batch-processor.php:630
-#: includes/class-batch-processor.php:861
-#: includes/class-batch-processor.php:977
+#: includes/class-batch-processor.php:657
+#: includes/class-batch-processor.php:925
+#: includes/class-batch-processor.php:1041
 msgid "Batch session expired"
 msgstr ""
 
 #: includes/class-batch-processor.php:229
 #: includes/class-batch-processor.php:412
-#: includes/class-batch-processor.php:647 includes/class-media-handler.php:204
+#: includes/class-batch-processor.php:674 includes/class-media-handler.php:204
 msgid "Could not create export directory"
 msgstr ""
 
@@ -1691,45 +1816,45 @@ msgstr ""
 msgid "No media files found to export"
 msgstr ""
 
-#: includes/class-batch-processor.php:638
+#: includes/class-batch-processor.php:665
 msgid "Invalid batch number or batch session is outdated. Please restart the export."
 msgstr ""
 
-#: includes/class-batch-processor.php:672 includes/class-media-handler.php:212
+#: includes/class-batch-processor.php:699 includes/class-media-handler.php:212
 msgid "Could not create ZIP file"
 msgstr ""
 
-#: includes/class-batch-processor.php:749
+#: includes/class-batch-processor.php:813
 msgid "No valid media files found in this batch"
 msgstr ""
 
-#: includes/class-batch-processor.php:792
+#: includes/class-batch-processor.php:856
 msgid "No posts data provided"
 msgstr ""
 
-#: includes/class-batch-processor.php:798
-#: includes/class-batch-processor.php:914 includes/class-page-handler.php:248
-#: includes/class-page-handler.php:846 includes/class-post-handler.php:330
-#: includes/class-post-handler.php:607 includes/class-settings-handler.php:247
+#: includes/class-batch-processor.php:862
+#: includes/class-batch-processor.php:978 includes/class-page-handler.php:248
+#: includes/class-page-handler.php:846 includes/class-post-handler.php:354
+#: includes/class-post-handler.php:631 includes/class-settings-handler.php:247
 #: includes/class-widgets-menus-handler.php:260
 #: includes/class-widgets-menus-handler.php:304
 #: includes/class-widgets-menus-handler.php:348
 msgid "Invalid JSON data provided"
 msgstr ""
 
-#: includes/class-batch-processor.php:802
+#: includes/class-batch-processor.php:866
 msgid "Invalid posts data format"
 msgstr ""
 
-#: includes/class-batch-processor.php:908
+#: includes/class-batch-processor.php:972
 msgid "No pages data provided"
 msgstr ""
 
-#: includes/class-batch-processor.php:918
+#: includes/class-batch-processor.php:982
 msgid "Invalid pages data format"
 msgstr ""
 
-#: includes/class-batch-processor.php:1239
+#: includes/class-batch-processor.php:1303
 msgid "Invalid images data"
 msgstr ""
 
@@ -1992,166 +2117,166 @@ msgstr ""
 msgid "This plugin doesn&#8217;t work with your version of PHP."
 msgstr ""
 
-#: includes/class-media-handler.php:292
+#: includes/class-media-handler.php:321
 msgid "No valid media files found to export"
 msgstr ""
 
-#: includes/class-media-handler.php:316
+#: includes/class-media-handler.php:345
 msgid "Media export failed"
 msgstr ""
 
-#: includes/class-media-handler.php:335
+#: includes/class-media-handler.php:364
 msgid "No file uploaded"
 msgstr ""
 
-#: includes/class-media-handler.php:339
+#: includes/class-media-handler.php:368
 msgid "ZipArchive class is not available on this server"
 msgstr ""
 
-#: includes/class-media-handler.php:368
+#: includes/class-media-handler.php:397
 msgid "Upload directory is not writable"
 msgstr ""
 
-#: includes/class-media-handler.php:373
+#: includes/class-media-handler.php:402
 #: includes/class-themes-plugins-handler.php:532
 #: includes/class-themes-plugins-handler.php:707
 msgid "Failed to create temporary directory"
 msgstr ""
 
-#: includes/class-media-handler.php:394
+#: includes/class-media-handler.php:423
 msgid "Temporary file not found or invalid"
 msgstr ""
 
-#: includes/class-media-handler.php:401
+#: includes/class-media-handler.php:430
 #: includes/class-themes-plugins-handler.php:539
 #: includes/class-themes-plugins-handler.php:715
 msgid "Failed to move uploaded file"
 msgstr ""
 
-#: includes/class-media-handler.php:410
+#: includes/class-media-handler.php:439
 #, php-format
 msgid "Failed to open ZIP file - file may be corrupted (Error: %d)"
 msgstr ""
 
-#: includes/class-media-handler.php:496
+#: includes/class-media-handler.php:525
 msgid "Invalid media export file - metadata not found"
 msgstr ""
 
-#: includes/class-media-handler.php:505
+#: includes/class-media-handler.php:534
 #, php-format
 msgid "Invalid JSON in metadata file: %s"
 msgstr ""
 
-#: includes/class-media-handler.php:513
+#: includes/class-media-handler.php:542
 msgid "Invalid media data format"
 msgstr ""
 
-#: includes/class-media-handler.php:560
+#: includes/class-media-handler.php:589
 msgid "Batch not found or expired"
 msgstr ""
 
-#: includes/class-media-handler.php:567
+#: includes/class-media-handler.php:596
 msgid "File index not found"
 msgstr ""
 
-#: includes/class-media-handler.php:580
+#: includes/class-media-handler.php:609
 #, php-format
 msgid "Source file not found: %1$s (looking in: %2$s)"
 msgstr ""
 
-#: includes/class-media-handler.php:591
+#: includes/class-media-handler.php:620
 msgid "File already exists in media library"
 msgstr ""
 
-#: includes/class-media-handler.php:639
+#: includes/class-media-handler.php:668
 msgid "No media files found to delete"
 msgstr ""
 
-#: includes/class-media-handler.php:658
+#: includes/class-media-handler.php:687
 #, php-format
 msgid "Deleted %d media files successfully"
 msgstr ""
 
-#: includes/class-media-handler.php:664
+#: includes/class-media-handler.php:693
 #, php-format
 msgid ". Failed to delete %d files."
 msgstr ""
 
-#: includes/class-media-handler.php:677 includes/class-page-handler.php:533
-#: includes/class-post-handler.php:724
+#: includes/class-media-handler.php:706 includes/class-page-handler.php:533
+#: includes/class-post-handler.php:749
 msgid "Delete operation failed. Please try again."
 msgstr ""
 
-#: includes/class-media-handler.php:706
+#: includes/class-media-handler.php:735
 msgid "Cleanup completed"
 msgstr ""
 
-#: includes/class-media-handler.php:718
+#: includes/class-media-handler.php:747
 msgid "File is too large (exceeds upload_max_filesize)"
 msgstr ""
 
-#: includes/class-media-handler.php:720
+#: includes/class-media-handler.php:749
 msgid "File is too large (exceeds MAX_FILE_SIZE)"
 msgstr ""
 
-#: includes/class-media-handler.php:722
+#: includes/class-media-handler.php:751
 msgid "File was only partially uploaded"
 msgstr ""
 
-#: includes/class-media-handler.php:724
+#: includes/class-media-handler.php:753
 msgid "No file was uploaded"
 msgstr ""
 
-#: includes/class-media-handler.php:726
+#: includes/class-media-handler.php:755
 msgid "Missing temporary folder"
 msgstr ""
 
-#: includes/class-media-handler.php:728
+#: includes/class-media-handler.php:757
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: includes/class-media-handler.php:730
+#: includes/class-media-handler.php:759
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: includes/class-media-handler.php:732
+#: includes/class-media-handler.php:761
 msgid "Unknown upload error"
 msgstr ""
 
-#: includes/class-media-handler.php:755
+#: includes/class-media-handler.php:784
 #, php-format
 msgid "File is too large (%1$sMB). Your server upload limit is %2$sMB. Contact your hosting provider to increase upload_max_filesize and post_max_size in php.ini."
 msgstr ""
 
-#: includes/class-media-handler.php:764
+#: includes/class-media-handler.php:793
 msgid "File is too large. Maximum size is 500MB."
 msgstr ""
 
-#: includes/class-media-handler.php:770
+#: includes/class-media-handler.php:799
 msgid "Only ZIP files are allowed"
 msgstr ""
 
-#: includes/class-media-handler.php:775
+#: includes/class-media-handler.php:804
 msgid "Invalid file type. Only ZIP files are allowed."
 msgstr ""
 
-#: includes/class-media-handler.php:934
+#: includes/class-media-handler.php:963
 msgid "Could not create upload directory"
 msgstr ""
 
-#: includes/class-media-handler.php:951 includes/class-media-handler.php:966
+#: includes/class-media-handler.php:980 includes/class-media-handler.php:995
 msgid "File type not permitted for import."
 msgstr ""
 
-#: includes/class-media-handler.php:975
+#: includes/class-media-handler.php:1004
 msgid "Source file not found"
 msgstr ""
 
-#: includes/class-media-handler.php:979
+#: includes/class-media-handler.php:1008
 msgid "Source is a directory, not a file"
 msgstr ""
 
-#: includes/class-media-handler.php:983
+#: includes/class-media-handler.php:1012
 msgid "Could not copy file to upload directory"
 msgstr ""
 
@@ -2181,7 +2306,7 @@ msgstr ""
 msgid "Failed to create page: %s"
 msgstr ""
 
-#: includes/class-page-handler.php:470 includes/class-post-handler.php:575
+#: includes/class-page-handler.php:470 includes/class-post-handler.php:599
 msgid "Import failed. Please check the file format."
 msgstr ""
 
@@ -2199,67 +2324,67 @@ msgstr ""
 msgid ". Failed to delete %d pages."
 msgstr ""
 
-#: includes/class-page-handler.php:840 includes/class-post-handler.php:601
+#: includes/class-page-handler.php:840 includes/class-post-handler.php:625
 msgid "No image data provided"
 msgstr ""
 
-#: includes/class-page-handler.php:850 includes/class-post-handler.php:611
+#: includes/class-page-handler.php:850 includes/class-post-handler.php:635
 msgid "Invalid image data"
 msgstr ""
 
-#: includes/class-page-handler.php:855 includes/class-post-handler.php:618
+#: includes/class-page-handler.php:855 includes/class-post-handler.php:642
 msgid "No filename provided"
 msgstr ""
 
-#: includes/class-post-handler.php:203
+#: includes/class-post-handler.php:227
 msgid "Export chunk failed."
 msgstr ""
 
-#: includes/class-post-handler.php:282
+#: includes/class-post-handler.php:306
 msgid "Failed to load posts list."
 msgstr ""
 
-#: includes/class-post-handler.php:324
+#: includes/class-post-handler.php:348
 msgid "No post data provided"
 msgstr ""
 
-#: includes/class-post-handler.php:334
+#: includes/class-post-handler.php:358
 msgid "Invalid post data"
 msgstr ""
 
-#: includes/class-post-handler.php:342
+#: includes/class-post-handler.php:366
 msgid "Invalid post data: missing required field"
 msgstr ""
 
-#: includes/class-post-handler.php:454
+#: includes/class-post-handler.php:478
 msgid "Post already exists"
 msgstr ""
 
-#: includes/class-post-handler.php:472
+#: includes/class-post-handler.php:496
 #, php-format
 msgid "Failed to create post: %s"
 msgstr ""
 
-#: includes/class-post-handler.php:686
+#: includes/class-post-handler.php:711
 msgid "No posts found to delete"
 msgstr ""
 
-#: includes/class-post-handler.php:705
+#: includes/class-post-handler.php:730
 #, php-format
 msgid "Deleted %d posts successfully"
 msgstr ""
 
-#: includes/class-post-handler.php:711
+#: includes/class-post-handler.php:736
 #, php-format
 msgid ". Failed to delete %d posts."
 msgstr ""
 
-#: includes/class-post-handler.php:1919
+#: includes/class-post-handler.php:1944
 #, php-format
 msgid "Your account on %s"
 msgstr ""
 
-#: includes/class-post-handler.php:1925
+#: includes/class-post-handler.php:1950
 #, php-format
 msgid ""
 "Hello %1$s,\n"

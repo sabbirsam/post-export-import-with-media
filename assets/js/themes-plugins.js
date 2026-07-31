@@ -667,63 +667,57 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    // Select themes file
-    $('#peiwm-select-themes-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-themes-file', {
-                title: 'Select ZIP File',
-                subtitle: 'You can select a single ZIP file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
-                description: 'Drag & drop ZIP file or click to browse',
-                accept: '.zip',
-                multiple: false
-            });
-        } else {
-            $('#peiwm-themes-file').click();
-        }
-    });
+    // Select Themes/Plugins File Drop Zone Setup
+    function setupDropZoneThemesPlugins(zoneId, inputId, isPlugins = false) {
+        const zone = $(zoneId);
+        const input = $(inputId);
 
-    $('#peiwm-themes-file').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-            if (file.type !== 'application/zip' && !file.name.toLowerCase().endsWith('.zip')) {
-                showError('Please select a ZIP file.');
-                return;
+        zone.on('click', function() {
+            input.click();
+        });
+
+        zone.on('dragover', function(e) {
+            e.preventDefault();
+            zone.addClass('dragover');
+        });
+
+        zone.on('dragleave', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+        });
+
+        zone.on('drop', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+            if (e.originalEvent.dataTransfer.files.length) {
+                input[0].files = e.originalEvent.dataTransfer.files;
+                input.trigger('change');
             }
-            
-            $('#peiwm-select-themes-file').text(file.name);
-            $('#peiwm-import-themes').show();
-            $('#peiwm-themes-import-options').show();
-        }
-    });
+        });
 
-    // Select plugins file
-    $('#peiwm-select-plugins-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-plugins-file', {
-                title: 'Select ZIP File',
-                subtitle: 'You can select a single ZIP file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
-                description: 'Drag & drop ZIP file or click to browse',
-                accept: '.zip',
-                multiple: false
-            });
-        } else {
-            $('#peiwm-plugins-file').click();
-        }
-    });
-
-    $('#peiwm-plugins-file').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-            if (file.type !== 'application/zip' && !file.name.toLowerCase().endsWith('.zip')) {
-                showError('Please select a ZIP file.');
-                return;
+        input.on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                if (file.type !== 'application/zip' && !file.name.toLowerCase().endsWith('.zip')) {
+                    showError('Please select a ZIP file.');
+                    return;
+                }
+                const label = this.files.length > 1 ? this.files.length + ' files selected' : file.name;
+                zone.html('<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><b style="font-size: 14.5px; margin-bottom: 2px; color: #1e1e1e;">' + label + '</b><span style="font-size: 13.5px; color: #6c7385;">Ready to import</span>');
+                
+                if (isPlugins) {
+                    $('#peiwm-import-plugins').show();
+                    $('#peiwm-plugins-import-options').show();
+                } else {
+                    $('#peiwm-import-themes').show();
+                    $('#peiwm-themes-import-options').show();
+                }
             }
-            
-            $('#peiwm-select-plugins-file').text(file.name);
-            $('#peiwm-import-plugins').show();
-            $('#peiwm-plugins-import-options').show();
-        }
-    });
+        });
+    }
+
+    setupDropZoneThemesPlugins('#peiwm-select-themes-file', '#peiwm-themes-file', false);
+    setupDropZoneThemesPlugins('#peiwm-select-plugins-file', '#peiwm-plugins-file', true);
 
     // Import Themes
     $('#peiwm-import-themes').on('click', function () {
@@ -902,17 +896,13 @@ jQuery(document).ready(function ($) {
 
     // Format file size
     function formatFileSize(bytes) {
-        const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-        let i = 0;
-        
-        while (bytes >= 1024 && i < units.length - 1) {
-            bytes /= 1024;
-            i++;
-        }
-        
-        return Math.round(bytes * 100) / 100 + ' ' + units[i];
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
-
+    
     // Close modal handlers
     $('.peiwm-modal-close, .peiwm-modal-overlay').on('click', function (e) {
         if (e.target === this) {
@@ -920,4 +910,49 @@ jQuery(document).ready(function ($) {
             $(document).off('keydown.peiwm-modal');
         }
     });
+
+    // Global tab switching functions for New-UI design
+    window.switchTab = window.switchTab || function(group, name) {
+        var tabs = document.querySelectorAll('.tabs[data-group="' + group + '"] .tab-btn');
+        tabs.forEach(function(b) {
+            b.classList.remove('active');
+            if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
+                b.classList.add('active');
+            }
+        });
+        document.querySelectorAll('.tab-panel[data-panel^="' + group + '-"]').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-panel[data-group="' + group + '"]').forEach(function(p) {
+            p.classList.remove('active');
+        });
+        var targetPanel = document.querySelector('.tab-panel[data-group="' + group + '"][data-panel="' + name + '"]');
+        if (!targetPanel) {
+            targetPanel = document.querySelector('.tab-panel[data-panel="' + group + '-' + name + '"]');
+        }
+        if (targetPanel) {
+            targetPanel.classList.add('active');
+        }
+        var steps = document.querySelectorAll('.journey .step');
+        if (steps.length > 0) {
+            var foundActive = false;
+            steps.forEach(function(s) {
+                s.classList.remove('active', 'done');
+                if (s.getAttribute('onclick') && s.getAttribute('onclick').includes("'" + name + "'")) {
+                    s.classList.add('active');
+                    foundActive = true;
+                } else if (!foundActive) {
+                    s.classList.add('done');
+                }
+            });
+        }
+    };
+
+    window.switchTabByGroup = window.switchTabByGroup || function(group, name) {
+        window.switchTab(group, name);
+        var mainPage = document.getElementById('peiwm-main-content');
+        if (mainPage) {
+            mainPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
 });

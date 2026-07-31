@@ -89,29 +89,52 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    // ── File picker ────────────────────────────────────────────────────────
-    $('#peiwm-users-select-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-users-file', {
-                title: 'Select JSON File',
-                subtitle: 'You can select a single JSON file. Once you have selected the files, the modal will close automatically. Then, click the Import button.',
-                description: 'Drag & drop JSON file or click to browse',
-                accept: '.json',
-                multiple: false
-            });
-        } else {
-            $('#peiwm-users-file').click();
-        }
-    });
+    // ── Select Users File Drop Zone Setup ──────────────────────────────────
+    function setupDropZoneUsers(zoneId, inputId) {
+        var zone = $(zoneId);
+        var input = $(inputId);
 
-    $('#peiwm-users-file').on('change', function () {
-        if (this.files.length > 0) {
-            $('#peiwm-users-select-file').text(this.files[0].name);
-            $('#peiwm-import-users').show();
-        } else {
-            $('#peiwm-import-users').hide();
-        }
-    });
+        zone.on('click', function() {
+            input.click();
+        });
+
+        zone.on('dragover', function(e) {
+            e.preventDefault();
+            zone.addClass('dragover');
+        });
+
+        zone.on('dragleave', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+        });
+
+        zone.on('drop', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+            if (e.originalEvent.dataTransfer.files.length) {
+                input[0].files = e.originalEvent.dataTransfer.files;
+                input.trigger('change');
+            }
+        });
+
+        input.on('change', function() {
+            var file = this.files[0];
+            if (file) {
+                if (file.type !== 'application/json' && !file.name.toLowerCase().endsWith('.json')) {
+                    alert('Please select a JSON file.');
+                    return;
+                }
+                var label = this.files.length > 1 ? this.files.length + ' files selected' : file.name;
+                zone.html('<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><b style="font-size: 14.5px; margin-bottom: 2px; color: #1e1e1e;">' + label + '</b><span style="font-size: 13.5px; color: #6c7385;">Ready to import</span>');
+                
+                $('#peiwm-import-users').show();
+            } else {
+                $('#peiwm-import-users').hide();
+            }
+        });
+    }
+
+    setupDropZoneUsers('#peiwm-users-select-file', '#peiwm-users-file');
 
     // ── Import Users ───────────────────────────────────────────────────────
     $('#peiwm-import-users').on('click', function () {

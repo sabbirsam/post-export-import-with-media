@@ -190,36 +190,63 @@ jQuery(document).ready(function ($) {
 
     // --- End Drag and Drop Modal Logic ---
 
-    // File input handlers
-    $('#peiwm-select-posts-file').on('click', function () {
-        window.peiwmShowDragDropModal('#peiwm-posts-file', {
-            title: 'Select JSON File(s)',
-            subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
-            description: 'Drag & drop JSON files or click to browse',
-            accept: '.json',
-            multiple: true
-        });
-    });
+    // Drop Zone handlers
+    function setupDropZone(dropZoneId, fileInputId) {
+        const dropZone = $(dropZoneId);
+        const fileInput = $(fileInputId);
 
-    $('#peiwm-select-media-file').on('click', function () {
-        window.peiwmShowDragDropModal('#peiwm-media-file', {
-            title: 'Select ZIP File(s)',
-            subtitle: 'Select one or more ZIP files. The modal will close automatically. Then, click Start Import.',
-            description: 'Drag & drop ZIP files or click to browse',
-            accept: '.zip',
-            multiple: true
+        dropZone.on('click', function () {
+            fileInput.click();
         });
-    });
+
+        dropZone.on('dragover', function(e) {
+            e.preventDefault();
+            dropZone.addClass('dragover');
+        });
+
+        dropZone.on('dragleave', function(e) {
+            e.preventDefault();
+            dropZone.removeClass('dragover');
+        });
+
+        dropZone.on('drop', function(e) {
+            e.preventDefault();
+            dropZone.removeClass('dragover');
+            if (e.originalEvent.dataTransfer.files.length) {
+                fileInput[0].files = e.originalEvent.dataTransfer.files;
+                fileInput.trigger('change');
+            }
+        });
+    }
+
+    setupDropZone('#peiwm-select-posts-file', '#peiwm-posts-file');
+    setupDropZone('#peiwm-select-media-file', '#peiwm-media-file');
 
     $('#peiwm-posts-file').on('change', function () {
         if (this.files.length > 0) {
             const label = this.files.length > 1 ? this.files.length + ' files selected' : this.files[0].name;
-            $('#peiwm-select-posts-file').text(label);
+            $('#peiwm-select-posts-file b').text(label);
+            $('#peiwm-select-posts-file span').text('Click to change file(s)');
             $('#peiwm-import-posts').show();
             // Load ALL selected files and merge posts into one list
             loadPostsSelectionListFromFiles(Array.from(this.files));
         } else {
+            $('#peiwm-select-posts-file b').text('Drop your JSON file(s) here');
+            $('#peiwm-select-posts-file span').text('or click to browse');
             $('#peiwm-import-posts').hide();
+        }
+    });
+
+    $('#peiwm-media-file').on('change', function () {
+        if (this.files.length > 0) {
+            const label = this.files.length > 1 ? this.files.length + ' files selected' : this.files[0].name;
+            $('#peiwm-select-media-file b').text(label);
+            $('#peiwm-select-media-file span').text('Click to change file(s)');
+            $('#peiwm-import-media').show();
+        } else {
+            $('#peiwm-select-media-file b').text('Drop your ZIP file(s) here');
+            $('#peiwm-select-media-file span').text('or click to browse');
+            $('#peiwm-import-media').hide();
         }
     });
 
@@ -1424,6 +1451,14 @@ jQuery(document).ready(function ($) {
         });
     });
 
+    // Export Everything
+    $('#peiwm-export-everything').on('click', function () {
+        $('#peiwm-export-posts').trigger('click');
+        setTimeout(function() {
+            $('#peiwm-export-media').trigger('click');
+        }, 500);
+    });
+
     // Load Media Statistics
     loadMediaStats();
 
@@ -2039,41 +2074,97 @@ jQuery(document).ready(function ($) {
     }
 
     function displayTestResults(config) {
-        const results = $('#peiwm-test-results');
-        let html = '<h3>Server Configuration</h3><table class="peiwm-test-table">';
+        let html = '<div class="peiwm-table-scroll-wrapper" style="max-height:400px;overflow-y:auto;margin:1rem 0;">';
+        html += '<table class="peiwm-test-table" style="width:100%;border-collapse:collapse;font-size:13px;">';
+        html += '<thead><tr style="background:#f3f4f6;position:sticky;top:0;">';
+        html += '<th style="padding:8px;text-align:left;border-bottom:2px solid #e5e7eb;width:50%;">Setting</th>';
+        html += '<th style="padding:8px;text-align:left;border-bottom:2px solid #e5e7eb;width:50%;">Value</th>';
+        html += '</tr></thead><tbody>';
 
-        html += '<tr><td>PHP Version:</td><td>' + config.php_version + '</td></tr>';
-        html += '<tr><td>WordPress Version:</td><td>' + config.wordpress_version + '</td></tr>';
-        html += '<tr><td>Upload Max Filesize:</td><td>' + config.upload_max_filesize + '</td></tr>';
-        html += '<tr><td>Post Max Size:</td><td>' + config.post_max_size + '</td></tr>';
-        html += '<tr><td>Max Input Time:</td><td>' + config.max_input_time + ' seconds</td></tr>';
-        html += '<tr><td>Max File Uploads:</td><td>' + config.max_file_uploads + '</td></tr>';
-        html += '<tr><td>Max Execution Time:</td><td>' + config.max_execution_time + ' seconds</td></tr>';
-        html += '<tr><td>Memory Limit:</td><td>' + config.memory_limit + '</td></tr>';
-        html += '<tr><td>Current Memory Usage:</td><td>' + (config.current_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
-        html += '<tr><td>Peak Memory Usage:</td><td>' + (config.peak_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
-        html += '<tr><td>ZipArchive Available:</td><td>' + (config.ziparchive_available ? '✅ Yes' : '❌ No') + '</td></tr>';
-        html += '<tr><td>Upload Directory Writable:</td><td>' + (config.upload_dir_writable ? '✅ Yes' : '❌ No') + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">PHP Version</td><td style="padding:8px;">' + config.php_version + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">WordPress Version</td><td style="padding:8px;">' + config.wordpress_version + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Upload Max Filesize</td><td style="padding:8px;">' + config.upload_max_filesize + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Post Max Size</td><td style="padding:8px;">' + config.post_max_size + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Max Input Time</td><td style="padding:8px;">' + config.max_input_time + ' seconds</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Max File Uploads</td><td style="padding:8px;">' + config.max_file_uploads + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Max Execution Time</td><td style="padding:8px;">' + config.max_execution_time + ' seconds</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Memory Limit</td><td style="padding:8px;">' + config.memory_limit + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Current Memory Usage</td><td style="padding:8px;">' + (config.current_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Peak Memory Usage</td><td style="padding:8px;">' + (config.peak_memory_usage / 1024 / 1024).toFixed(2) + ' MB</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">ZipArchive Available</td><td style="padding:8px;">' + (config.ziparchive_available ? '✅ Yes' : '❌ No') + '</td></tr>';
+        html += '<tr style="border-bottom:1px solid #e5e7eb;"><td style="padding:8px;font-weight:500;">Upload Directory Writable</td><td style="padding:8px;">' + (config.upload_dir_writable ? '✅ Yes' : '❌ No') + '</td></tr>';
 
-        html += '</table>';
+        html += '</tbody></table></div>';
 
         // Add recommendations
-        html += '<h3>Recommendations</h3><ul>';
+        let recs = [];
         if (parseInt(config.max_execution_time) < 300) {
-            html += '<li class="peiwm-warning">⚠️ Max Execution Time is low (' + config.max_execution_time + 's). Consider increasing to 300+ seconds for large file uploads.</li>';
+            recs.push('<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#7c2d12;line-height:1.5;margin-bottom:8px;text-align:left;">' +
+                      '<strong style="color:#9a3412;">⚠️ Max Execution Time is low (' + config.max_execution_time + 's)</strong><br>' +
+                      'Consider increasing to 300+ seconds for large file uploads.' +
+                      '</div>');
         }
         if (parseInt(config.max_input_time) < 300) {
-            html += '<li class="peiwm-warning">⚠️ Max Input Time is low (' + config.max_input_time + 's). Consider increasing to 300+ seconds for large file uploads.</li>';
+            recs.push('<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#7c2d12;line-height:1.5;margin-bottom:8px;text-align:left;">' +
+                      '<strong style="color:#9a3412;">⚠️ Max Input Time is low (' + config.max_input_time + 's)</strong><br>' +
+                      'Consider increasing to 300+ seconds for large file uploads.' +
+                      '</div>');
         }
         if (!config.ziparchive_available) {
-            html += '<li class="peiwm-error">❌ ZipArchive is not available. This is required for media import/export.</li>';
+            recs.push('<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#991b1b;line-height:1.5;margin-bottom:8px;text-align:left;">' +
+                      '<strong style="color:#b91c1c;">❌ ZipArchive is not available</strong><br>' +
+                      'This is required for media import/export.' +
+                      '</div>');
         }
         if (!config.upload_dir_writable) {
-            html += '<li class="peiwm-error">❌ Upload directory is not writable. Check permissions.</li>';
+            recs.push('<div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#991b1b;line-height:1.5;margin-bottom:8px;text-align:left;">' +
+                      '<strong style="color:#b91c1c;">❌ Upload directory is not writable</strong><br>' +
+                      'Check permissions.' +
+                      '</div>');
         }
-        html += '</ul>';
 
-        results.html(html).show();
+        if (recs.length > 0) {
+            html += '<div style="margin-top:1rem;">';
+            html += '<h4 style="margin-top:0;margin-bottom:10px;">Recommendations</h4>';
+            html += recs.join('');
+            html += '</div>';
+        } else {
+            html += '<div style="margin-top:1rem;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#065f46;text-align:left;">';
+            html += '✅ <strong>All systems look good!</strong> No recommendations at this time.';
+            html += '</div>';
+        }
+
+        const modal = $('#peiwm-modal-overlay');
+        modal.find('.peiwm-modal-header h3').text('System Test Results');
+        modal.find('.peiwm-modal-body p').html(html);
+        modal.find('.peiwm-modal').removeClass('peiwm-warning-modal peiwm-danger-modal peiwm-media-missing-modal');
+        modal.find('#peiwm-modal-confirm').hide();
+        modal.find('#peiwm-modal-cancel').text('Close').show();
+        modal.show().addClass('peiwm-show');
+        
+        // Modal events
+        modal.find('.peiwm-modal-close, #peiwm-modal-cancel').off('click').on('click', function() {
+            modal.removeClass('peiwm-show').hide();
+            modal.find('#peiwm-modal-confirm').show();
+            modal.find('#peiwm-modal-cancel').text('Cancel');
+        });
+        
+        modal.off('click').on('click', function(e) {
+            if (e.target === this) {
+                modal.removeClass('peiwm-show').hide();
+                modal.find('#peiwm-modal-confirm').show();
+                modal.find('#peiwm-modal-cancel').text('Cancel');
+            }
+        });
+
+        $(document).off('keydown.test-modal').on('keydown.test-modal', function(e) {
+            if (e.key === 'Escape') {
+                modal.removeClass('peiwm-show').hide();
+                modal.find('#peiwm-modal-confirm').show();
+                modal.find('#peiwm-modal-cancel').text('Cancel');
+                $(document).off('keydown.test-modal');
+            }
+        });
     }
 
     function addLog(message, logContainer = null, className = '') {
@@ -2200,42 +2291,45 @@ jQuery(document).ready(function ($) {
                     // File types breakdown
                     if (Object.keys(stats.file_types).length > 0) {
                         html += '<div class="peiwm-file-types">';
-                        html += '<h4>File Types</h4>';
+                        html += '<h4><svg class="peiwm-ft-heading-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 2.5h7.5L16 7v10.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.25 2.5V7H16" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>File Types</h4>';
                         html += '<div class="peiwm-file-types-list">';
 
                         let count = 0;
                         const allFileTypes = Object.entries(stats.file_types);
-                        
+
                         // Show first 5 file types
                         for (const [mimeType, fileCount] of allFileTypes) {
                             if (count >= 5) break;
                             const fileType = mimeType.split('/')[1] || mimeType;
                             const displayName = fileType.toUpperCase();
                             const truncatedName = displayName.length > 7 ? displayName.substring(0, 7) + '...' : displayName;
-                            
+
                             html += '<div class="peiwm-file-type-item" title="' + displayName + ' (' + fileCount + ' files)">';
+                            html += '<svg class="peiwm-ft-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 2.5h7.5L16 7v10.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.25 2.5V7H16" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
                             html += '<span class="peiwm-file-type-name">' + truncatedName + '</span>';
                             html += '<span class="peiwm-file-type-count">' + fileCount + '</span>';
                             html += '</div>';
                             count++;
                         }
 
-                        // Show "+X more types" button if there are more than 5
+                        // Show "+X more types" toggle if there are more than 5
                         if (allFileTypes.length > 5) {
                             const remainingCount = allFileTypes.length - 5;
-                            html += '<div class="peiwm-file-type-item peiwm-more-toggle" style="cursor: pointer;">';
-                            html += '<span class="peiwm-more-text">+' + remainingCount + ' more type' + (remainingCount > 1 ? 's' : '') + '</span>';
-                            html += '</div>';
-                            
+                            html += '<button type="button" class="peiwm-file-type-item peiwm-more-toggle" aria-expanded="false">';
+                            html += '<svg class="peiwm-ft-chevron" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 8l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                            html += '<span class="peiwm-more-text">+' + remainingCount + ' more' + (remainingCount > 1 ? 's' : '') + '</span>';
+                            html += '</button>';
+
                             // Hidden remaining types
-                            html += '<div class="peiwm-file-types-hidden" style="display: none;">';
+                            html += '<div class="peiwm-file-types-hidden">';
                             for (let i = 5; i < allFileTypes.length; i++) {
                                 const [mimeType, fileCount] = allFileTypes[i];
                                 const fileType = mimeType.split('/')[1] || mimeType;
                                 const displayName = fileType.toUpperCase();
                                 const truncatedName = displayName.length > 7 ? displayName.substring(0, 7) + '...' : displayName;
-                                
+
                                 html += '<div class="peiwm-file-type-item" title="' + displayName + ' (' + fileCount + ' files)">';
+                                html += '<svg class="peiwm-ft-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 2.5h7.5L16 7v10.5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M11.25 2.5V7H16" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>';
                                 html += '<span class="peiwm-file-type-name">' + truncatedName + '</span>';
                                 html += '<span class="peiwm-file-type-count">' + fileCount + '</span>';
                                 html += '</div>';
@@ -2258,7 +2352,7 @@ jQuery(document).ready(function ($) {
                         if (isVisible) {
                             $hidden.slideUp(200);
                             const remainingCount = $hidden.find('.peiwm-file-type-item').length;
-                            $this.find('.peiwm-more-text').text('+' + remainingCount + ' more type' + (remainingCount > 1 ? 's' : ''));
+                            $this.find('.peiwm-more-text').text('+' + remainingCount + ' more' + (remainingCount > 1 ? 's' : ''));
                         } else {
                             $hidden.slideDown(200);
                             $this.find('.peiwm-more-text').text('Show less');
@@ -2534,3 +2628,163 @@ jQuery(document).ready(function ($) {
     });
     
 });
+
+// Global tab switching functions for New-UI design
+window.switchTab = function(group, name) {
+    // Update the buttons
+    var tabs = document.querySelectorAll('.tabs[data-group="' + group + '"] .tab-btn');
+    tabs.forEach(function(b) {
+        b.classList.remove('active');
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
+            b.classList.add('active');
+        }
+    });
+
+    // Hide ALL potential panels for this group
+    // Case A: Global panels where data-panel="group-name"
+    document.querySelectorAll('.tab-panel[data-panel^="' + group + '-"]').forEach(function(p) {
+        p.classList.remove('active');
+    });
+    
+    // Case B: Local panels where data-group is set
+    document.querySelectorAll('.tab-panel[data-group="' + group + '"]').forEach(function(p) {
+        p.classList.remove('active');
+    });
+
+    // Show the target panel
+    // Try data-group match first
+    var targetPanel = document.querySelector('.tab-panel[data-group="' + group + '"][data-panel="' + name + '"]');
+    
+    // Fallback for global tabs if needed
+    if (!targetPanel) {
+        targetPanel = document.querySelector('.tab-panel[data-panel="' + group + '-' + name + '"]');
+    }
+    
+    if (targetPanel) {
+        targetPanel.classList.add('active');
+    }
+
+    // Update journey steps state if they exist
+    // Only update steps that belong to the current journey group, avoiding cross-contamination
+    var steps = document.querySelectorAll('.journey .step');
+    if (steps.length > 0) {
+        // First check if any steps in this journey even match this group
+        var hasGroupSteps = Array.from(steps).some(s => s.getAttribute('onclick') && s.getAttribute('onclick').includes("'" + group + "'"));
+        
+        if (hasGroupSteps) {
+            var foundActive = false;
+            steps.forEach(function(s) {
+                s.classList.remove('active', 'done');
+                if (s.getAttribute('onclick') && s.getAttribute('onclick').includes("'" + group + "'") && s.getAttribute('onclick').includes("'" + name + "'")) {
+                    s.classList.add('active');
+                    foundActive = true;
+                } else if (!foundActive) {
+                    s.classList.add('done');
+                }
+            });
+        }
+    }
+};
+
+window.switchTabByGroup = function(group, name) {
+    window.switchTab(group, name);
+    var mainPage = document.getElementById('peiwm-main-content');
+    if (mainPage) {
+        mainPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
+
+window.peiwmSwitchJourneyMode = function(mode) {
+    if (mode === 1) {
+        var btn1 = document.getElementById('peiwm-btn-mode-1');
+        var btn2 = document.getElementById('peiwm-btn-mode-2');
+        if(btn1) btn1.classList.add('active');
+        if(btn2) btn2.classList.remove('active');
+        
+        var desc1 = document.getElementById('peiwm-journey-desc-1');
+        var desc2 = document.getElementById('peiwm-journey-desc-2');
+        if(desc1) desc1.style.display = 'block';
+        if(desc2) desc2.style.display = 'none';
+        
+        var steps1 = document.getElementById('peiwm-journey-steps-1');
+        var steps2 = document.getElementById('peiwm-journey-steps-2');
+        if(steps1) steps1.style.display = 'grid';
+        if(steps2) steps2.style.display = 'none';
+        
+        // Reset to first step of mode 1
+        if (window.switchTabByGroup) window.switchTabByGroup('media','export');
+    } else {
+        var btn1 = document.getElementById('peiwm-btn-mode-1');
+        var btn2 = document.getElementById('peiwm-btn-mode-2');
+        if(btn2) btn2.classList.add('active');
+        if(btn1) btn1.classList.remove('active');
+        
+        var desc1 = document.getElementById('peiwm-journey-desc-1');
+        var desc2 = document.getElementById('peiwm-journey-desc-2');
+        if(desc2) desc2.style.display = 'block';
+        if(desc1) desc1.style.display = 'none';
+        
+        var steps1 = document.getElementById('peiwm-journey-steps-1');
+        var steps2 = document.getElementById('peiwm-journey-steps-2');
+        if(steps2) steps2.style.display = 'grid';
+        if(steps1) steps1.style.display = 'none';
+        
+        // Reset to first step of mode 2
+        if (window.switchTabByGroup) window.switchTabByGroup('posts','export');
+    }
+};
+
+window.peiwmHighlightMagicOptions = function() {
+    // Ensure the advanced panel is open
+    const advancedToggle = document.querySelector('.peiwm-advanced-toggle[aria-controls="peiwm-advanced-import-posts"]');
+    if (advancedToggle && !advancedToggle.classList.contains('is-open')) {
+        advancedToggle.click();
+    }
+    
+    // Highlight the specific checkbox
+    const missingImagesCheckbox = document.getElementById('peiwm-download-missing-images');
+    if (missingImagesCheckbox) {
+        const label = missingImagesCheckbox.closest('label');
+        if (label) {
+            label.style.transition = 'all 0.5s ease';
+            label.style.backgroundColor = '#f3e8ff';
+            label.style.padding = '8px';
+            label.style.borderRadius = '4px';
+            label.style.border = '1px solid #c084fc';
+            
+            setTimeout(() => {
+                label.style.backgroundColor = 'transparent';
+                label.style.padding = '0';
+                label.style.border = 'none';
+            }, 3000);
+        }
+        
+        // Ensure it is checked
+        if (!missingImagesCheckbox.checked) {
+            missingImagesCheckbox.checked = true;
+        }
+    }
+};
+
+window.peiwmToggleLearnMore = function(btn) {
+    var details = btn.nextElementSibling;
+    if (!details) return;
+
+    var isHidden = details.hasAttribute('hidden');
+    if (isHidden) {
+        details.removeAttribute('hidden');
+        btn.textContent = peiwmLearnMoreLabels.less;
+        btn.setAttribute('aria-expanded', 'true');
+    } else {
+        details.setAttribute('hidden', '');
+        btn.textContent = peiwmLearnMoreLabels.more;
+        btn.setAttribute('aria-expanded', 'false');
+    }
+};
+
+// Labels kept translatable — populate via wp_localize_script alongside your other i18n strings.
+// Fallback if peiwmLearnMoreLabels isn't localized for some reason:
+window.peiwmLearnMoreLabels = window.peiwmLearnMoreLabels || {
+    more: 'Learn more',
+    less: 'Show less'
+};

@@ -349,40 +349,56 @@
 			}
 		} );
 
-		// --- Import: file selection (supports multiple JSON files like post import) ---
-		$( '#peiwm-cpt-select-import-file' ).on( 'click', function () {
-			if (typeof window.peiwmShowDragDropModal === 'function') {
-				window.peiwmShowDragDropModal('#peiwm-cpt-import-file', {
-					title: 'Select JSON File(s)',
-					subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
-					description: 'Drag & drop JSON files or click to browse',
-					accept: '.json',
-					multiple: true
-				});
-			} else {
-				$( '#peiwm-cpt-import-file' ).trigger( 'click' );
-			}
-		} );
+		// --- Import: file selection Drop Zone Setup ---
+		function setupDropZoneCpt(zoneId, inputId) {
+			var zone = $(zoneId);
+			var input = $(inputId);
 
-		$( '#peiwm-cpt-import-file' ).on( 'change', function () {
-			var files = this.files;
-			if ( ! files || ! files.length ) { return; }
+			zone.on('click', function() {
+				input.click();
+			});
 
-			// Validate all files are JSON
-			for ( var fi = 0; fi < files.length; fi++ ) {
-				if ( ! files[ fi ].name.toLowerCase().endsWith( '.json' ) ) {
-					showError( 'Please select JSON file(s) only.' );
-					return;
+			zone.on('dragover', function(e) {
+				e.preventDefault();
+				zone.addClass('dragover');
+			});
+
+			zone.on('dragleave', function(e) {
+				e.preventDefault();
+				zone.removeClass('dragover');
+			});
+
+			zone.on('drop', function(e) {
+				e.preventDefault();
+				zone.removeClass('dragover');
+				if (e.originalEvent.dataTransfer.files.length) {
+					input[0].files = e.originalEvent.dataTransfer.files;
+					input.trigger('change');
 				}
-			}
+			});
 
-			var label = files.length > 1 ? files.length + ' files selected' : files[ 0 ].name;
-			$( '#peiwm-cpt-select-import-file' ).text( label );
-			$( '#peiwm-cpt-start-import' ).show();
+			input.on('change', function() {
+				var files = this.files;
+				if ( ! files || ! files.length ) { return; }
 
-			// Load ALL selected files and merge into one list (same as post import)
-			loadCptImportFilesIntoList( Array.from( files ) );
-		} );
+				// Validate all files are JSON
+				for ( var fi = 0; fi < files.length; fi++ ) {
+					if ( ! files[ fi ].name.toLowerCase().endsWith( '.json' ) && files[fi].type !== 'application/json' ) {
+						showError( 'Please select JSON file(s) only.' );
+						return;
+					}
+				}
+
+				var label = files.length > 1 ? files.length + ' files selected' : files[ 0 ].name;
+				zone.html('<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><b style="font-size: 14.5px; margin-bottom: 2px; color: #1e1e1e;">' + label + '</b><span style="font-size: 13.5px; color: #6c7385;">Ready to import</span>');
+				$( '#peiwm-cpt-start-import' ).show();
+
+				// Load ALL selected files and merge into one list (same as post import)
+				loadCptImportFilesIntoList( Array.from( files ) );
+			});
+		}
+
+		setupDropZoneCpt('#peiwm-cpt-select-import-file', '#peiwm-cpt-import-file');
 
 		// Import: toggle selective panel
 		$( '#peiwm-cpt-import-selective' ).on( 'change', function () {
@@ -660,7 +676,7 @@
 				if ( ! $( '#peiwm-export-all-cpts' ).length ) {
 					var totalLabel = res.data.length + ' post type' + ( res.data.length === 1 ? '' : 's' );
 					$( '#peiwm-export-cpt' ).after(
-						'<button type="button" id="peiwm-export-all-cpts" class="button button-secondary" style="margin-left:0.5rem;" title="Export every CPT to a separate JSON file">' +
+						'<button type="button" id="peiwm-export-all-cpts" class="btn btn-block" style="margin-left:0.5rem;" title="Export every CPT to a separate JSON file">' +
 						'⬇ Export All (' + totalLabel + ')' +
 						'</button>'
 					);

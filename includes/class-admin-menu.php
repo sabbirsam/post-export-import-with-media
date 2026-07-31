@@ -553,19 +553,132 @@ class PEIWM_Admin_Menu {
 
 		?>
 		<div class="wrap peiwm-admin">
-			<h1 class='heading-admin'>
-				<?php echo esc_html__( 'Export/Import Posts & Media', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> Posts &amp; Media
+					</div>
+					<h1 class='heading-admin'>
+						<?php echo esc_html__( 'Posts & Media Migration', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Safely migrate your complete content structure including posts, pages, and their associated media files.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				<div class="header-actions" style="display: flex; gap: 10px;">
+					<button type="button" class="btn btn-ghost" id="peiwm-test-config">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+							<polyline points="22 4 12 14.01 9 11.01"></polyline>
+						</svg>
+						<?php echo esc_html__( 'Run System Test', 'post-export-import-with-media' ); ?>
+					</button>
+					<button type="button" class="btn btn-primary btn-block" id="peiwm-export-everything">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+							<polyline points="7 10 12 15 17 10"></polyline>
+							<line x1="12" y1="15" x2="12" y2="3"></line>
+						</svg>
+						<?php echo esc_html__( 'Export Everything', 'post-export-import-with-media' ); ?>
+					</button>
+				</div>
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your Hassle-Free Migration Journey', 'post-export-import-with-media' ); ?></h2>
+						<p id="peiwm-journey-desc-1"><?php echo esc_html__( 'Follow this order for a complete, image-safe transfer between sites.', 'post-export-import-with-media' ); ?></p>
+						<p id="peiwm-journey-desc-2" style="display:none;"><?php echo esc_html__( 'A faster, magic way to migrate posts without manual media handling.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<div class="journey-modes" style="display: flex; gap: 8px; align-items: center;">
+						<button type="button" class="btn btn-ghost active" id="peiwm-btn-mode-1" onclick="peiwmSwitchJourneyMode(1)" style="font-size: 12px; padding: 4px 8px; height: auto;">
+							<?php echo esc_html__( 'Mode 1', 'post-export-import-with-media' ); ?>
+						</button>
+						<button type="button" class="btn btn-ghost" id="peiwm-btn-mode-2" onclick="peiwmSwitchJourneyMode(2)" style="font-size: 12px; padding: 4px 8px; height: auto; border: 1px solid #7c3aed; color: #7c3aed;">
+							<?php echo esc_html__( 'Mode 2', 'post-export-import-with-media' ); ?>
+						</button>
+					</div>
+				</div>
+				<div class="steps" id="peiwm-journey-steps-1">
+					<button type="button" class="step done" onclick="switchTabByGroup('media','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Media', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download every file e.g. image, video, PDF, etc., as a ZIP file.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step active" onclick="switchTabByGroup('posts','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Export Posts', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Export your Post, Categories, Tags, Taxonomy, Dates, SEO data, Custom Fields and image references.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTabByGroup('media','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">3</div>
+							<span class="step-title"><?php echo esc_html__( '3. Import Media First', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Upload the exported media files (ZIP) so images exist before posts arrive.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTabByGroup('posts','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">4</div>
+							<span class="step-title"><?php echo esc_html__( '4. Import Posts Last', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Posts are automatically mapped to uploaded images, videos, and internal/external links.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+				<div class="steps" id="peiwm-journey-steps-2" style="display:none; grid-template-columns: 1fr 1fr;">
+					<button type="button" class="step active" onclick="switchTabByGroup('posts','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Posts', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Export your post text, categories, and image references. No separate media export is required.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTabByGroup('posts','import'); peiwmHighlightMagicOptions();">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import Posts', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Import posts. Ensure "Download missing images from original URLs" is checked to magically download and map images directly from source.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
 			
 			<div class="peiwm-container">
 				<!-- Posts Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Posts Export/Import', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Posts', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Export and Import', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
+					<div class="tabs" data-group="posts">
+						<button type="button" class="tab-btn active" onclick="switchTab('posts','export')"><?php echo esc_html__( 'Export', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('posts','import')"><?php echo esc_html__( 'Import', 'post-export-import-with-media' ); ?></button>
+					</div>
+					<div class="tab-content" style="padding-top:0;">
+						<div class="tab-panel active" data-panel="posts-export">
+							<div class="peiwm-export-section" style="margin-top:14px; border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Export Posts', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Export all posts with their metadata and featured images.', 'post-export-import-with-media' ); ?></p>
 
@@ -750,8 +863,7 @@ class PEIWM_Admin_Menu {
 							</div>
 						</div>
 
-						<button type="button" id="peiwm-export-posts" class="button button-primary">
-							<?php echo esc_html__( 'Export Posts', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-export-posts" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Posts', 'post-export-import-with-media' ); ?>
 						</button>
 
 						<!-- PRO Toast -->
@@ -763,25 +875,28 @@ class PEIWM_Admin_Menu {
 							<a class="peiwm-pro-toast__cta button button-secondary peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media" target="_blank"><?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?> ↗</a>
 							<button type="button" class="peiwm-pro-toast__close peiwm-pro-toast-close" aria-label="<?php echo esc_attr__( 'Close', 'post-export-import-with-media' ); ?>">×</button>
 						</div>
-					</div>
-					
-					<div class="peiwm-import-section">
+							</div>
+						</div>
+						<div class="tab-panel" data-panel="posts-import">
+							<div class="peiwm-import-section" style="margin-top:14px; border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Import Posts', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Import posts from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
 						<div class="button-container">
 							<input type="file" id="peiwm-posts-file" accept=".json" multiple style="display: none;">
-							<button type="button" id="peiwm-select-posts-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select JSON File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-posts" class="button button-primary" style="display: none;">
+							<div class="drop-zone" id="peiwm-select-posts-file">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M12 3v12M7 8l5-5 5 5" />
+									<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+								</svg>
+								<b><?php echo esc_html__( 'Drop your JSON file(s) here', 'post-export-import-with-media' ); ?></b>
+								<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+							</div>
+							<button type="button" id="peiwm-import-posts" class="btn btn-primary btn-block" style="display: none;">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
 								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
 							</button>
 						</div>
-						
-						<!-- Free Options (Always Visible) -->
-						<div class="peiwm-import-options" style="margin-top: 1rem;">
-							
-						</div>
+	
 
 						<?php
 						$main_instance = PEIWM_Main::get_instance();
@@ -852,75 +967,69 @@ class PEIWM_Admin_Menu {
 							</div>
 
 							<!-- Media Match Mode Setting -->
-							<!-- Row: Image Matching Strategy -->
-							<div class="peiwm-inline-row <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">
-								<div style="flex: 1;">
-									<label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e1e1e;">
-										<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
-									</label>
-									<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-										<?php
-										$current_match_mode = get_option( 'peiwm_media_match_mode', 'match_and_reuse' );
-										?>
-										<label class="peiwm-checkbox-label" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode" value="match_and_reuse" <?php checked( $current_match_mode, 'match_and_reuse' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong><?php echo esc_html__( 'Verify only fallback matches', 'post-export-import-with-media' ); ?></strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Skip verification for exact path matches, verify only filename-based matches. Fast and reliable.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
-										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode" value="always_verify" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php checked( $current_match_mode, 'always_verify' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong>
-													<?php echo esc_html__( 'Verify all matches', 'post-export-import-with-media' ); ?>
-													<?php if ( ! $is_pro ) : ?>
-														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													<?php endif; ?>
-												</strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Verify file size for every match. Use if you suspect duplicate filenames.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
-										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode" value="always_download" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php checked( $current_match_mode, 'always_download' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong>
-													<?php echo esc_html__( 'Always download fresh', 'post-export-import-with-media' ); ?>
-													<?php if ( ! $is_pro ) : ?>
-														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													<?php endif; ?>
-												</strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Never reuse existing images, always download from source.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
+							<div class="peiwm-inline-row post-media-match<?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
+								<b style="font-size:12.5px;display:block;margin-bottom:8px; color:#1e1e1e;">
+									<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
+								</b>
 
-										<br>
-										<!-- PRO: Link reused media to imported post checkbox -->
-										<label class="peiwm-checkbox-label <?php echo ! $is_pro ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="checkbox" id="peiwm-attach-media-to-post" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php echo $is_pro ? 'checked' : ''; ?>>
-											<span class="peiwm-checkbox-text">
-												<strong>
-													<?php echo esc_html__( 'Link reused media to imported post', 'post-export-import-with-media' ); ?>
-													<?php if ( ! $is_pro ) : ?>
-														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													<?php endif; ?>
-												</strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( "Sets the 'Uploaded to' column in Media Library for matched/reused images, linking them to the imported post. (Downloaded missing images are always linked automatically by WordPress.)", 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
-									</div>
+								<?php $current_match_mode = get_option( 'peiwm_media_match_mode', 'match_and_reuse' ); ?>
+
+								<div class="match-grid">
+									<label class="match-card <?php echo $current_match_mode === 'match_and_reuse' ? 'selected' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode" value="match_and_reuse" <?php checked( $current_match_mode, 'match_and_reuse' ); ?>>
+										<b><?php echo esc_html__( 'Verify only fallback matches', 'post-export-import-with-media' ); ?> </b>
+										<p><?php echo esc_html__( 'Fast & reliable for exact and filename-based matches.', 'post-export-import-with-media' ); ?></p>
+									</label>
+
+									<label class="match-card <?php echo $current_match_mode === 'always_verify' ? 'selected' : ''; ?> <?php echo ! $is_pro_exp ? 'is-locked peiwm-open-premium-modal' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode" value="always_verify" <?php echo ! $is_pro_exp ? 'disabled' : ''; ?> <?php checked( $current_match_mode, 'always_verify' ); ?>>
+										<b>
+											<?php echo esc_html__( 'Verify all matches', 'post-export-import-with-media' ); ?>
+											<?php if ( ! $is_pro_exp ) : ?>
+												<span style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:4px;">PRO</span>
+											<?php endif; ?>
+										</b>
+										<p><?php echo esc_html__( 'Verifies file size for every match — for suspected duplicates.', 'post-export-import-with-media' ); ?></p>
+									</label>
+
+									<label class="match-card <?php echo $current_match_mode === 'always_download' ? 'selected' : ''; ?> <?php echo ! $is_pro_exp ? 'is-locked peiwm-open-premium-modal' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode" value="always_download" <?php echo ! $is_pro_exp ? 'disabled' : ''; ?> <?php checked( $current_match_mode, 'always_download' ); ?>>
+										<b>
+											<?php echo esc_html__( 'Always download fresh', 'post-export-import-with-media' ); ?>
+											<?php if ( ! $is_pro_exp ) : ?>
+												<span style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:4px;">PRO</span>
+											<?php endif; ?>
+										</b>
+										<p><?php echo esc_html__( 'Never reuses existing images. Slowest, use for critical imports.', 'post-export-import-with-media' ); ?></p>
+									</label>
 								</div>
 								<?php if ( ! $is_pro ) : ?>
-									<a class="peiwm-pro-upgrade-link peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank" style="align-self: flex-start;"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a>
+									<a class="peiwm-pro-upgrade-link peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a>
 								<?php endif; ?>
+							</div>
+
+							<!-- PRO: Link reused media to imported post checkbox -->
+							<div class="peiwm-inline-row <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">
+								<label class="peiwm-checkbox-label <?php echo ! $is_pro ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
+									<input type="checkbox" id="peiwm-attach-media-to-post" <?php echo ! $is_pro ? 'disabled' : ''; ?> <?php echo $is_pro ? 'checked' : ''; ?>>
+									<span class="peiwm-checkbox-text">
+										<strong>
+											<?php echo esc_html__( 'Link reused media to imported post', 'post-export-import-with-media' ); ?>
+											<?php if ( ! $is_pro ) : ?>
+												<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+											<?php endif; ?>
+										</strong>
+										<small class="peiwm-checkbox-description">
+											<?php echo esc_html__( "Sets the 'Uploaded to' column in Media Library for matched/reused images.", 'post-export-import-with-media' ); ?>
+											<button type="button" class="peiwm-learn-more-btn" onclick="window.peiwmToggleLearnMore(this)" aria-expanded="false">
+												<?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?>
+											</button>
+											<span class="peiwm-learn-more-details" hidden>
+												<?php echo esc_html__( 'Downloaded missing images are always linked automatically by WordPress — this setting only affects images that were matched and reused.', 'post-export-import-with-media' ); ?>
+											</span>
+										</small>
+									</span>
+								</label>
 							</div>
 
 							<!-- PRO Row: Import individually -->
@@ -935,7 +1044,13 @@ class PEIWM_Admin_Menu {
 											<?php endif; ?>
 										</strong>
 										<span class="peiwm-checkbox-description">
-											<?php echo esc_html__( "Choose which posts to import instead of importing everything from the JSON file. You can also change each post's status before importing. To enable this option, first select a JSON file, then check the option. A section will appear below where you can choose individual posts.", 'post-export-import-with-media' ); ?>
+											<?php echo esc_html__( 'Choose which posts to import instead of everything in the file.', 'post-export-import-with-media' ); ?>
+											<button type="button" class="peiwm-learn-more-btn" onclick="window.peiwmToggleLearnMore(this)" aria-expanded="false">
+												<?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?>
+											</button>
+											<span class="peiwm-learn-more-details" hidden>
+												<?php echo esc_html__( "You can also change each post's status before importing. To enable this option, first select a JSON file, then check the option. A section will appear below where you can choose individual posts.", 'post-export-import-with-media' ); ?>
+											</span>
 										</span>
 									</span>
 								</label>
@@ -957,7 +1072,20 @@ class PEIWM_Admin_Menu {
 												<?php endif; ?>
 											</strong>
 											<span class="peiwm-checkbox-description">
-												<?php echo esc_html__( "Prevents posts from being assigned to the wrong author when user IDs differ between sites. If the original author doesn't exist on the destination site, select 'Automatically create missing users'. This will create the user with the same username and email address as the original author. Alternatively, you can export and import users separately using the dedicated User Export/Import feature before importing posts. Visit WP Toolkit > Settings to configure the auto-generated password. ", 'post-export-import-with-media' ); ?>
+												<?php echo esc_html__( 'Matches posts to existing users by username/email instead of numeric ID.', 'post-export-import-with-media' ); ?>
+												<button type="button" class="peiwm-learn-more-btn" onclick="window.peiwmToggleLearnMore(this)" aria-expanded="false">
+													<?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?>
+												</button>
+												<span class="peiwm-learn-more-details" hidden>
+													<?php
+													printf(
+														/* translators: 1: opening <a> tag to WP Toolkit settings page, 2: closing </a> tag */
+														esc_html__( "If the original author doesn't exist on the destination site, select 'Automatically create missing users' — it will create the user with the same username and email address as the original author. Alternatively, export and import users separately using the dedicated User Export/Import feature before importing posts. Visit %1\$sWP Toolkit > Settings%2\$s to configure the auto-generated password.", 'post-export-import-with-media' ),
+														'<a href="' . esc_url( admin_url( 'admin.php?page=peiwm-themes-plugins' ) ) . '">',
+														'</a>'
+													);
+													?>
+												</span>
 											</span>
 										</span>
 									</label>
@@ -1007,15 +1135,6 @@ class PEIWM_Admin_Menu {
 							</div>
 						</div>
 						
-						<div id="peiwm-posts-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
-						</div>
-
 						<!-- PRO Toast -->
 						<div class="peiwm-pro-toast" role="alert" aria-live="polite">
 							<span class="peiwm-pro-toast__icon">🔒</span>
@@ -1025,31 +1144,61 @@ class PEIWM_Admin_Menu {
 							<a class="peiwm-pro-toast__cta button button-secondary peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media" target="_blank"><?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?> ↗</a>
 							<button type="button" class="peiwm-pro-toast__close peiwm-pro-toast-close" aria-label="<?php echo esc_attr__( 'Close', 'post-export-import-with-media' ); ?>">×</button>
 						</div>
+						</div> <!-- end pro toast -->
+					</div> <!-- end import section -->
+				</div> <!-- end tab panel -->
+
+				<!-- Post Export/Import Progress Section -->
+				<div id="peiwm-posts-progress" class="peiwm-progress" style="display: none;">
+					<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+					<div class="peiwm-progress-bar">
+						<div class="peiwm-progress-fill"></div>
 					</div>
-					
+					<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+					<div class="peiwm-log"></div>
+				</div>
+
+				<div class="peiwm-danger-zone" style="margin-top: 2rem; padding-top: 1.5rem;">
 					<div class="peiwm-delete-section">
-						<h3><?php echo esc_html__( 'Delete Posts', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( '⚠️ Warning: This will permanently delete all posts. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
-						<button type="button" id="peiwm-delete-posts" class="button button-danger">
-							<?php echo esc_html__( 'Delete All Posts', 'post-export-import-with-media' ); ?>
+						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete Media', 'post-export-import-with-media' ); ?></h3>
+						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
+						<button type="button" id="peiwm-delete-media" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
+							<?php echo esc_html__( 'Delete All Media', 'post-export-import-with-media' ); ?>
 						</button>
 						
-						<div id="peiwm-delete-posts-progress" class="peiwm-progress" style="display: none;">
+						<div id="peiwm-delete-media-progress" class="peiwm-progress" style="display: none;">
 							<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
 							<div class="peiwm-progress-bar">
 								<div class="peiwm-progress-fill"></div>
 							</div>
 							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+							<div class="peiwm-log"></div>
 						</div>
 					</div>
 				</div>
-				
-				<!-- Media Section -->
-				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Media Export/Import', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-stats-section">
-						<h3><?php echo esc_html__( 'Media Statistics', 'post-export-import-with-media' ); ?></h3>
+			</div> <!-- end tab content -->
+
+			<!-- Media Section -->
+			<div class="peiwm-section">
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon media">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="m21 15-5-5L5 21"></path></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Media', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Export and Import files', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
+					<div class="tabs" data-group="media">
+						<button type="button" class="tab-btn active" onclick="switchTab('media','export')"><?php echo esc_html__( 'Export', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('media','import')"><?php echo esc_html__( 'Import', 'post-export-import-with-media' ); ?></button>
+					</div>
+					<div class="tab-content" style="padding-top:0;">
+						<div class="tab-panel active" data-panel="media-export">
+							<div class="peiwm-stats-section" style="margin-top:14px; border:none; background:var(--bg-surface); padding:1rem 1.5rem; border-radius:12px;">
+						<h3 style="font-size:14px; margin-bottom:12px;"><?php echo esc_html__( 'Media Statistics', 'post-export-import-with-media' ); ?></h3>
 						<div id="peiwm-media-stats" class="peiwm-stats">
 							<div class="peiwm-stats-loader">
 								<div class="peiwm-stats-loader-spinner"></div>
@@ -1057,12 +1206,12 @@ class PEIWM_Admin_Menu {
 								<div class="peiwm-stats-loader-subtext"><?php echo esc_html__( 'Analyzing your media library', 'post-export-import-with-media' ); ?></div>
 							</div>
 						</div>
-						<button type="button" id="peiwm-refresh-stats" class="button button-secondary">
-							<?php echo esc_html__( 'Refresh Stats', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-refresh-stats" class="peiwm-refresh-stats-btn">
+							<span><?php echo esc_html__( 'Refresh Stats', 'post-export-import-with-media' ); ?></span>
 						</button>
 					</div>
 					
-					<div class="peiwm-export-section">
+					<div class="peiwm-export-section" style="border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Export Media', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Export all media files with their metadata as a ZIP file.', 'post-export-import-with-media' ); ?></p>
 						
@@ -1180,204 +1329,61 @@ class PEIWM_Admin_Menu {
 						</div>
 						<!-- /Advanced Panel for Media Export -->
 						
-						<button type="button" id="peiwm-export-media" class="button button-primary">
-							<?php echo esc_html__( 'Export Media', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-export-media" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Media', 'post-export-import-with-media' ); ?>
 						</button>
-					</div>
-					
-					<div class="peiwm-import-section">
+							</div>
+						</div>
+						<div class="tab-panel" data-panel="media-import">
+							<div class="peiwm-import-section" style="border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Import Media', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Import media files from a previously exported ZIP file. Maximum file size: 500MB.', 'post-export-import-with-media' ); ?></p>
 						<div class="button-container">
 							<input type="file" id="peiwm-media-file" accept=".zip" multiple style="display: none;">
-							<button type="button" id="peiwm-select-media-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select ZIP File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-media" class="button button-primary" style="display: none;">
+							<div class="drop-zone" id="peiwm-select-media-file">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M12 3v12M7 8l5-5 5 5" />
+									<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+								</svg>
+								<b><?php echo esc_html__( 'Drop your ZIP file(s) here', 'post-export-import-with-media' ); ?></b>
+								<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+							</div>
+							<button type="button" id="peiwm-import-media" class="btn btn-primary btn-block" style="display: none;">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
 								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
 							</button>
 						</div>
-						
-						<div id="peiwm-media-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
-						</div>
+					</div> <!-- end import section -->
+				</div> <!-- end tab panel -->
+
+				<!-- Media Import/Export Progress Section  -->
+				<div id="peiwm-media-progress" class="peiwm-progress" style="display: none;">
+					<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+					<div class="peiwm-progress-bar">
+						<div class="peiwm-progress-fill"></div>
 					</div>
-					
-					<div class="peiwm-delete-section">
-						<h3><?php echo esc_html__( 'Delete Media', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( '⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
-						<button type="button" id="peiwm-delete-media" class="button button-danger">
-							<?php echo esc_html__( 'Delete All Media', 'post-export-import-with-media' ); ?>
+					<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+					<div class="peiwm-log"></div>
+				</div>
+
+				<div class="peiwm-danger-zone" style="margin-top: 2rem; padding-top: 1.5rem;">
+					<div class="peiwm-delete-section" style="padding: 1.5rem; background: #fff5f5;">
+						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete All Posts', 'post-export-import-with-media' ); ?></h3>
+						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all posts. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
+						<button type="button" id="peiwm-delete-posts" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
+							<?php echo esc_html__( 'Delete All Posts', 'post-export-import-with-media' ); ?>
 						</button>
-						
-						<div id="peiwm-delete-media-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
-						</div>
-					</div>
-				</div>
-				
-				<!-- System Test Section -->
-				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'System Test', 'post-export-import-with-media' ); ?></h2>
-					<p><?php echo esc_html__( 'Test your server configuration to ensure compatibility.', 'post-export-import-with-media' ); ?></p>
-					<button type="button" id="peiwm-test-config" class="button button-secondary">
-						<?php echo esc_html__( 'Test Configuration', 'post-export-import-with-media' ); ?>
-					</button>
-					<div id="peiwm-test-results" class="peiwm-test-results" style="display: none;"></div>
-				</div>
-
-				<!-- How to Use Section -->
-				<div class="peiwm-section peiwm-how-to-use-section">
-					<h2><?php echo esc_html__( 'How to Use This Plugin', 'post-export-import-with-media' ); ?></h2>
-					<p><?php echo esc_html__( 'Follow these steps for successful export and import with all images intact:', 'post-export-import-with-media' ); ?></p>
 					
-					<div class="peiwm-workflow-steps">
-						<div class="peiwm-workflow-step">
-							<div class="peiwm-step-number">1</div>
-							<div class="peiwm-step-content">
-
-								<h4 style="margin:0 0 10px; font-size:16px; font-weight:600; color:#111827;">
-									<?php echo esc_html__( 'Export Media Files', 'post-export-import-with-media' ); ?>
-								</h4>
-
-								<p style="margin:0 0 12px; font-size:14px; line-height:1.6; color:#374151;">
-									<?php echo esc_html__( 'Start by exporting all your media files using the "Export Media" button above. This will create a ZIP file containing your images, videos, and documents.', 'post-export-import-with-media' ); ?>
-								</p>
-
-								<div style="background:#f8fafc; border-left:4px solid #3b82f6; padding:12px 14px; border-radius:6px;">
-									<p style="margin:0; font-size:13px; line-height:1.6; color:#1f2937;">
-										<strong style="color:#2563eb;">💡 Tip:</strong>
-										<?php echo esc_html__( 'If your images are still available on the live site, you can enable "Download missing images from original URLs". This option downloads media directly from their original sources instead of the export file. Note that this may take more time. For faster imports, export the media first and keep this option unchecked.', 'post-export-import-with-media' ); ?>
-									</p>
-								</div>
-
-							</div>
-
+					<div id="peiwm-delete-posts-progress" class="peiwm-progress" style="display: none;">
+						<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
+						<div class="peiwm-progress-bar">
+							<div class="peiwm-progress-fill"></div>
 						</div>
-						
-						<div class="peiwm-workflow-step">
-							<div class="peiwm-step-number">2</div>
-							<div class="peiwm-step-content">
-								<h4><?php echo esc_html__( 'Export Posts', 'post-export-import-with-media' ); ?></h4>
-								<p><?php echo esc_html__( 'Next, export your posts using the "Export Posts" button. This creates a JSON file with all post content and image references.', 'post-export-import-with-media' ); ?></p>
-							</div>
-						</div>
-						
-						<div class="peiwm-workflow-step">
-							<div class="peiwm-step-number">3</div>
-							<div class="peiwm-step-content">
-								<h4><?php echo esc_html__( 'Import Media First', 'post-export-import-with-media' ); ?></h4>
-								<p><?php echo esc_html__( 'On your destination site, import the media ZIP file first. This ensures all images are available before importing posts.', 'post-export-import-with-media' ); ?></p>
-							</div>
-						</div>
-						
-						<div class="peiwm-workflow-step">
-							<div class="peiwm-step-number">4</div>
-							<div class="peiwm-step-content">
-								<h4><?php echo esc_html__( 'Import Posts Last', 'post-export-import-with-media' ); ?></h4>
-								<p><?php echo esc_html__( 'Finally, import the posts JSON file. The plugin will automatically link posts to the previously imported images.', 'post-export-import-with-media' ); ?></p>
-							</div>
+						<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
 						</div>
 					</div>
-					
-					<div style="margin-top:24px;padding:20px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;">
-						<h3 style="margin:0 0 10px;font-size:18px;font-weight:600;color:#111827;">
-							<?php echo esc_html__( 'Smart Media Matching', 'post-export-import-with-media' ); ?>
-						</h3>
-
-						<p style="margin:0 0 18px;font-size:14px;line-height:1.7;color:#4b5563;">
-							<?php echo esc_html__( 'When importing posts, the plugin first checks whether an image already exists in your Media Library. Choose how it should handle matching existing media.', 'post-export-import-with-media' ); ?>
-						</p>
-
-						<ol style="margin:0;padding-left:22px;line-height:1.8;color:#374151;">
-
-							<li style="margin-bottom:18px;">
-								<strong style="color:#111827;">
-									<?php echo esc_html__( 'Verify Only Fallback Matches (Recommended)', 'post-export-import-with-media' ); ?>
-								</strong>
-								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
-									<?php echo esc_html__( 'Best for most websites. If the original upload path is found, the image is reused instantly. When only the filename matches, the plugin performs one extra safety check before reusing it.', 'post-export-import-with-media' ); ?>
-								</p>
-							</li>
-
-							<li style="margin-bottom:18px;">
-								<strong style="color:#111827;">
-									<?php echo esc_html__( 'Verify All Matches (PRO)', 'post-export-import-with-media' ); ?>
-								</strong>
-								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
-									<?php echo esc_html__( 'Checks every reused image before linking it. Recommended if your Media Library has changed over time or you want the highest level of matching accuracy.', 'post-export-import-with-media' ); ?>
-								</p>
-							</li>
-
-							<li style="margin-bottom:18px;">
-								<strong style="color:#111827;">
-									<?php echo esc_html__( 'Always Download Fresh (PRO)', 'post-export-import-with-media' ); ?>
-								</strong>
-								<p style="margin:6px 0 0;font-size:14px;color:#4b5563;">
-									<?php echo esc_html__( 'Skips existing Media Library images and downloads fresh copies from the source website whenever available. Best if you always want newly imported files.', 'post-export-import-with-media' ); ?>
-								</p>
-							</li>
-
-						</ol>
-
-						<div style="margin-top:18px;padding:14px 16px;background:#f8fafc;border-radius:6px;">
-							<strong style="display:block;margin-bottom:6px;color:#111827;">
-								<?php echo esc_html__( '⭐ PRO: Link Reused Media to Imported Post', 'post-export-import-with-media' ); ?>
-							</strong>
-
-							<p style="margin:0;font-size:14px;line-height:1.7;color:#4b5563;">
-								<?php echo esc_html__( 'When an existing image is reused, this option also links it to the imported post. The "Uploaded To" column in the Media Library will correctly show the imported post as the image owner.', 'post-export-import-with-media' ); ?>
-							</p>
-						</div>
-					</div>
-
-					
-					<div class="peiwm-workflow-tips">
-						<h4><?php echo esc_html__( 'Pro Tips', 'post-export-import-with-media' ); ?></h4>
-						<ul>
-							<li><?php echo esc_html__( '✓ Always import media before posts for complete image restoration', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '✓ The plugin will show which images are missing during post import', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '✓ Run the System Test first to ensure your server can handle large files', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '✓ Enable "Download missing images from original URLs" if the source site is still online. This imports images directly without requiring a media ZIP, but may take longer.', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '⭐ PRO: Choose how existing media is matched—verify fallback matches, verify every match for maximum accuracy, or always download fresh copies.', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '⭐ PRO: Automatically link reused media to imported posts, updating the "Uploaded To" relationship in the Media Library.', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '✓ Existing images with the same filename will be reused automatically', 'post-export-import-with-media' ); ?></li>
-							<li><?php echo esc_html__( '✓ If you enable "Download missing images from original URLs" and ensure the source site is live, media will be fetched directly from the original URLs. This means you won’t need to import media files separately, though the process may take additional time to download and complete.', 'post-export-import-with-media' ); ?></li>
-						</ul>
-					</div>
-
-					<div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;text-align:center;">
-						<p style="margin:0;font-size:13px;color:#6b7280;">
-							📚 <?php echo wp_kses_post( sprintf(
-								__( 'For more guides, tutorials, and troubleshooting, visit our <a href="%s" target="_blank" rel="noopener noreferrer">Documentation Center</a>.', 'post-export-import-with-media' ),
-								'https://wpazleen.com/docs/post-import-image-matching-settings/'
-							) ); ?>
-						</p>
-					</div>
-
-					<div style="margin-top:14px;text-align:center;">
-						<p style="margin:0;font-size:13px;color:#6b7280;line-height:1.7;">
-							💬 <?php echo wp_kses_post( sprintf(
-								__( 'Have a question or a feature request? <a href="%1$s" target="_blank" rel="noopener noreferrer">Contact our support team</a> by filling out the support form or start a live chat using the chat widget on our website.', 'post-export-import-with-media' ),
-								'https://wpazleen.com/support/'
-							) ); ?>
-						</p>
-					</div>
-
 				</div>
 			</div>
 		</div>
-		
 		<?php $this->render_modal_templates(); ?>
 		<?php
 	}
@@ -1392,19 +1398,83 @@ class PEIWM_Admin_Menu {
 
 		?>
 		<div class="wrap peiwm-admin">
-			<h1 class='heading-admin'>
-				<?php echo esc_html__( 'Pages Export/Import', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> Pages
+					</div>
+					<h1 class='heading-admin' style="margin-bottom:0; font-size: 27px; font-weight: 700;">
+						<?php echo esc_html__( 'Pages Export/Import', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Export your page hierarchy with metadata and featured images, and import it back with the same structure.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				<!-- <div class="header-actions" style="display: flex; gap: 10px;">
+					<button type="button" class="btn btn-primary" id="peiwm-export-pages">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+							<polyline points="7 10 12 15 17 10"></polyline>
+							<line x1="12" y1="15" x2="12" y2="3"></line>
+						</svg>
+						<?php echo esc_html__( 'Export Pages', 'post-export-import-with-media' ); ?>
+					</button>
+				</div> -->
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your migration journey', 'post-export-import-with-media' ); ?></h2>
+						<p><?php echo esc_html__( 'Follow this order for a complete transfer between sites.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<span class="journey-badge"><?php echo esc_html__( 'Recommended order', 'post-export-import-with-media' ); ?></span>
+				</div>
+				<div class="steps">
+					<button type="button" class="step active" onclick="switchTab('pages','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Pages', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your complete page structure.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('pages','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import Pages', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore your pages with hierarchy on the new site.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
 			
-			<div class="peiwm-container">
+			<div class="peiwm-container page-sections-container">
 				<!-- Pages Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Pages Export/Import', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Pages', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Export and Import Pages', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
+					<div class="tabs" data-group="pages">
+						<button type="button" class="tab-btn active" onclick="switchTab('pages','export')"><?php echo esc_html__( 'Export', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('pages','import')"><?php echo esc_html__( 'Import', 'post-export-import-with-media' ); ?></button>
+					</div>
+					<div class="tab-content" style="padding-top:0;">
+						<div class="tab-panel active" data-panel="pages-export">
+							<div class="peiwm-export-section" style="margin-top:14px; border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Export Pages', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Export all pages with their metadata, featured images, and hierarchy.', 'post-export-import-with-media' ); ?></p>
 
@@ -1539,8 +1609,7 @@ class PEIWM_Admin_Menu {
 							</div>
 						</div>
 
-						<button type="button" id="peiwm-export-pages" class="button button-primary">
-							<?php echo esc_html__( 'Export Pages', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-export-pages" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Pages', 'post-export-import-with-media' ); ?>
 						</button>
 
 						<!-- PRO Toast -->
@@ -1552,24 +1621,27 @@ class PEIWM_Admin_Menu {
 							<a class="peiwm-pro-toast__cta button button-secondary peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media" target="_blank"><?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?> ↗</a>
 							<button type="button" class="peiwm-pro-toast__close peiwm-pro-toast-close" aria-label="<?php echo esc_attr__( 'Close', 'post-export-import-with-media' ); ?>">×</button>
 						</div>
-					</div>
-					
-					<div class="peiwm-import-section">
+							</div> <!-- end peiwm-export-section -->
+						</div> <!-- end tab-panel pages-export -->
+							
+						<div class="tab-panel" data-panel="pages-import">
+							<div class="peiwm-import-section" style="border:none; background:transparent; padding:0; margin-bottom:0;">
 						<h3><?php echo esc_html__( 'Import Pages', 'post-export-import-with-media' ); ?></h3>
 						<p><?php echo esc_html__( 'Import pages from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
 						<div class="button-container">
 							<input type="file" id="peiwm-pages-file" accept=".json" multiple style="display: none;">
-							<button type="button" id="peiwm-select-pages-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select JSON File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-pages" class="button button-primary" style="display: none;">
+							<div class="drop-zone" id="peiwm-select-pages-file">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M12 3v12M7 8l5-5 5 5" />
+									<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+								</svg>
+								<b><?php echo esc_html__( 'Drop your JSON file(s) here', 'post-export-import-with-media' ); ?></b>
+								<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+							</div>
+							<button type="button" id="peiwm-import-pages" class="btn btn-primary btn-block" style="display: none;">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
 								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
 							</button>
-						</div>
-						
-						<!-- Free Options (Always Visible) -->
-						<div class="peiwm-import-options" style="margin-top: 1rem;">
-							
 						</div>
 
 						<?php
@@ -1613,53 +1685,42 @@ class PEIWM_Admin_Menu {
 							</label>
 
 							<!-- Media Match Mode Setting (Pages) -->
-							 <div class="peiwm-inline-row <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>">
-								<div style="margin-top: 0.75rem; padding: 0.75rem; background: #f9f9f9;">
-									<label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #1e1e1e;">
-										<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
+							<div class="peiwm-inline-row page-media-match<?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
+								<b style="font-size:12.5px;display:block;margin-bottom:8px; color:#1e1e1e;">
+									<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
+								</b>
+								
+								<?php $current_match_mode_pages = get_option( 'peiwm_media_match_mode', 'match_and_reuse' ); ?>
+								
+								<div class="match-grid">
+									<label class="match-card <?php echo $current_match_mode_pages === 'match_and_reuse' ? 'selected' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode_pages" value="match_and_reuse" <?php checked( $current_match_mode_pages, 'match_and_reuse' ); ?>>
+										<b><?php echo esc_html__( 'Verify only fallback matches', 'post-export-import-with-media' ); ?> </b>
+										<p><?php echo esc_html__( 'Fast & reliable for exact and filename-based matches.', 'post-export-import-with-media' ); ?></p>
 									</label>
-									<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-										<?php
-										$current_match_mode_pages = get_option( 'peiwm_media_match_mode', 'match_and_reuse' );
-										?>
-										<label class="peiwm-checkbox-label" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode_pages" value="match_and_reuse" <?php checked( $current_match_mode_pages, 'match_and_reuse' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong><?php echo esc_html__( 'Verify only fallback matches', 'post-export-import-with-media' ); ?></strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Skip verification for exact path matches, verify only filename-based matches. Fast and reliable.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
-										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode_pages" value="always_verify" <?php checked( $current_match_mode_pages, 'always_verify' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong>
-													<?php echo esc_html__( 'Safe: Verify all matches', 'post-export-import-with-media' ); ?>
-													<?php if ( ! $is_pro_exp ) : ?>
-														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													<?php endif; ?>
-												</strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Verify file size for every match. Use if you suspect duplicate filenames.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-										</label>
-										<label class="peiwm-checkbox-label <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin: 0;">
-											<input type="radio" name="peiwm_media_match_mode_pages" value="always_download" <?php checked( $current_match_mode_pages, 'always_download' ); ?>>
-											<span class="peiwm-checkbox-text">
-												<strong>
-													<?php echo esc_html__( 'Safest: Always download fresh', 'post-export-import-with-media' ); ?>
-													<?php if ( ! $is_pro_exp ) : ?>
-														<span class="peiwm-pro-inline-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													<?php endif; ?>
-												</strong>
-												<small class="peiwm-checkbox-description">
-													<?php echo esc_html__( 'Never reuse existing images, always download from source. Slowest, may create duplicates. Use only for critical imports.', 'post-export-import-with-media' ); ?>
-												</small>
-											</span>
-											</label>
-									</div>
+
+									<label class="match-card <?php echo $current_match_mode_pages === 'always_verify' ? 'selected' : ''; ?> <?php echo ! $is_pro_exp ? 'is-locked peiwm-open-premium-modal' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode_pages" value="always_verify" <?php echo ! $is_pro_exp ? 'disabled' : ''; ?> <?php checked( $current_match_mode_pages, 'always_verify' ); ?>>
+										<b>
+											<?php echo esc_html__( 'Verify all matches', 'post-export-import-with-media' ); ?>
+											<?php if ( ! $is_pro_exp ) : ?>
+												<span style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:4px;">PRO</span>
+											<?php endif; ?>
+										</b>
+										<p><?php echo esc_html__( 'Verifies file size for every match — for suspected duplicates.', 'post-export-import-with-media' ); ?></p>
+									</label>
+
+									<label class="match-card <?php echo $current_match_mode_pages === 'always_download' ? 'selected' : ''; ?> <?php echo ! $is_pro_exp ? 'is-locked peiwm-open-premium-modal' : ''; ?>">
+										<input type="radio" name="peiwm_media_match_mode_pages" value="always_download" <?php echo ! $is_pro_exp ? 'disabled' : ''; ?> <?php checked( $current_match_mode_pages, 'always_download' ); ?>>
+										<b>
+											<?php echo esc_html__( 'Always download fresh', 'post-export-import-with-media' ); ?>
+											<?php if ( ! $is_pro_exp ) : ?>
+												<span style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:4px;">PRO</span>
+											<?php endif; ?>
+										</b>
+										<p><?php echo esc_html__( 'Never reuses existing images. Slowest, use for critical imports.', 'post-export-import-with-media' ); ?></p>
+									</label>
+								</div>
 
 									<br>
 									<!-- PRO: Link reused media to imported page checkbox -->
@@ -1756,15 +1817,7 @@ class PEIWM_Admin_Menu {
 							</div>
 						</div>
 						
-						<div id="peiwm-pages-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
-						</div>
-
+						
 						<!-- PRO Toast -->
 						<div class="peiwm-pro-toast" role="alert" aria-live="polite">
 							<span class="peiwm-pro-toast__icon">🔒</span>
@@ -1773,28 +1826,44 @@ class PEIWM_Admin_Menu {
 							</span>
 							<a class="peiwm-pro-toast__cta button button-secondary peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media" target="_blank"><?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?> ↗</a>
 							<button type="button" class="peiwm-pro-toast__close peiwm-pro-toast-close" aria-label="<?php echo esc_attr__( 'Close', 'post-export-import-with-media' ); ?>">×</button>
-						</div>
-					</div>
+						</div> 
+					</div> <!-- end peiwm-import-section -->
+				</div> <!-- end tab-panel -->
+			</div> <!-- end tab-content -->
+
+			<!-- Page Export/Import progress  -->
+			 <div id="peiwm-pages-progress" class="peiwm-progress" style="display: none;">
+				<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+				<div class="peiwm-progress-bar">
+					<div class="peiwm-progress-fill"></div>
+				</div>
+				<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+				<div class="peiwm-log"></div>
+			</div>
+
+			
+			<div class="peiwm-danger-zone" style="margin-top: 2rem; padding-top: 1.5rem;">
+				<div class="peiwm-delete-section" style="padding: 1.5rem; background: #fff5f5;">
+					<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete All Pages', 'post-export-import-with-media' ); ?></h3>
+					<p style="color: #c53030;"><?php echo esc_html__( 'Permanently delete all pages from your website. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
+					<button type="button" id="peiwm-delete-pages" class="button button-secondary peiwm-danger-button" style="border-color: #ff4d4d; color: #ff4d4d;">
+						<?php echo esc_html__( 'Delete All Pages', 'post-export-import-with-media' ); ?>
+					</button>
 					
-					<div class="peiwm-delete-section">
-						<h3><?php echo esc_html__( 'Delete All Pages', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Permanently delete all pages from your website. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
-						<button type="button" id="peiwm-delete-pages" class="button button-secondary peiwm-danger-button">
-							<?php echo esc_html__( 'Delete All Pages', 'post-export-import-with-media' ); ?>
-						</button>
-						
-						<div id="peiwm-delete-pages-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Deletion Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+					<div id="peiwm-delete-pages-progress" class="peiwm-progress" style="display: none;">
+						<h4><?php echo esc_html__( 'Deletion Progress', 'post-export-import-with-media' ); ?></h4>
+						<div class="peiwm-progress-bar">
+							<div class="peiwm-progress-fill"></div>
 						</div>
+						<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+						<div class="peiwm-log"></div>
 					</div>
 				</div>
 			</div>
-		</div>
+
+			</div> <!-- end peiwm-section -->
+		</div> <!-- end peiwm-container -->
+	</div> <!-- end wrap -->
 		
 		<?php $this->render_modal_templates(); ?>
 		<?php
@@ -1810,136 +1879,241 @@ class PEIWM_Admin_Menu {
 
 		?>
 		<div class="wrap peiwm-admin">
-			<h1 class='heading-admin'>
-				<?php echo esc_html__( 'WordPress Settings Export/Import', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
-			
+
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> WordPress Settings
+					</div>
+					<h1 class='heading-admin' style="margin-bottom:0; font-size: 27px; font-weight: 700;">
+						<?php echo esc_html__( 'WordPress Settings Export/Import', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Export your page hierarchy with metadata and featured images, and import it back with the same structure.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your migration journey', 'post-export-import-with-media' ); ?></h2>
+						<p><?php echo esc_html__( 'Follow this order for a complete transfer between sites.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<span class="journey-badge"><?php echo esc_html__( 'Recommended order', 'post-export-import-with-media' ); ?></span>
+				</div>
+				<div class="steps">
+					<button type="button" class="step active" onclick="switchTab('settings','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Settings', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your WordPress settings.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('settings','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import Settings', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore your WordPress settings.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('widgets','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">3</div>
+							<span class="step-title"><?php echo esc_html__( '3. Export Widgets', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your widgets and navigation menus.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('widgets','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">4</div>
+							<span class="step-title"><?php echo esc_html__( '4. Import Widgets', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore your widgets and menus.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
 			<div class="peiwm-container">
-				<!-- Settings Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'WordPress Settings Export/Import', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
-						<h3><?php echo esc_html__( 'Export Settings', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Export WordPress configuration settings from General, Writing, Reading, Discussion, Media, Permalinks, and Privacy sections.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="peiwm-settings-groups">
-							<h4><?php echo esc_html__( 'Select Settings Groups to Export:', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-checkbox-grid">
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="general" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'General Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="writing" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Writing Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="reading" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Reading Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="discussion" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Discussion Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="media" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Media Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="permalinks" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Permalink Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
-								<label class="peiwm-checkbox-label">
-									<input type="checkbox" name="export_settings_groups[]" value="privacy" checked>
-									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Privacy Settings', 'post-export-import-with-media' ); ?></span>
-								</label>
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'WordPress Settings', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'WordPress Settings Export/Import', 'post-export-import-with-media' ); ?></span>
 							</div>
 						</div>
-						
-						<button type="button" id="peiwm-export-settings" class="button button-primary">
-							<?php echo esc_html__( 'Export Settings', 'post-export-import-with-media' ); ?>
-						</button>
 					</div>
 					
-					<div class="peiwm-import-section">
-						<h3><?php echo esc_html__( 'Import Settings', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Import WordPress settings from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
-						<div class="button-container">
-							<input type="file" id="peiwm-settings-file" accept=".json" style="display: none;">
-							<button type="button" id="peiwm-select-settings-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select JSON File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-settings" class="button button-primary" style="display: none;">
-								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
-							</button>
-						</div>
-						
-						<div id="peiwm-settings-preview" class="peiwm-settings-preview" style="display: none;">
-							<h4><?php echo esc_html__( 'Settings Preview & Selection:', 'post-export-import-with-media' ); ?></h4>
-							<div id="peiwm-settings-groups-selection"></div>
-						</div>
-						
-						<div id="peiwm-settings-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
+					<div class="tabs" data-group="settings">
+						<button type="button" class="tab-btn active" onclick="switchTab('settings','export')"><?php echo esc_html__( 'Export Settings', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('settings','import')"><?php echo esc_html__( 'Import Settings', 'post-export-import-with-media' ); ?></button>
+					</div>
+
+					<div class="tab-panel active" data-group="settings" data-panel="export">
+						<div class="peiwm-export-section">
+							<h3><?php echo esc_html__( 'Export Settings', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Export WordPress configuration settings from General, Writing, Reading, Discussion, Media, Permalinks, and Privacy sections.', 'post-export-import-with-media' ); ?></p>
+							
+							<div class="peiwm-settings-groups">
+								<h4><?php echo esc_html__( 'Select Settings Groups to Export:', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-checkbox-grid">
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="general" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'General Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="writing" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Writing Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="reading" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Reading Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="discussion" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Discussion Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="media" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Media Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="permalinks" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Permalink Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+									<label class="peiwm-checkbox-label">
+										<input type="checkbox" name="export_settings_groups[]" value="privacy" checked>
+										<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Privacy Settings', 'post-export-import-with-media' ); ?></span>
+									</label>
+								</div>
 							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+							
+							<button type="button" id="peiwm-export-settings" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Settings', 'post-export-import-with-media' ); ?>
+							</button>
+						</div>
+					</div>
+					
+					<div class="tab-panel" data-group="settings" data-panel="import">
+						<div class="peiwm-import-section">
+							<h3><?php echo esc_html__( 'Import Settings', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Import WordPress settings from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
+							<div class="button-container">
+								<input type="file" id="peiwm-settings-file" accept=".json" style="display: none;">
+								<div class="drop-zone" id="peiwm-select-settings-file">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M12 3v12M7 8l5-5 5 5" />
+										<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+									</svg>
+									<b><?php echo esc_html__( 'Drop your JSON file here', 'post-export-import-with-media' ); ?></b>
+									<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+								</div>
+								<button type="button" id="peiwm-import-settings" class="btn btn-primary btn-block" style="display: none;">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+									<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
+								</button>
+							</div>
+							
+							<div id="peiwm-settings-preview" class="peiwm-settings-preview" style="display: none;">
+								<h4><?php echo esc_html__( 'Settings Preview & Selection:', 'post-export-import-with-media' ); ?></h4>
+								<div id="peiwm-settings-groups-selection"></div>
+							</div>
+							
+							<div id="peiwm-settings-progress" class="peiwm-progress" style="display: none;">
+								<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-progress-bar">
+									<div class="peiwm-progress-fill"></div>
+								</div>
+								<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+								<div class="peiwm-log"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Widgets & Menus Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Widgets & Navigation Menus', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
-						<h3><?php echo esc_html__( 'Export Widgets & Menus', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Export your widgets and navigation menus configuration.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="peiwm-export-options">
-							<button type="button" id="peiwm-export-widgets" class="button button-primary">
-								<?php echo esc_html__( 'Export Widgets Only', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-export-nav-menus" class="button button-primary">
-								<?php echo esc_html__( 'Export Menus Only', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-export-widgets-menus" class="button button-primary">
-								<?php echo esc_html__( 'Export Both', 'post-export-import-with-media' ); ?>
-							</button>
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Widgets & Navigation', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Widgets & Navigation Menus Export/Import', 'post-export-import-with-media' ); ?></span>
+							</div>
 						</div>
 					</div>
 					
-					<div class="peiwm-import-section">
-						<h3><?php echo esc_html__( 'Import Widgets & Menus', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Import widgets and navigation menus from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="button-container">
-							<input type="file" id="peiwm-widgets-menus-file" accept=".json" style="display: none;">
-							<button type="button" id="peiwm-select-widgets-menus-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select JSON File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-widgets-menus" class="button button-primary" style="display: none;">
-								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
-							</button>
+					<div class="tabs" data-group="widgets">
+						<button type="button" class="tab-btn active" onclick="switchTab('widgets','export')"><?php echo esc_html__( 'Export Widgets/Menus', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('widgets','import')"><?php echo esc_html__( 'Import Widgets/Menus', 'post-export-import-with-media' ); ?></button>
+					</div>
+
+					<div class="tab-panel active" data-group="widgets" data-panel="export">
+						<div class="peiwm-export-section">
+							<h3><?php echo esc_html__( 'Export Widgets & Menus', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Export your widgets and navigation menus configuration.', 'post-export-import-with-media' ); ?></p>
+							
+							<div class="peiwm-export-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+								<button type="button" id="peiwm-export-widgets" class="exports-widgets-menus btn" style="display: flex; flex-direction: column; padding: 20px; align-items: center; justify-content: center; height: auto;">
+									<?php echo esc_html__( 'Export Widgets Only', 'post-export-import-with-media' ); ?>
+								</button>
+								<button type="button" id="peiwm-export-nav-menus" class="exports-widgets-menus btn" style="display: flex; flex-direction: column; padding: 20px; align-items: center; justify-content: center; height: auto;">
+									
+									<?php echo esc_html__( 'Export Menus Only', 'post-export-import-with-media' ); ?>
+								</button>
+								<button type="button" id="peiwm-export-widgets-menus" class="exports-widgets-menus btn btn-primary" style="align-items: center; justify-content: center; height: auto;">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px; margin-bottom: 10px; margin-right: 0;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+									<?php echo esc_html__( 'Export Both', 'post-export-import-with-media' ); ?>
+								</button>
+							</div>		
 						</div>
-						
-						<div class="peiwm-import-options" id="peiwm-widgets-menus-import-options" style="display: none;">
-							<label class="peiwm-checkbox-label">
-								<input type="checkbox" id="peiwm-replace-existing-widgets-menus" checked>
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Replace existing widgets and menus', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Clear existing widgets and menus before importing', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-						</div>
-						
-						<div id="peiwm-widgets-menus-progress" class="peiwm-progress" style="display: none;">
+					</div>
+					
+					<div class="tab-panel" data-group="widgets" data-panel="import">
+						<div class="peiwm-import-section">
+							<h3><?php echo esc_html__( 'Import Widgets & Menus', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Import widgets and navigation menus from a previously exported JSON file.', 'post-export-import-with-media' ); ?></p>
+							
+							<div class="button-container">
+								<input type="file" id="peiwm-widgets-menus-file" accept=".json" style="display: none;">
+								<div class="drop-zone" id="peiwm-select-widgets-menus-file">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M12 3v12M7 8l5-5 5 5" />
+										<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+									</svg>
+									<b><?php echo esc_html__( 'Drop your JSON file here', 'post-export-import-with-media' ); ?></b>
+									<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+								</div>
+								<button type="button" id="peiwm-import-widgets-menus" class="btn btn-primary btn-block" style="display: none;">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+									<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
+								</button>
+							</div>
+							
+							<div class="peiwm-import-options" id="peiwm-widgets-menus-import-options" style="display: none;">
+								<label class="peiwm-checkbox-label">
+									<input type="checkbox" id="peiwm-replace-existing-widgets-menus" checked>
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Replace existing widgets and menus', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Clear existing widgets and menus before importing', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+							</div>
+							
+							<div id="peiwm-widgets-menus-progress" class="peiwm-progress" style="display: none;">
 							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
 							<div class="peiwm-progress-bar">
 								<div class="peiwm-progress-fill"></div>
@@ -1965,201 +2139,309 @@ class PEIWM_Admin_Menu {
 		}
 		?>
 		<div class="wrap peiwm-admin">
-			<h1 class='heading-admin'>
-				<?php echo esc_html__( 'WP Themes & Plugins Toolkit', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
+			
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> WP Themes & Plugins
+					</div>
+					<h1 class='heading-admin' style="margin-bottom:0; font-size: 27px; font-weight: 700;">
+						<?php echo esc_html__( 'WP Themes & Plugins Export/Import', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Export your page hierarchy with metadata and featured images, and import it back with the same structure.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your migration journey', 'post-export-import-with-media' ); ?></h2>
+						<p><?php echo esc_html__( 'Follow this order for a complete transfer between sites.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<span class="journey-badge"><?php echo esc_html__( 'Recommended order', 'post-export-import-with-media' ); ?></span>
+				</div>
+				<div class="steps">
+					<button type="button" class="step active" onclick="switchTab('themes','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Themes', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your active themes as a ZIP file.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('themes','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import Themes', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Upload and restore your themes.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('plugins','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">3</div>
+							<span class="step-title"><?php echo esc_html__( '3. Export Plugins', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your active plugins.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('plugins','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">4</div>
+							<span class="step-title"><?php echo esc_html__( '4. Import Plugins', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore plugins to the new site.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
 			
 			<div class="peiwm-container">
 				<!-- Themes Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Themes Backup', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
-						<h3><?php echo esc_html__( 'Export Themes', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Create a backup of your themes as a ZIP file.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="peiwm-theme-options">
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="theme_export_type" value="active" checked>
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Active Theme Only', 'post-export-import-with-media' ); ?></span>
-							</label>
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="theme_export_type" value="all">
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'All Installed Themes', 'post-export-import-with-media' ); ?></span>
-							</label>
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="theme_export_type" value="selected">
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Selected Themes', 'post-export-import-with-media' ); ?></span>
-							</label>
-						</div>
-						
-						<div id="peiwm-theme-selection" class="peiwm-selection-grid" style="display: none;">
-							<!-- Theme selection will be populated by JavaScript -->
-						</div>
-						
-						<button type="button" id="peiwm-export-themes" class="button button-primary">
-							<?php echo esc_html__( 'Export Themes', 'post-export-import-with-media' ); ?>
-						</button>
-						
-						<div id="peiwm-themes-export-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Export Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21v-13l8-4 8 4v13"></path><path d="M9 21v-6h6v6"></path></svg>
 							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+							<div>
+								<h3><?php echo esc_html__( 'Themes Backup', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Create a backup of your themes as a ZIP file.', 'post-export-import-with-media' ); ?></span>
+							</div>
 						</div>
 					</div>
 					
-					<div class="peiwm-import-section">
-						<h3><?php echo esc_html__( 'Import Themes', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Import themes from a previously exported ZIP file.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="button-container">
-							<input type="file" id="peiwm-themes-file" accept=".zip" style="display: none;">
-							<button type="button" id="peiwm-select-themes-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select ZIP File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-themes" class="button button-primary" style="display: none;">
-								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
-							</button>
-						</div>
-						
-						<div class="peiwm-import-options" id="peiwm-themes-import-options" style="display: none;">
-							<label class="peiwm-checkbox-label">
-								<input type="checkbox" id="peiwm-replace-existing-themes" checked>
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Replace existing themes', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Overwrite themes that already exist on this site', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-							<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
-								<input type="checkbox" id="peiwm-skip-existing-themes">
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Skip if already present', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Skip themes that already exist — do not overwrite', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-							<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
-								<input type="checkbox" id="peiwm-activate-imported-theme">
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Activate imported theme', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Switch to the first imported theme after import', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-						</div>
-						
-						<div id="peiwm-themes-import-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
+					<div class="tabs" data-group="themes">
+						<button type="button" class="tab-btn active" onclick="switchTab('themes','export')"><?php echo esc_html__( 'Export Themes', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('themes','import')"><?php echo esc_html__( 'Import Themes', 'post-export-import-with-media' ); ?></button>
+					</div>
+
+					<div class="tab-panel active" data-group="themes" data-panel="export">
+						<div class="peiwm-export-section">		
+							<div class="peiwm-theme-options">
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="theme_export_type" value="active" checked>
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Active Theme Only', 'post-export-import-with-media' ); ?></span>
+								</label>
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="theme_export_type" value="all">
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'All Installed Themes', 'post-export-import-with-media' ); ?></span>
+								</label>
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="theme_export_type" value="selected">
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Selected Themes', 'post-export-import-with-media' ); ?></span>
+								</label>
 							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+							
+							<div id="peiwm-theme-selection" class="peiwm-selection-grid" style="display: none;">
+								<!-- Theme selection will be populated by JavaScript -->
+							</div>
+							
+							<button type="button" id="peiwm-export-themes" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Themes', 'post-export-import-with-media' ); ?>
+							</button>
+							
+							<div id="peiwm-themes-export-progress" class="peiwm-progress" style="display: none;">
+								<h4><?php echo esc_html__( 'Export Progress', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-progress-bar">
+									<div class="peiwm-progress-fill"></div>
+								</div>
+								<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+								<div class="peiwm-log"></div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="tab-panel" data-group="themes" data-panel="import">
+						<div class="peiwm-import-section">
+							<h3><?php echo esc_html__( 'Import Themes', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Import themes from a previously exported ZIP file.', 'post-export-import-with-media' ); ?></p>
+							
+							<div class="button-container">
+								<input type="file" id="peiwm-themes-file" accept=".zip" style="display: none;">
+								<div class="drop-zone" id="peiwm-select-themes-file">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M12 3v12M7 8l5-5 5 5" />
+										<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+									</svg>
+									<b><?php echo esc_html__( 'Drop your ZIP file here', 'post-export-import-with-media' ); ?></b>
+									<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+								</div>
+								<button type="button" id="peiwm-import-themes" class="btn btn-primary btn-block" style="display: none;">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+									<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
+								</button>
+							</div>
+							
+							<div class="peiwm-import-options" id="peiwm-themes-import-options" style="display: none;">
+								<label class="peiwm-checkbox-label">
+									<input type="checkbox" id="peiwm-replace-existing-themes" checked>
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Replace existing themes', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Overwrite themes that already exist on this site', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+								<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
+									<input type="checkbox" id="peiwm-skip-existing-themes">
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Skip if already present', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Skip themes that already exist — do not overwrite', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+								<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
+									<input type="checkbox" id="peiwm-activate-imported-theme">
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Activate imported theme', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Switch to the first imported theme after import', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+							</div>
+							
+							<div id="peiwm-themes-import-progress" class="peiwm-progress" style="display: none;">
+								<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-progress-bar">
+									<div class="peiwm-progress-fill"></div>
+								</div>
+								<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+								<div class="peiwm-log"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Plugins Section -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Plugins Backup', 'post-export-import-with-media' ); ?></h2>
-					
-					<div class="peiwm-export-section">
-						<h3><?php echo esc_html__( 'Export Plugins', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Create a backup of your plugins as a ZIP file.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="peiwm-plugin-options">
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="plugin_export_type" value="active" checked>
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Active Plugins Only', 'post-export-import-with-media' ); ?></span>
-							</label>
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="plugin_export_type" value="all">
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'All Installed Plugins', 'post-export-import-with-media' ); ?></span>
-							</label>
-							<label class="peiwm-checkbox-label">
-								<input type="radio" name="plugin_export_type" value="selected">
-								<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Selected Plugins', 'post-export-import-with-media' ); ?></span>
-							</label>
-						</div>
-						
-						<div id="peiwm-plugin-selection" class="peiwm-selection-grid" style="display: none;">
-							<!-- Plugin selection will be populated by JavaScript -->
-						</div>
-						
-						<button type="button" id="peiwm-export-plugins" class="button button-primary">
-							<?php echo esc_html__( 'Export Plugins', 'post-export-import-with-media' ); ?>
-						</button>
-						
-						<div id="peiwm-plugins-export-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Export Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7 12 3 4 7l8 4 8-4Z"></path><path d="M4 7v10l8 4 8-4V7"></path></svg>
 							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+							<div>
+								<h3><?php echo esc_html__( 'Export Plugins', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Create a backup of your plugins as a ZIP file.', 'post-export-import-with-media' ); ?></span>
+							</div>
 						</div>
 					</div>
 					
-					<div class="peiwm-import-section">
-						<h3><?php echo esc_html__( 'Import Plugins', 'post-export-import-with-media' ); ?></h3>
-						<p><?php echo esc_html__( 'Import plugins from a previously exported ZIP file.', 'post-export-import-with-media' ); ?></p>
-						
-						<div class="button-container">
-							<input type="file" id="peiwm-plugins-file" accept=".zip" style="display: none;">
-							<button type="button" id="peiwm-select-plugins-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select ZIP File', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-import-plugins" class="button button-primary" style="display: none;">
-								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
-							</button>
-						</div>
-						
-						<div class="peiwm-import-options" id="peiwm-plugins-import-options" style="display: none;">
-							<label class="peiwm-checkbox-label">
-								<input type="checkbox" id="peiwm-replace-existing-plugins" checked>
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Replace existing plugins', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Overwrite plugins that already exist on this site', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-							<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
-								<input type="checkbox" id="peiwm-skip-existing-plugins">
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Skip if already present', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Skip plugins that already exist — do not overwrite', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-							<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
-								<input type="checkbox" id="peiwm-activate-imported-plugins">
-								<span class="peiwm-checkbox-text">
-									<?php echo esc_html__( 'Activate imported plugins', 'post-export-import-with-media' ); ?>
-									<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Automatically activate plugins after import', 'post-export-import-with-media' ); ?></small>
-								</span>
-							</label>
-						</div>
-						
-						<div id="peiwm-plugins-import-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
+					<div class="tabs" data-group="plugins">
+						<button type="button" class="tab-btn active" onclick="switchTab('plugins','export')"><?php echo esc_html__( 'Export Plugins', 'post-export-import-with-media' ); ?></button>
+						<button type="button" class="tab-btn" onclick="switchTab('plugins','import')"><?php echo esc_html__( 'Import Plugins', 'post-export-import-with-media' ); ?></button>
+					</div>
+
+					<div class="tab-panel active" data-group="plugins" data-panel="export">
+						<div class="peiwm-export-section">
+							<div class="peiwm-plugin-options">
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="plugin_export_type" value="active" checked>
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Active Plugins Only', 'post-export-import-with-media' ); ?></span>
+								</label>
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="plugin_export_type" value="all">
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'All Installed Plugins', 'post-export-import-with-media' ); ?></span>
+								</label>
+								<label class="peiwm-checkbox-label">
+									<input type="radio" name="plugin_export_type" value="selected">
+									<span class="peiwm-checkbox-text"><?php echo esc_html__( 'Selected Plugins', 'post-export-import-with-media' ); ?></span>
+								</label>
 							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+							
+							<div id="peiwm-plugin-selection" class="peiwm-selection-grid" style="display: none;">
+								<!-- Plugin selection will be populated by JavaScript -->
+							</div>
+							
+							<button type="button" id="peiwm-export-plugins" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Plugins', 'post-export-import-with-media' ); ?>
+							</button>
+							
+							<div id="peiwm-plugins-export-progress" class="peiwm-progress" style="display: none;">
+								<h4><?php echo esc_html__( 'Export Progress', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-progress-bar">
+									<div class="peiwm-progress-fill"></div>
+								</div>
+								<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+								<div class="peiwm-log"></div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="tab-panel" data-group="plugins" data-panel="import">
+						<div class="peiwm-import-section">
+							<h3><?php echo esc_html__( 'Import Plugins', 'post-export-import-with-media' ); ?></h3>
+							<p><?php echo esc_html__( 'Import plugins from a previously exported ZIP file.', 'post-export-import-with-media' ); ?></p>
+							
+							<div class="button-container">
+								<input type="file" id="peiwm-plugins-file" accept=".zip" style="display: none;">
+								<div class="drop-zone" id="peiwm-select-plugins-file">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+										<path d="M12 3v12M7 8l5-5 5 5" />
+										<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+									</svg>
+									<b><?php echo esc_html__( 'Drop your ZIP file here', 'post-export-import-with-media' ); ?></b>
+									<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+								</div>
+								<button type="button" id="peiwm-import-plugins" class="btn btn-primary btn-block" style="display: none;">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+									<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
+								</button>
+							</div>
+							
+							<div class="peiwm-import-options" id="peiwm-plugins-import-options" style="display: none;">
+								<label class="peiwm-checkbox-label">
+									<input type="checkbox" id="peiwm-replace-existing-plugins" checked>
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Replace existing plugins', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Overwrite plugins that already exist on this site', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+								<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
+									<input type="checkbox" id="peiwm-skip-existing-plugins">
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Skip if already present', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Skip plugins that already exist — do not overwrite', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+								<label class="peiwm-checkbox-label" style="margin-top:0.4rem;">
+									<input type="checkbox" id="peiwm-activate-imported-plugins">
+									<span class="peiwm-checkbox-text">
+										<?php echo esc_html__( 'Activate imported plugins', 'post-export-import-with-media' ); ?>
+										<small class="peiwm-checkbox-description"><?php echo esc_html__( 'Automatically activate plugins after import', 'post-export-import-with-media' ); ?></small>
+									</span>
+								</label>
+							</div>
+							
+							<div id="peiwm-plugins-import-progress" class="peiwm-progress" style="display: none;">
+								<h4><?php echo esc_html__( 'Import Progress', 'post-export-import-with-media' ); ?></h4>
+								<div class="peiwm-progress-bar">
+									<div class="peiwm-progress-fill"></div>
+								</div>
+								<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+								<div class="peiwm-log"></div>
+							</div>
 						</div>
 					</div>
 				</div>
 
 				<!-- Settings Section -->
 				<div class="peiwm-section" style="grid-column: 1 / -1;">
-					<h2><?php echo esc_html__( 'Settings', 'post-export-import-with-media' ); ?></h2>
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Settings', 'post-export-import-with-media' ); ?></h3>
+								<span>Settings Export/Import</span>
+							</div>
+						</div>
+					</div>
 					
-					<div class="peiwm-settings-section">
+					<div class="peiwm-settings-section peiwm-settings-section-container">
 						<form method="post" action="options.php">
-							<?php settings_fields( 'peiwm_admin_download_buttons' ); ?>
 							<?php settings_fields( 'peiwm_settings' ); ?>
 
 							<?php
@@ -2169,151 +2451,100 @@ class PEIWM_Admin_Menu {
 							$locked        = ! $is_pro ? ' peiwm-locked-section' : '';
 							?>
 
-							<!-- Admin Download Buttons -->
-							<div class="download-btn-active">
-								<h4><?php echo esc_html__( 'Admin Download Buttons', 'post-export-import-with-media' ); ?></h4>
-								<label>
-									<input type="checkbox" name="peiwm_enable_admin_download_buttons" value="1" <?php checked( get_option( 'peiwm_enable_admin_download_buttons', false ) ); ?>>
-									<?php echo esc_html__( 'Add download buttons to WordPress Themes and Plugins pages', 'post-export-import-with-media' ); ?>
-								</label>
-								<p class="description">
-									<?php echo esc_html__( 'When enabled, download buttons will appear on the Appearance > Themes and Plugins pages, allowing you to download individual themes and plugins as ZIP files.', 'post-export-import-with-media' ); ?>
-								</p>
+							<div class="panel" style="padding:20px 22px 22px;margin-bottom:24px;">
+								<h3 style="font-size:15px;margin-bottom:14px;"><?php echo esc_html__( 'Settings', 'post-export-import-with-media' ); ?></h3>
+								
+								<div class="settings-row row-between">
+									<div>
+										<b><?php echo esc_html__( 'Admin download buttons', 'post-export-import-with-media' ); ?></b>
+										<p><?php echo esc_html__( 'Add download buttons to WordPress Themes and Plugins pages.', 'post-export-import-with-media' ); ?></p>
+									</div>
+									<label class="toggle">
+										<input type="hidden" name="peiwm_enable_admin_download_buttons" value="0">
+										<input type="checkbox" name="peiwm_enable_admin_download_buttons" value="1" <?php checked( get_option( 'peiwm_enable_admin_download_buttons', false ) ); ?>>
+										<span class="slider"></span>
+									</label>
+								</div>
+								
+								<div class="settings-row <?php echo esc_attr( $locked ); ?>" style="position: relative;">
+									<?php if ( ! $is_pro ) : ?>
+										<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
+											<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+										</button>
+									<?php endif; ?>
+									<b><?php echo esc_html__( 'Allowed media file types', 'post-export-import-with-media' ); ?></b>
+									<p style="margin-bottom:10px;"><?php echo esc_html__( 'Files with extensions not in this list will be blocked for security.', 'post-export-import-with-media' ); ?></p>
+									<div class="row-between" style="margin-bottom:8px;">
+										<span style="font-size:12.5px;"><?php echo esc_html__( 'Allow all file types (bypass validation)', 'post-export-import-with-media' ); ?></span>
+										<label class="toggle">
+											<input type="hidden" name="peiwm_allow_all_file_types" value="0">
+											<input type="checkbox" name="peiwm_allow_all_file_types" value="1" <?php checked( get_option( 'peiwm_allow_all_file_types', false ) ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>>
+											<span class="slider"></span>
+										</label>
+									</div>
+									<div class="field">
+										<input type="text" 
+											id="peiwm_allowed_media_file_types"
+											name="peiwm_allowed_media_file_types"
+											value="<?php echo esc_attr( get_option( 'peiwm_allowed_media_file_types', 'jpg,jpeg,png,gif,webp,svg,json,pdf,mp4,mp3,wav,doc,docx,txt' ) ); ?>"
+											placeholder="jpg,jpeg,png,gif,webp,svg,json,pdf,mp4,mp3,wav,doc,docx,txt"
+											<?php echo ! $is_pro ? 'disabled' : ''; ?>>
+										<p class="hint"><?php echo esc_html__( 'Enter file extensions separated by commas. Common additions: odt (spreadsheets), mov (videos), xlsx, pptx, zip.', 'post-export-import-with-media' ); ?></p>
+									</div>
+								</div>
+								
+								<div class="settings-row <?php echo esc_attr( $locked ); ?>" style="position: relative;">
+									<?php if ( ! $is_pro ) : ?>
+										<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
+											<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
+										</button>
+									<?php endif; ?>
+									<b><?php echo esc_html__( 'User import defaults', 'post-export-import-with-media' ); ?></b>
+									<p style="margin-bottom:10px;"><?php echo esc_html__( 'Set a default password during post import. A welcome email is sent when a new account is created.', 'post-export-import-with-media' ); ?></p>
+									<div class="field">
+										<label for="peiwm_user_import_default_password"><?php echo esc_html__( 'Default password for imported users', 'post-export-import-with-media' ); ?></label>
+										<input type="text"
+											id="peiwm_user_import_default_password"
+											name="peiwm_user_import_default_password"
+											value="<?php echo esc_attr( get_option( 'peiwm_user_import_default_password', '' ) ); ?>"
+											placeholder="<?php echo esc_attr__( 'Leave blank to auto-generate a secure password per user', 'post-export-import-with-media' ); ?>"
+											<?php echo ! $is_pro ? 'disabled' : ''; ?>>
+									</div>
+									<div class="row-between">
+										<span style="font-size:12.5px;"><?php echo esc_html__( 'Send welcome email to imported users by default', 'post-export-import-with-media' ); ?></span>
+										<label class="toggle">
+											<input type="hidden" name="peiwm_user_import_send_email" value="0">
+											<input type="checkbox" name="peiwm_user_import_send_email" value="1" <?php checked( get_option( 'peiwm_user_import_send_email', false ) ); ?> <?php echo ! $is_pro ? 'disabled' : ''; ?>>
+											<span class="slider"></span>
+										</label>
+									</div>
+								</div>
+								
+								<button type="submit" class="btn btn-primary" style="margin-top:16px;"><?php echo esc_html__( 'Save Changes', 'post-export-import-with-media' ); ?></button>
 							</div>
-
-							<!-- Allowed Media File Types -->
-							<div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
-								<h4><?php echo esc_html__( 'Allowed Media File Types', 'post-export-import-with-media' ); ?></h4>
-								<p><?php echo esc_html__( 'Define which file types are allowed during media import. Files with extensions not in this list will be blocked for security.', 'post-export-import-with-media' ); ?></p>
-
-								<table class="form-table" role="presentation">
-									<tr>
-										<th scope="row">
-											<?php echo esc_html__( 'File type validation', 'post-export-import-with-media' ); ?>
-										</th>
-										<td>
-											<div class="<?php echo esc_attr( $locked ); ?>" style="position: relative; display: inline-block;">
-												<?php if ( ! $is_pro ) : ?>
-													<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
-														<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													</button>
-												<?php endif; ?>
-												<label>
-													<input type="checkbox"
-														name="peiwm_allow_all_file_types"
-														value="1"
-														<?php checked( get_option( 'peiwm_allow_all_file_types', false ) ); ?>
-														<?php echo ! $is_pro ? 'disabled' : ''; ?>>
-													<?php echo esc_html__( 'Allow all file types (bypass validation)', 'post-export-import-with-media' ); ?>
-												</label>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row">
-											<label for="peiwm_allowed_media_file_types">
-												<?php echo esc_html__( 'Allowed file extensions', 'post-export-import-with-media' ); ?>
-											</label>
-										</th>
-										<td>
-											<div class="<?php echo esc_attr( $locked ); ?>" style="position: relative; display: inline-block; width: 100%;">
-												<?php if ( ! $is_pro ) : ?>
-													<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
-														<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													</button>
-												<?php endif; ?>
-												<input type="text"
-													id="peiwm_allowed_media_file_types"
-													name="peiwm_allowed_media_file_types"
-													value="<?php echo esc_attr( get_option( 'peiwm_allowed_media_file_types', 'jpg,jpeg,png,gif,webp,svg,json,pdf,mp4,mp3,wav,doc,docx,txt' ) ); ?>"
-													class="large-text"
-													placeholder="jpg,jpeg,png,gif,webp,svg,json,pdf,mp4,mp3,wav,doc,docx,txt"
-													<?php echo ! $is_pro ? 'disabled' : ''; ?>>
-											</div>
-											<p class="description">
-												<?php echo esc_html__( 'Enter file extensions separated by commas (e.g., jpg,png,pdf,ods,mov). Common additions: ods (spreadsheets), mov (videos), xlsx, pptx, zip.', 'post-export-import-with-media' ); ?>
-											</p>
-										</td>
-									</tr>
-								</table>
-							</div>
-
-							<!-- User Import Defaults -->
-							<div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e5e7eb;">
-								<h4><?php echo esc_html__( 'User Import Defaults', 'post-export-import-with-media' ); ?></h4>
-								<p><?php echo esc_html__( "Set a default password during post import. If 'Automatically create missing users' is enabled, a welcome email will be sent when a new account is created.", 'post-export-import-with-media' ); ?></p>
-
-								<table class="form-table" role="presentation">
-									<tr class="peiwm-user-import-defaults">
-										<th scope="row">
-											<label for="peiwm_user_import_default_password">
-												<?php echo esc_html__( 'Default password for imported users', 'post-export-import-with-media' ); ?>
-											</label>
-										</th>
-										<td>
-											<div class="<?php echo esc_attr( $locked ); ?>" style="position: relative; display: inline-block;">
-												<?php if ( ! $is_pro ) : ?>
-													<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
-														<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													</button>
-												<?php endif; ?>
-												<input type="text"
-													id="peiwm_user_import_default_password"
-													name="peiwm_user_import_default_password"
-													value="<?php echo esc_attr( get_option( 'peiwm_user_import_default_password', '' ) ); ?>"
-													class="regular-text"
-													<?php echo ! $is_pro ? 'disabled' : ''; ?>>
-											</div>
-											<p class="description">
-												<?php echo esc_html__( 'Leave blank to auto-generate a secure password per user.', 'post-export-import-with-media' ); ?>
-											</p>
-											<p class="description-hint">
-												<?php echo esc_html__( 'If no password hash exists in the import data and no default password is set, a secure password will be generated automatically for each user.', 'post-export-import-with-media' ); ?>
-											</p>
-										</td>
-									</tr>
-									<tr class="peiwm-user-import-defaults">
-										<th scope="row">
-											<?php echo esc_html__( 'Welcome email', 'post-export-import-with-media' ); ?>
-										</th>
-										<td>
-											<div class="<?php echo esc_attr( $locked ); ?>" style="position: relative; display: flex; align-items: flex-start; gap: 0.5rem;">
-												<?php if ( ! $is_pro ) : ?>
-													<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
-														<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
-													</button>
-												<?php endif; ?>
-												<label>
-													<input type="checkbox"
-														name="peiwm_user_import_send_email"
-														value="1"
-														<?php checked( get_option( 'peiwm_user_import_send_email', false ) ); ?>
-														<?php echo ! $is_pro ? 'disabled' : ''; ?>>
-													<?php echo esc_html__( 'Send welcome email to imported users by default', 'post-export-import-with-media' ); ?>
-												</label>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</div>
-
-							<?php submit_button(); ?>
 						</form>
 					</div>
 				</div>
 
 				<div class="peiwm-section peiwm-faq-section" id="peiwm-faq-section" style="grid-column: 1 / -1;">
-					<h2>
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
-							stroke="#e67428" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-							viewBox="0 0 24 24" aria-hidden="true">
-							<circle cx="12" cy="12" r="10"/>
-							<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-							<circle cx="12" cy="17" r=".5" fill="#e67428"/>
-						</svg>
-						<?php esc_html_e( 'Frequently Asked Questions', 'post-export-import-with-media' ); ?>
-					</h2>
 
+					<div class="panel-title">
+						<div class="panel-icon posts">
+							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none"
+								stroke="#ffffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+								viewBox="0 0 24 24" aria-hidden="true">
+								<circle cx="12" cy="12" r="10"/>
+								<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+								<circle cx="12" cy="17" r=".5" fill="#ffffffff"/>
+							</svg>
+						</div>
+						
+						<div>
+							<h3><?php echo esc_html__( 'FAQ', 'post-export-import-with-media' ); ?></h3>
+							<span>Frequently Asked Questions</span>
+						</div>
+					</div>
+					<br>
 					<!-- Search -->
 					<div class="peiwm-faq-search">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
@@ -2330,34 +2561,34 @@ class PEIWM_Admin_Menu {
 
 					<!-- Category tabs -->
 					<div class="peiwm-faq-tabs" role="tablist">
-						<button class="peiwm-faq-tab active" data-cat="all"       role="tab" aria-selected="true">
+						<button class="peiwm-faq-tab active" data-cat="all"  role="tab" aria-selected="true">
 							<?php esc_html_e( 'All', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="posts"            role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="posts"  role="tab" aria-selected="false">
 							<?php esc_html_e( 'Posts', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="media"            role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="media"  role="tab" aria-selected="false">
 							<?php esc_html_e( 'Media', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="pages"            role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="pages"  role="tab" aria-selected="false">
 							<?php esc_html_e( 'Pages', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="settings"         role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="settings"    role="tab" aria-selected="false">
 							<?php esc_html_e( 'Settings & Widgets', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="themes"           role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="themes" role="tab" aria-selected="false">
 							<?php esc_html_e( 'Themes & Plugins', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="cpt"              role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="cpt"    role="tab" aria-selected="false">
 							<?php esc_html_e( 'CPT & ACF', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="users"            role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="users"  role="tab" aria-selected="false">
 							<?php esc_html_e( 'Users', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="batch"            role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="batch"  role="tab" aria-selected="false">
 							<?php esc_html_e( 'Batch & Scheduled', 'post-export-import-with-media' ); ?>
 						</button>
-						<button class="peiwm-faq-tab" data-cat="system"           role="tab" aria-selected="false">
+						<button class="peiwm-faq-tab" data-cat="system" role="tab" aria-selected="false">
 							<?php esc_html_e( 'System & Email', 'post-export-import-with-media' ); ?>
 						</button>
 					</div>
@@ -2370,8 +2601,46 @@ class PEIWM_Admin_Menu {
 			</div>
 		</div>
 		
-		<?php $this->render_modal_templates(); ?>
-		<?php
+		<div id="peiwm-system-test-modal" class="peiwm-modal-overlay" style="display: none; align-items: center; justify-content: center; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
+			<div class="peiwm-modal" style="background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto;">
+				<div class="peiwm-modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+					<h3 style="margin: 0;"><?php echo esc_html__( 'System Test Results', 'post-export-import-with-media' ); ?></h3>
+					<button type="button" class="peiwm-modal-close" onclick="document.getElementById('peiwm-system-test-modal').style.display='none';" style="background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+				</div>
+				<div class="peiwm-modal-body">
+					<div id="peiwm-test-results" class="peiwm-test-results"></div>
+				</div>
+				<div class="peiwm-modal-footer" style="margin-top: 15px; text-align: right;">
+					<button type="button" class="button button-secondary" onclick="document.getElementById('peiwm-system-test-modal').style.display='none';"><?php echo esc_html__( 'Close', 'post-export-import-with-media' ); ?></button>
+				</div>
+			</div>
+		</div>
+		<script>
+		function peiwmShowSystemTestModal() {
+			document.getElementById('peiwm-system-test-modal').style.display = 'flex';
+		}
+		document.addEventListener('DOMContentLoaded', function() {
+			var exportEverythingBtn = document.getElementById('peiwm-export-everything');
+			if (exportEverythingBtn) {
+				exportEverythingBtn.addEventListener('click', function() {
+					var mediaExport = document.getElementById('peiwm-export-media');
+					var postsExport = document.getElementById('peiwm-export-posts');
+					if (mediaExport) mediaExport.click();
+					setTimeout(function(){
+						if (postsExport) postsExport.click();
+					}, 500);
+				});
+			}
+			
+			var testConfigBtn = document.getElementById('peiwm-test-config');
+			if(testConfigBtn) {
+				testConfigBtn.addEventListener('click', peiwmShowSystemTestModal);
+			}
+		});
+		</script>
+		
+		<?php 
+		$this->render_modal_templates();
 	}
 
 	/**
@@ -2410,20 +2679,71 @@ class PEIWM_Admin_Menu {
 		}
 		?>
 		<div class="wrap peiwm-admin">
-			<h1>
-				<?php echo esc_html__( 'Users Export/Import', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
+	
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> Users
+					</div>
+					<h1 class='heading-admin' style="margin-bottom:0; font-size: 27px; font-weight: 700;">
+						<?php echo esc_html__( 'Users Export/Import', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Export your users hierarchy with metadata and featured images, and import it back with the same structure.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your migration journey', 'post-export-import-with-media' ); ?></h2>
+						<p><?php echo esc_html__( 'Follow this order for a complete transfer between sites.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<span class="journey-badge"><?php echo esc_html__( 'Recommended order', 'post-export-import-with-media' ); ?></span>
+				</div>
+				<div class="steps">
+					<button type="button" class="step active" onclick="switchTab('pages','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export Users', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Export your entire WordPress users, including detailed user profiles.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('pages','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import Users', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore your users with same hierarchy on the new site.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
+			
 
 			<div class="peiwm-container">
 
 				<!-- Export Users -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Export Users', 'post-export-import-with-media' ); ?></h2>
-					<p><?php echo esc_html__( 'Export all WordPress users to a JSON file.', 'post-export-import-with-media' ); ?></p>
-
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-1a8 8 0 0 1 16 0v1"></path></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Export Users', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Export all WordPress users to a JSON file.', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
+					
 					<?php
 					$ue_is_pro   = PEIWM_Main::get_instance()->is_pro_active();
 					$ue_woo      = class_exists( 'WooCommerce' );
@@ -2561,10 +2881,7 @@ class PEIWM_Admin_Menu {
 
 						</div>
 
-					</div>
-
-					<button type="button" id="peiwm-export-users" class="button button-primary">
-						<?php echo esc_html__( 'Export Users', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-export-users" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export Users', 'post-export-import-with-media' ); ?>
 					</button>
 
 					<div id="peiwm-users-export-result" style="margin-top: 1rem; display: none;"></div>
@@ -2578,20 +2895,38 @@ class PEIWM_Admin_Menu {
 						<a class="peiwm-pro-toast__cta button button-secondary peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media" target="_blank"><?php echo esc_html__( 'Learn more', 'post-export-import-with-media' ); ?> ↗</a>
 						<button type="button" class="peiwm-pro-toast__close peiwm-pro-toast-close" aria-label="<?php echo esc_attr__( 'Close', 'post-export-import-with-media' ); ?>">×</button>
 					</div>
+
+					</div>
+
 				</div>
 
 				<!-- Import Users -->
 				<div class="peiwm-section">
-					<h2><?php echo esc_html__( 'Import Users', 'post-export-import-with-media' ); ?></h2>
-					<p><?php echo esc_html__( 'Import users from a previously exported JSON file. Existing users (matched by login or email) are skipped.', 'post-export-import-with-media' ); ?></p>
-
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"></path></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Import Users', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Import users from a previously exported JSON file. Existing users (matched by login or email) are skipped.', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
+					
 					<div class="button-container">
 						<input type="file" id="peiwm-users-file" accept=".json" style="display: none;">
-						<button type="button" id="peiwm-users-select-file" class="button button-secondary">
-							<?php echo esc_html__( 'Choose File', 'post-export-import-with-media' ); ?>
-						</button>
-						<button type="button" id="peiwm-import-users" class="button button-primary" style="display: none;">
-							<?php echo esc_html__( 'Import Users', 'post-export-import-with-media' ); ?>
+						<div class="drop-zone" id="peiwm-users-select-file">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 3v12M7 8l5-5 5 5" />
+								<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+							</svg>
+							<b><?php echo esc_html__( 'Drop your JSON file here', 'post-export-import-with-media' ); ?></b>
+							<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<button type="button" id="peiwm-import-users" class="btn btn-primary btn-block" style="display: none;">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+							<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
 						</button>
 					</div>
 
@@ -3014,29 +3349,79 @@ class PEIWM_Admin_Menu {
 		$locked_class = ! $is_pro ? ' peiwm-locked-section' : '';
 		?>
 		<div class="wrap peiwm-admin">
-			<h1 class='heading-admin'>
-				<?php echo esc_html__( 'CPT & ACF Export/Import', 'post-export-import-with-media' ); ?>
-				<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
-					<span class="dashicons dashicons-video-alt3"></span>
-				</a>
-			</h1>
+
+			<div class="page-header" style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 26px; flex-wrap: wrap; gap: 14px;">
+				<div>
+					<div class="crumb" style="font-size: 12.5px; color: #6c7385; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+						<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
+						</svg>Export/Import <span style="margin:0 2px;">/</span> CPT & ACF
+					</div>
+					<h1 class='heading-admin' style="margin-bottom:0; font-size: 27px; font-weight: 700;">
+						<?php echo esc_html__( 'CPT & ACF Export/Import', 'post-export-import-with-media' ); ?>
+						<a href="https://www.youtube.com/watch?v=ecoNG8aA_JY&list=PLWeDkVnCRHAbCh6CvoUi-NTNI1GgFiPqV" target="_blank" rel="noopener noreferrer" class="peiwm-help-icon" title="<?php echo esc_attr__( 'Watch video tutorials', 'post-export-import-with-media' ); ?>">
+							<span class="dashicons dashicons-video-alt3"></span>
+						</a>
+					</h1>
+					<p class="sub" style="font-size: 13.5px; color: #6c7385; margin-top: 6px; max-width: 560px;"><?php echo esc_html__( 'Export your page hierarchy with metadata and featured images, and import it back with the same structure.', 'post-export-import-with-media' ); ?></p>
+				</div>
+				
+			</div>
+
+			<!-- JOURNEY SECTION -->
+			<section class="journey" id="journey">
+				<div class="journey-head">
+					<div>
+						<h2><?php echo esc_html__( 'Your migration journey', 'post-export-import-with-media' ); ?></h2>
+						<p><?php echo esc_html__( 'Follow this order for a complete transfer between sites.', 'post-export-import-with-media' ); ?></p>
+					</div>
+					<span class="journey-badge"><?php echo esc_html__( 'Recommended order', 'post-export-import-with-media' ); ?></span>
+				</div>
+				<div class="steps">
+					<button type="button" class="step active" onclick="switchTab('pages','export')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">1</div>
+							<span class="step-title"><?php echo esc_html__( '1. Export CPT & ACF', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Download your complete CPT & ACF structure.', 'post-export-import-with-media' ); ?></p>
+					</button>
+					<button type="button" class="step" onclick="switchTab('pages','import')">
+						<div class="step-connector"></div>
+						<div class="step-top">
+							<div class="step-num">2</div>
+							<span class="step-title"><?php echo esc_html__( '2. Import CPT & ACF', 'post-export-import-with-media' ); ?></span>
+						</div>
+						<p class="step-desc"><?php echo esc_html__( 'Restore your CPT & ACF with hierarchy on the new site.', 'post-export-import-with-media' ); ?></p>
+					</button>
+				</div>
+			</section>
 
 			<div class="peiwm-container">
 
 				<!-- EXPORT SECTION -->
 				<div class="peiwm-section">
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Export CPT Posts', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Select a Custom Post Type and export all its posts with ACF fields, taxonomies, and media.', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
 					<div class="peiwm-export-section <?php echo esc_attr( $locked_class ); ?>" style="position: relative;">
 						<?php if ( ! $is_pro ) : ?>
 							<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
 								<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
 							</button>
 						<?php endif; ?>
-						<h2><?php echo esc_html__( 'Export CPT Posts', 'post-export-import-with-media' ); ?></h2>
-						<p><?php echo esc_html__( 'Select a Custom Post Type and export all its posts with ACF fields, taxonomies, and media.', 'post-export-import-with-media' ); ?></p>
-
-						<div style="margin-bottom:1rem;">
+				
+						<div class="peiwm-cpt-options" style="margin-bottom:1rem;">
 							<label for="peiwm-cpt-select"><strong><?php echo esc_html__( 'Select Post Type:', 'post-export-import-with-media' ); ?></strong></label><br>
-							<select id="peiwm-cpt-select" style="min-width:250px;margin-top:0.5rem;">
+							<select class="peiwm-cpt-select" id="peiwm-cpt-select" style="min-width:250px;margin-top:0.5rem;">
 								<option value=""><?php echo esc_html__( '— Loading post types…', 'post-export-import-with-media' ); ?></option>
 							</select>
 						</div>
@@ -3105,8 +3490,7 @@ class PEIWM_Admin_Menu {
 							</div>
 						</div>
 
-						<button type="button" id="peiwm-export-cpt" class="button button-primary">
-							<?php echo esc_html__( 'Export CPT Posts', 'post-export-import-with-media' ); ?>
+						<button type="button" id="peiwm-export-cpt" class="btn btn-primary btn-block"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg><?php echo esc_html__( 'Export CPT Posts', 'post-export-import-with-media' ); ?>
 						</button>
 
 						<!-- Export Progress -->
@@ -3121,21 +3505,36 @@ class PEIWM_Admin_Menu {
 
 				<!-- IMPORT SECTION -->
 				<div class="peiwm-section">
+					<div class="panel-head">
+						<div class="panel-title">
+							<div class="panel-icon posts">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"></path></svg>
+							</div>
+							<div>
+								<h3><?php echo esc_html__( 'Import CPT Posts', 'post-export-import-with-media' ); ?></h3>
+								<span><?php echo esc_html__( 'Import CPT posts from a previously exported CPT JSON file.', 'post-export-import-with-media' ); ?></span>
+							</div>
+						</div>
+					</div>
 					<div class="peiwm-import-section <?php echo esc_attr( $locked_class ); ?>" style="position: relative;">
 						<?php if ( ! $is_pro ) : ?>
 							<button type="button" class="peiwm-pro-upgrade-overlay peiwm-open-premium-modal">
 								<span class="peiwm-pro-upgrade-badge">🔒 <?php echo esc_html__( 'PRO', 'post-export-import-with-media' ); ?></span>
 							</button>
 						<?php endif; ?>
-						<h2><?php echo esc_html__( 'Import CPT Posts', 'post-export-import-with-media' ); ?></h2>
-						<p><?php echo esc_html__( 'Import posts from a previously exported CPT JSON file.', 'post-export-import-with-media' ); ?></p>
-
+						
 						<div class="button-container">
 							<input type="file" id="peiwm-cpt-import-file" accept=".json" multiple style="display:none;">
-							<button type="button" id="peiwm-cpt-select-import-file" class="button button-secondary">
-								<?php echo esc_html__( 'Select JSON File(s)', 'post-export-import-with-media' ); ?>
-							</button>
-							<button type="button" id="peiwm-cpt-start-import" class="button button-primary" style="display:none;">
+							<div class="drop-zone" id="peiwm-cpt-select-import-file">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<path d="M12 3v12M7 8l5-5 5 5" />
+									<path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+								</svg>
+								<b><?php echo esc_html__( 'Drop your JSON file here', 'post-export-import-with-media' ); ?></b>
+								<span><?php echo esc_html__( 'or click to browse', 'post-export-import-with-media' ); ?></span>
+							</div>
+							<button type="button" id="peiwm-cpt-start-import" class="btn btn-primary btn-block" style="display: none;">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
 								<?php echo esc_html__( 'Start Import', 'post-export-import-with-media' ); ?>
 							</button>
 						</div>

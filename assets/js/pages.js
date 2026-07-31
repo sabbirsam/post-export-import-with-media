@@ -338,35 +338,50 @@ jQuery(document).ready(function ($) {
         $('#peiwm-pages-export-selected-count').text(count + ' selected');
     }
 
-    // Select Pages File
-    $('#peiwm-select-pages-file').on('click', function () {
-        if (typeof window.peiwmShowDragDropModal === 'function') {
-            window.peiwmShowDragDropModal('#peiwm-pages-file', {
-                title: 'Select JSON File(s)',
-                subtitle: 'Select one or more JSON files. The modal will close automatically. Then, click Start Import.',
-                description: 'Drag & drop JSON files or click to browse',
-                accept: '.json',
-                multiple: true
-            });
-        } else {
-            $('#peiwm-pages-file').click();
-        }
-    });
+    // Select Pages File Drop Zone Setup
+    function setupDropZonePages(zoneId, inputId) {
+        const zone = $(zoneId);
+        const input = $(inputId);
 
-    $('#peiwm-pages-file').on('change', function () {
-        const file = this.files[0];
-        if (file) {
-            if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
-                showError('Please select a JSON file.');
-                return;
+        zone.on('click', function() {
+            input.click();
+        });
+
+        zone.on('dragover', function(e) {
+            e.preventDefault();
+            zone.addClass('dragover');
+        });
+
+        zone.on('dragleave', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+        });
+
+        zone.on('drop', function(e) {
+            e.preventDefault();
+            zone.removeClass('dragover');
+            if (e.originalEvent.dataTransfer.files.length) {
+                input[0].files = e.originalEvent.dataTransfer.files;
+                input.trigger('change');
             }
-            const label = this.files.length > 1 ? this.files.length + ' files selected' : file.name;
-            $('#peiwm-select-pages-file').text(label);
-            $('#peiwm-import-pages').show();
-            // Always populate list when file is loaded
-            loadPagesSelectionList(file);
-        }
-    });
+        });
+
+        input.on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
+                    showError('Please select a JSON file.');
+                    return;
+                }
+                const label = this.files.length > 1 ? this.files.length + ' files selected' : file.name;
+                zone.html('<svg viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg><b style="font-size: 14.5px; margin-bottom: 2px; color: #1e1e1e;">' + label + '</b><span style="font-size: 13.5px; color: #6c7385;">Ready to import</span>');
+                $('#peiwm-import-pages').show();
+                loadPagesSelectionList(file);
+            }
+        });
+    }
+
+    setupDropZonePages('#peiwm-select-pages-file', '#peiwm-pages-file');
 
     // Toggle selective panel for pages
     $('#peiwm-import-pages-selective').on('change', function () {
@@ -816,3 +831,62 @@ jQuery(document).ready(function ($) {
         }
     });
 });
+
+// Global tab switching functions for New-UI design
+window.switchTab = window.switchTab || function(group, name) {
+    // Update the buttons
+    var tabs = document.querySelectorAll('.tabs[data-group="' + group + '"] .tab-btn');
+    tabs.forEach(function(b) {
+        b.classList.remove('active');
+        if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + name + "'")) {
+            b.classList.add('active');
+        }
+    });
+
+    // Hide ALL potential panels for this group
+    // Case A: Global panels where data-panel="group-name"
+    document.querySelectorAll('.tab-panel[data-panel^="' + group + '-"]').forEach(function(p) {
+        p.classList.remove('active');
+    });
+    
+    // Case B: Local panels where data-group is set
+    document.querySelectorAll('.tab-panel[data-group="' + group + '"]').forEach(function(p) {
+        p.classList.remove('active');
+    });
+
+    // Show the target panel
+    // Try data-group match first
+    var targetPanel = document.querySelector('.tab-panel[data-group="' + group + '"][data-panel="' + name + '"]');
+    
+    // Fallback for global tabs if needed
+    if (!targetPanel) {
+        targetPanel = document.querySelector('.tab-panel[data-panel="' + group + '-' + name + '"]');
+    }
+    
+    if (targetPanel) {
+        targetPanel.classList.add('active');
+    }
+
+    // Update journey steps state if they exist
+    var steps = document.querySelectorAll('.journey .step');
+    if (steps.length > 0) {
+        var foundActive = false;
+        steps.forEach(function(s) {
+            s.classList.remove('active', 'done');
+            if (s.getAttribute('onclick') && s.getAttribute('onclick').includes("'" + name + "'")) {
+                s.classList.add('active');
+                foundActive = true;
+            } else if (!foundActive) {
+                s.classList.add('done');
+            }
+        });
+    }
+};
+
+window.switchTabByGroup = window.switchTabByGroup || function(group, name) {
+    window.switchTab(group, name);
+    var mainPage = document.getElementById('peiwm-main-content');
+    if (mainPage) {
+        mainPage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};

@@ -407,7 +407,7 @@ class PEIWM_Main {
 	 */
 	public function register_settings() {
 		register_setting(
-			'peiwm_admin_download_buttons',
+			'peiwm_settings',
 			'peiwm_enable_admin_download_buttons',
 			array(
 				'type'              => 'boolean',
