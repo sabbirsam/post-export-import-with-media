@@ -967,7 +967,7 @@ class PEIWM_Admin_Menu {
 							</div>
 
 							<!-- Media Match Mode Setting -->
-							<div class="peiwm-inline-row post-media-match<?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
+							<div class="peiwm-inline-row post-media-match <?php echo ! $is_pro_exp ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
 								<b style="font-size:12.5px;display:block;margin-bottom:8px; color:#1e1e1e;">
 									<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
 								</b>
@@ -1004,7 +1004,7 @@ class PEIWM_Admin_Menu {
 									</label>
 								</div>
 								<?php if ( ! $is_pro ) : ?>
-									<a class="peiwm-pro-upgrade-link peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a>
+									<!-- <a class="peiwm-pro-upgrade-link peiwm-open-premium-modal" href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a> -->
 								<?php endif; ?>
 							</div>
 
@@ -1159,20 +1159,19 @@ class PEIWM_Admin_Menu {
 				</div>
 
 				<div class="peiwm-danger-zone" style="margin-top: 2rem; padding-top: 1.5rem;">
-					<div class="peiwm-delete-section">
-						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete Media', 'post-export-import-with-media' ); ?></h3>
-						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
-						<button type="button" id="peiwm-delete-media" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
-							<?php echo esc_html__( 'Delete All Media', 'post-export-import-with-media' ); ?>
+					<div class="peiwm-delete-section" style="padding: 1.5rem; background: #fff5f5;">
+						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete All Posts', 'post-export-import-with-media' ); ?></h3>
+						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all posts. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
+						<button type="button" id="peiwm-delete-posts" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
+							<?php echo esc_html__( 'Delete All Posts', 'post-export-import-with-media' ); ?>
 						</button>
-						
-						<div id="peiwm-delete-media-progress" class="peiwm-progress" style="display: none;">
-							<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
-							<div class="peiwm-progress-bar">
-								<div class="peiwm-progress-fill"></div>
-							</div>
-							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
-							<div class="peiwm-log"></div>
+					
+					<div id="peiwm-delete-posts-progress" class="peiwm-progress" style="display: none;">
+						<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
+						<div class="peiwm-progress-bar">
+							<div class="peiwm-progress-fill"></div>
+						</div>
+						<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
 						</div>
 					</div>
 				</div>
@@ -1366,22 +1365,24 @@ class PEIWM_Admin_Menu {
 				</div>
 
 				<div class="peiwm-danger-zone" style="margin-top: 2rem; padding-top: 1.5rem;">
-					<div class="peiwm-delete-section" style="padding: 1.5rem; background: #fff5f5;">
-						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete All Posts', 'post-export-import-with-media' ); ?></h3>
-						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all posts. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
-						<button type="button" id="peiwm-delete-posts" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
-							<?php echo esc_html__( 'Delete All Posts', 'post-export-import-with-media' ); ?>
+					<div class="peiwm-delete-section">
+						<h3 style="color: #ff4d4d; margin-top:0;"><?php echo esc_html__( 'Danger Zone: Delete Media', 'post-export-import-with-media' ); ?></h3>
+						<p style="color: #c53030;"><?php echo esc_html__( '⚠️ Warning: This will permanently delete all media files from the library. This action cannot be undone.', 'post-export-import-with-media' ); ?></p>
+						<button type="button" id="peiwm-delete-media" class="button button-danger" style="border-color: #ff4d4d; color: #ff4d4d;">
+							<?php echo esc_html__( 'Delete All Media', 'post-export-import-with-media' ); ?>
 						</button>
-					
-					<div id="peiwm-delete-posts-progress" class="peiwm-progress" style="display: none;">
-						<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
-						<div class="peiwm-progress-bar">
-							<div class="peiwm-progress-fill"></div>
-						</div>
-						<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+						
+						<div id="peiwm-delete-media-progress" class="peiwm-progress" style="display: none;">
+							<h4><?php echo esc_html__( 'Delete Progress', 'post-export-import-with-media' ); ?></h4>
+							<div class="peiwm-progress-bar">
+								<div class="peiwm-progress-fill"></div>
+							</div>
+							<p class="peiwm-progress-text"><?php echo esc_html__( 'Starting...', 'post-export-import-with-media' ); ?></p>
+							<div class="peiwm-log"></div>
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 		<?php $this->render_modal_templates(); ?>
@@ -1685,7 +1686,7 @@ class PEIWM_Admin_Menu {
 							</label>
 
 							<!-- Media Match Mode Setting (Pages) -->
-							<div class="peiwm-inline-row page-media-match<?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
+							<div class="peiwm-inline-row page-media-match <?php echo ! $is_pro_pages ? 'peiwm-pro-inline-row is-locked peiwm-locked-section peiwm-open-premium-modal' : ''; ?>" style="margin-top: 1rem;">
 								<b style="font-size:12.5px;display:block;margin-bottom:8px; color:#1e1e1e;">
 									<?php echo esc_html__( 'Image Matching Strategy', 'post-export-import-with-media' ); ?>
 								</b>
@@ -1740,7 +1741,7 @@ class PEIWM_Admin_Menu {
 									</label>
 								</div>
 								<?php if ( ! $is_pro_pages ) : ?>
-									<a class="peiwm-pro-upgrade-link peiwm-open-premium-modal"  href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a>
+									<!-- <a class="peiwm-pro-upgrade-link peiwm-open-premium-modal"  href="https://wpazleen.com/post-export-import-with-media-pricing/" target="_blank"><?php echo esc_html__( 'Upgrade', 'post-export-import-with-media' ); ?> ↗</a> -->
 								<?php endif; ?>
 							</div>
 							

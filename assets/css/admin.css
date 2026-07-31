@@ -1113,7 +1113,6 @@ button#peiwm-export-all-cpts {
     height: fit-content;
     max-height: 85vh;
     overflow-y: scroll;
-    overflow: hidden;
     transform: scale(0.8);
     transition: transform 0.3s ease;
 }
@@ -3410,6 +3409,11 @@ button#peiwm-btn-mode-2:hover {
 }
 
 .peiwm-inline-row.post-media-match {
+    flex-direction: column;
+}
+
+.peiwm-inline-row.post-media-match.peiwm-pro-inline-row.is-locked.peiwm-locked-section.peiwm-open-premium-modal,
+.peiwm-inline-row.page-media-match.peiwm-pro-inline-row.is-locked.peiwm-locked-section.peiwm-open-premium-modal {
     flex-direction: column;
 }
 
