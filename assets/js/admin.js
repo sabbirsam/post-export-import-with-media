@@ -168,24 +168,52 @@ jQuery(document).ready(function ($) {
         return showModal('danger', title, message);
     }
 
-
-    // Premium Modal - triggered by any locked section or PRO badge click
-    $(document).on('click', '.peiwm-open-premium-modal, .peiwm-locked-section', function (e) {
-        // Don't trigger if clicking a real interactive element inside
-        if ($(e.target).is('input, select, textarea, button:not(.peiwm-open-premium-modal), label, a')) return;
-        e.preventDefault();
-        e.stopPropagation();
+    // Expose plugin modal functions globally
+    window.peiwmShowConfirmation = showConfirmation;
+    window.peiwmShowDangerConfirmation = showDangerConfirmation;
+    window.peiwmShowSuccess = showSuccess;
+    window.peiwmShowError = showError;
+    window.peiwmOpenPremiumModal = function () {
         const modal = $('#peiwm-premium-modal');
         modal.show().addClass('peiwm-show');
-        modal.find('.peiwm-premium-close, .peiwm-modal-close').off('click').on('click', function () {
+        modal.find('.peiwm-premium-close, .peiwm-modal-close').off('click.premium').on('click.premium', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
             modal.removeClass('peiwm-show').hide();
         });
-        modal.off('click.premium').on('click.premium', function (ev) {
-            if (ev.target === this) modal.removeClass('peiwm-show').hide();
+        modal.off('click.premium-overlay').on('click.premium-overlay', function (ev) {
+            if (ev.target === this) {
+                modal.removeClass('peiwm-show').hide();
+            }
         });
         $(document).off('keydown.premium-modal').on('keydown.premium-modal', function (ev) {
-            if (ev.key === 'Escape') modal.removeClass('peiwm-show').hide();
+            if (ev.key === 'Escape') {
+                modal.removeClass('peiwm-show').hide();
+            }
         });
+    };
+
+    // Global document delegated listener for modal close buttons & overlay clicks
+    $(document).on('click', '.peiwm-modal-overlay .peiwm-modal-close, .peiwm-modal-overlay .peiwm-premium-close', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const $overlay = $(this).closest('.peiwm-modal-overlay');
+        $overlay.removeClass('peiwm-show').hide();
+    });
+
+    $(document).on('click', '.peiwm-modal-overlay', function (e) {
+        if (e.target === this) {
+            $(this).removeClass('peiwm-show').hide();
+        }
+    });
+
+    // Premium Modal - triggered by any locked section or PRO badge click
+    $(document).on('click', '.peiwm-open-premium-modal, .peiwm-locked-section, .peiwm-pro-only-btn', function (e) {
+        // Don't trigger if clicking a real interactive element inside
+        if ($(e.target).is('input, select, textarea, button:not(.peiwm-open-premium-modal):not(.peiwm-pro-only-btn), label, a')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        window.peiwmOpenPremiumModal();
     });
 
     // --- End Drag and Drop Modal Logic ---
@@ -2376,6 +2404,8 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    window.peiwmMissingMediaSelections = {};
+
     // Show missing files modal
     function showMissingFilesModal() {
         if (!window.peiwmMissingFiles || window.peiwmMissingFiles.length === 0) {
@@ -2384,6 +2414,8 @@ jQuery(document).ready(function ($) {
         }
 
         const missingFiles = window.peiwmMissingFiles;
+        const isProActive = Boolean(typeof peiwm_ajax !== 'undefined' && (peiwm_ajax.is_pro_active === true || peiwm_ajax.is_pro_active === '1' || peiwm_ajax.is_pro_active === 1));
+
         let tableHtml = '<div class="peiwm-table-scroll-wrapper" style="max-height:400px;overflow-y:auto;margin:1rem 0;">';
         tableHtml += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
         tableHtml += '<thead><tr style="background:#f3f4f6;position:sticky;top:0;">';
@@ -2391,18 +2423,40 @@ jQuery(document).ready(function ($) {
         tableHtml += '<th style="padding:8px;text-align:left;border-bottom:2px solid #e5e7eb;">Title</th>';
         tableHtml += '<th style="padding:8px;text-align:left;border-bottom:2px solid #e5e7eb;">Filename</th>';
         tableHtml += '<th style="padding:8px;text-align:left;border-bottom:2px solid #e5e7eb;">Expected Path</th>';
+        tableHtml += '<th style="padding:8px;text-align:center;border-bottom:2px solid #e5e7eb;">Action</th>';
         tableHtml += '</tr></thead><tbody>';
 
         missingFiles.forEach(function(file) {
-            tableHtml += '<tr style="border-bottom:1px solid #e5e7eb;">';
+            const escapedTitle = $('<div>').text(file.title || 'Unknown').html();
+            const escapedFilename = $('<div>').text(file.filename).html();
+
+            tableHtml += '<tr style="border-bottom:1px solid #e5e7eb;" data-media-id="' + file.id + '">';
             tableHtml += '<td style="padding:8px;">' + file.id + '</td>';
-            tableHtml += '<td style="padding:8px;">' + $('<div>').text(file.title || 'Unknown').html() + '</td>';
-            tableHtml += '<td style="padding:8px;font-family:monospace;font-size:12px;">' + $('<div>').text(file.filename).html() + '</td>';
+            tableHtml += '<td style="padding:8px;">' + escapedTitle + '</td>';
+            tableHtml += '<td style="padding:8px;font-family:monospace;font-size:12px;">' + escapedFilename + '</td>';
             tableHtml += '<td style="padding:8px;font-family:monospace;font-size:11px;color:#666;word-break:break-all;">' + $('<div>').text(file.path).html() + '</td>';
+            tableHtml += '<td style="padding:8px;text-align:center;vertical-align:middle;">';
+            tableHtml += '<div class="peiwm-action-cell" style="display:flex;flex-direction:column;align-items:center;gap:6px;">';
+
+            if (!isProActive) {
+                tableHtml += '<button type="button" class="button peiwm-update-media-btn peiwm-locked-btn peiwm-open-premium-modal" data-media-id="' + file.id + '" data-title="' + escapedTitle + '" data-filename="' + escapedFilename + '">🔒 Update</button>';
+            } else {
+                tableHtml += '<button type="button" class="button peiwm-update-media-btn" data-media-id="' + file.id + '" data-title="' + escapedTitle + '" data-filename="' + escapedFilename + '">Update</button>';
+            }
+
+            tableHtml += '<div class="peiwm-media-preview" style="display:none;margin-top:4px;"></div>';
+            tableHtml += '</div>';
+            tableHtml += '</td>';
             tableHtml += '</tr>';
         });
 
-       tableHtml += '</tbody></table></div>';
+        tableHtml += '</tbody></table></div>';
+
+        if (isProActive) {
+            tableHtml += '<div style="margin-top:0.75rem;display:flex;justify-content:flex-start;">';
+            tableHtml += '<button type="button" id="peiwm-update-all-selected-btn" class="button button-primary" style="display:none;background:#7c3aed;border-color:#7c3aed;">Update All Selected Media (0)</button>';
+            tableHtml += '</div>';
+        }
 
         tableHtml += '<div style="margin-top:1rem;display:flex;flex-direction:column;gap:8px;">';
 
@@ -2580,6 +2634,402 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
+    function showMediaSelectionModal(mediaId, title, filename) {
+        let modal = $('#peiwm-media-selector-modal-overlay');
+        if (!modal.length) {
+            let modalHtml = `
+                <div id="peiwm-media-selector-modal-overlay" class="peiwm-modal-overlay">
+                    <div class="peiwm-modal peiwm-media-selector-modal">
+                        <button type="button" class="peiwm-modal-close" aria-label="Close">&times;</button>
+                        <div class="peiwm-modal-header">
+                            <h3>Select Replacement Media</h3>
+                        </div>
+                        <div class="peiwm-modal-body">
+                            <div class="peiwm-media-source-tabs">
+                                <button type="button" class="peiwm-tab-btn active" data-tab="library">📁 Media Library</button>
+                                <button type="button" class="peiwm-tab-btn" data-tab="upload">⬆️ Upload File</button>
+                            </div>
+                            
+                            <div class="peiwm-tab-content-area">
+                                <div class="peiwm-selector-tab-panel active" data-panel="library">
+                                    <div class="peiwm-media-search">
+                                        <input type="text" id="peiwm-media-search-input" class="regular-text" placeholder="Search media library...">
+                                    </div>
+                                    <div id="peiwm-media-grid-container" class="peiwm-media-grid">
+                                        <div class="peiwm-loading" style="grid-column: 1/-1; text-align: center; padding: 2rem;">Loading media library...</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="peiwm-selector-tab-panel" data-panel="upload" style="display:none;">
+                                    <div class="peiwm-upload-area">
+                                        <input type="file" id="peiwm-replacement-file-input" style="display:none;" accept="image/*,video/*,audio/*,application/pdf">
+                                        <p>Drop file here or click to select</p>
+                                        <button type="button" class="button button-secondary" id="peiwm-browse-file-btn">Choose File</button>
+                                        <div id="peiwm-upload-file-info" style="margin-top:1rem;font-weight:600;display:none;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="peiwm-modal-footer" style="display:flex;justify-space-between;align-items:center;padding:1rem 1.5rem;border-top:1px solid #e5e7eb;">
+                            <div class="peiwm-modal-footer-left">
+                                <button type="button" id="peiwm-selector-update-now-btn" class="button button-primary" style="background:#7c3aed;border-color:#7c3aed;display:none;">Update Now</button>
+                            </div>
+                            <div class="peiwm-modal-footer-right" style="display:flex;gap:10px;">
+                                <button type="button" id="peiwm-selector-cancel-btn" class="button button-secondary">Cancel</button>
+                                <button type="button" id="peiwm-selector-confirm-btn" class="button button-primary" disabled>Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('body').append(modalHtml);
+            modal = $('#peiwm-media-selector-modal-overlay');
+            attachMediaSelectorHandlers();
+        }
+
+        modal.data('target-media-id', mediaId);
+        modal.data('target-filename', filename);
+        modal.data('selected-media', null);
+
+        modal.find('.peiwm-modal-header h3').text('Select Replacement for: ' + title + ' (' + filename + ')');
+        modal.find('#peiwm-selector-confirm-btn').prop('disabled', true);
+        modal.find('#peiwm-selector-update-now-btn').hide();
+        modal.find('#peiwm-upload-file-info').hide().text('');
+        modal.find('#peiwm-replacement-file-input').val('');
+        modal.find('#peiwm-media-search-input').val('');
+
+        modal.find('.peiwm-media-source-tabs .peiwm-tab-btn[data-tab="library"]').addClass('active').siblings().removeClass('active');
+        modal.find('.peiwm-selector-tab-panel[data-panel="library"]').show().addClass('active').siblings().hide().removeClass('active');
+
+        loadMediaLibraryForSelection(1, '');
+        modal.show().addClass('peiwm-show');
+    }
+
+    function attachMediaSelectorHandlers() {
+        const modal = $('#peiwm-media-selector-modal-overlay');
+
+        modal.find('.peiwm-media-source-tabs .peiwm-tab-btn').on('click', function() {
+            const tab = $(this).data('tab');
+            $(this).addClass('active').siblings().removeClass('active');
+            modal.find('.peiwm-selector-tab-panel').hide().removeClass('active');
+            modal.find(`.peiwm-selector-tab-panel[data-panel="${tab}"]`).show().addClass('active');
+
+            modal.data('selected-media', null);
+            modal.find('#peiwm-selector-confirm-btn').prop('disabled', true);
+            modal.find('#peiwm-selector-update-now-btn').hide();
+            modal.find('.peiwm-media-item').removeClass('selected');
+        });
+
+        let searchTimeout;
+        modal.find('#peiwm-media-search-input').on('input', function() {
+            const query = $(this).val();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(function() {
+                loadMediaLibraryForSelection(1, query);
+            }, 300);
+        });
+
+        modal.find('#peiwm-browse-file-btn').on('click', function() {
+            modal.find('#peiwm-replacement-file-input').trigger('click');
+        });
+
+        modal.find('#peiwm-replacement-file-input').on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                modal.find('#peiwm-upload-file-info').text('Selected file: ' + file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)').show();
+                modal.data('selected-media', {
+                    type: 'upload',
+                    file: file,
+                    name: file.name
+                });
+                modal.find('#peiwm-selector-confirm-btn').prop('disabled', false);
+                modal.find('#peiwm-selector-update-now-btn').show();
+            }
+        });
+
+        modal.on('click', '.peiwm-media-item', function() {
+            modal.find('.peiwm-media-item').removeClass('selected');
+            $(this).addClass('selected');
+
+            const selectedData = {
+                type: 'library',
+                id: $(this).data('id'),
+                title: $(this).data('title'),
+                url: $(this).data('url'),
+                thumbnail: $(this).data('thumbnail')
+            };
+
+            modal.data('selected-media', selectedData);
+            modal.find('#peiwm-selector-confirm-btn').prop('disabled', false);
+            modal.find('#peiwm-selector-update-now-btn').show();
+        });
+
+        modal.find('#peiwm-selector-confirm-btn').on('click', function() {
+            const targetMediaId = modal.data('target-media-id');
+            const selectedMedia = modal.data('selected-media');
+
+            if (targetMediaId && selectedMedia) {
+                window.peiwmMissingMediaSelections[targetMediaId] = selectedMedia;
+                updateMediaRowPreview(targetMediaId, selectedMedia);
+                updateBulkUpdateButton();
+            }
+
+            modal.removeClass('peiwm-show').hide();
+        });
+
+        modal.find('#peiwm-selector-update-now-btn').on('click', function() {
+            const targetMediaId = modal.data('target-media-id');
+            const selectedMedia = modal.data('selected-media');
+
+            if (targetMediaId && selectedMedia) {
+                modal.removeClass('peiwm-show').hide();
+                updateSingleMedia(targetMediaId, selectedMedia);
+            }
+        });
+
+        modal.find('.peiwm-modal-close, #peiwm-selector-cancel-btn').on('click', function() {
+            modal.removeClass('peiwm-show').hide();
+        });
+
+        modal.on('click', function(e) {
+            if (e.target === this) {
+                modal.removeClass('peiwm-show').hide();
+            }
+        });
+    }
+
+    function loadMediaLibraryForSelection(page, search) {
+        const grid = $('#peiwm-media-grid-container');
+        grid.html('<div class="peiwm-loading" style="grid-column: 1/-1; text-align: center; padding: 2rem;">Loading media library...</div>');
+
+        $.ajax({
+            url: peiwm_ajax.ajax_url,
+            type: 'POST',
+            data: {
+                action: 'peiwm_get_media_library',
+                nonce: peiwm_ajax.nonce,
+                page: page,
+                per_page: 50,
+                search: search
+            },
+            success: function(response) {
+                if (response.success && response.data.media) {
+                    renderMediaGrid(response.data.media);
+                } else {
+                    grid.html('<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No media found.</div>');
+                }
+            },
+            error: function() {
+                grid.html('<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #dc2626;">Failed to load media library.</div>');
+            }
+        });
+    }
+
+    function renderMediaGrid(mediaItems) {
+        const grid = $('#peiwm-media-grid-container');
+        if (!mediaItems.length) {
+            grid.html('<div style="grid-column: 1/-1; text-align: center; padding: 2rem; color: #666;">No media found.</div>');
+            return;
+        }
+
+        let html = '';
+        mediaItems.forEach(function(item) {
+            const thumbUrl = item.thumbnail || item.url || '';
+            const title = $('<div>').text(item.title || 'Untitled').html();
+
+            html += `<div class="peiwm-media-item" data-id="${item.id}" data-title="${title}" data-url="${item.url}" data-thumbnail="${thumbUrl}">`;
+            if (thumbUrl) {
+                html += `<div class="peiwm-media-thumb" style="background-image: url('${thumbUrl}');"></div>`;
+            } else {
+                html += `<div class="peiwm-media-thumb" style="display:flex;align-items:center;justify-content:center;background:#e5e7eb;font-size:24px;">📄</div>`;
+            }
+            html += `<div class="peiwm-media-info"><span class="peiwm-media-title">${title}</span></div>`;
+            html += `</div>`;
+        });
+
+        grid.html(html);
+    }
+
+    function updateMediaRowPreview(mediaId, selectedMedia) {
+        const $row = $('tr[data-media-id="' + mediaId + '"]');
+        if (!$row.length) return;
+
+        const $preview = $row.find('.peiwm-media-preview');
+        let previewHtml = '';
+
+        if (selectedMedia.type === 'library') {
+            const thumb = selectedMedia.thumbnail || selectedMedia.url;
+            previewHtml = `
+                <div class="peiwm-selected-media" style="display:flex;align-items:center;gap:6px;font-size:11px;background:#f3e8ff;padding:4px 8px;border-radius:4px;border:1px solid #c084fc;">
+                    ${thumb ? `<img src="${thumb}" class="peiwm-mini-thumb" style="width:24px;height:24px;object-fit:cover;border-radius:2px;">` : '📄'}
+                    <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${$('<div>').text(selectedMedia.title).html()}</span>
+                    <button type="button" class="peiwm-clear-selection-btn" data-media-id="${mediaId}" style="background:none;border:none;color:#dc2626;cursor:pointer;padding:0 2px;font-weight:bold;">&times;</button>
+                </div>
+            `;
+        } else if (selectedMedia.type === 'upload') {
+            previewHtml = `
+                <div class="peiwm-selected-media" style="display:flex;align-items:center;gap:6px;font-size:11px;background:#e0f2fe;padding:4px 8px;border-radius:4px;border:1px solid #38bdf8;">
+                    <span>📁</span>
+                    <span style="max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${$('<div>').text(selectedMedia.name).html()}</span>
+                    <button type="button" class="peiwm-clear-selection-btn" data-media-id="${mediaId}" style="background:none;border:none;color:#dc2626;cursor:pointer;padding:0 2px;font-weight:bold;">&times;</button>
+                </div>
+            `;
+        }
+
+        $preview.html(previewHtml).show();
+    }
+
+    function updateBulkUpdateButton() {
+        const count = Object.keys(window.peiwmMissingMediaSelections).length;
+        const $btn = $('#peiwm-update-all-selected-btn');
+        if ($btn.length) {
+            if (count > 0) {
+                $btn.text('Update All Selected Media (' + count + ')').show();
+            } else {
+                $btn.hide();
+            }
+        }
+    }
+
+    function updateSingleMedia(mediaId, selectedMedia) {
+        const $btn = $('button.peiwm-update-media-btn[data-media-id="' + mediaId + '"]');
+        const originalText = $btn.text();
+        $btn.prop('disabled', true).text('Updating...');
+
+        const formData = new FormData();
+        formData.append('action', 'peiwm_update_missing_media');
+        formData.append('nonce', peiwm_ajax.nonce);
+        formData.append('media_id', mediaId);
+        formData.append('type', selectedMedia.type);
+
+        if (selectedMedia.type === 'library') {
+            formData.append('replacement_id', selectedMedia.id);
+        } else if (selectedMedia.type === 'upload') {
+            formData.append('file', selectedMedia.file);
+        }
+
+        $.ajax({
+            url: peiwm_ajax.ajax_url,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.success) {
+                    showSuccess(response.data.message);
+                    delete window.peiwmMissingMediaSelections[mediaId];
+                    updateBulkUpdateButton();
+                    
+                    const $row = $('tr[data-media-id="' + mediaId + '"]');
+                    $row.css('background-color', '#d1fae5').fadeOut(600, function() {
+                        $(this).remove();
+                        if ($('#peiwm-modal-overlay table tbody tr').length === 0) {
+                            $('#peiwm-modal-overlay').removeClass('peiwm-show').hide();
+                        }
+                        loadMediaStats();
+                    });
+                } else {
+                    showError('Update failed: ' + (response.data ? response.data.message : 'Unknown error'));
+                    $btn.prop('disabled', false).text(originalText);
+                }
+            },
+            error: function(xhr, status, error) {
+                showError('Update failed: ' + error);
+                $btn.prop('disabled', false).text(originalText);
+            }
+        });
+    }
+
+    function updateAllSelectedMedia() {
+        const mediaIds = Object.keys(window.peiwmMissingMediaSelections);
+        if (!mediaIds.length) return;
+
+        const $bulkBtn = $('#peiwm-update-all-selected-btn');
+        $bulkBtn.prop('disabled', true).text('Updating Media (0/' + mediaIds.length + ')...');
+
+        let completed = 0;
+        let errors = 0;
+
+        function processNext(index) {
+            if (index >= mediaIds.length) {
+                $bulkBtn.prop('disabled', false).text('Update Complete');
+                showSuccess('Bulk update complete! Successfully updated ' + completed + ' media item(s).');
+                loadMediaStats();
+                return;
+            }
+
+            const mediaId = mediaIds[index];
+            const selectedMedia = window.peiwmMissingMediaSelections[mediaId];
+
+            $bulkBtn.text('Updating Media (' + (index + 1) + '/' + mediaIds.length + ')...');
+
+            const formData = new FormData();
+            formData.append('action', 'peiwm_update_missing_media');
+            formData.append('nonce', peiwm_ajax.nonce);
+            formData.append('media_id', mediaId);
+            formData.append('type', selectedMedia.type);
+
+            if (selectedMedia.type === 'library') {
+                formData.append('replacement_id', selectedMedia.id);
+            } else if (selectedMedia.type === 'upload') {
+                formData.append('file', selectedMedia.file);
+            }
+
+            $.ajax({
+                url: peiwm_ajax.ajax_url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    if (response.success) {
+                        completed++;
+                        delete window.peiwmMissingMediaSelections[mediaId];
+                        const $row = $('tr[data-media-id="' + mediaId + '"]');
+                        $row.css('background-color', '#d1fae5').fadeOut(400, function() {
+                            $(this).remove();
+                        });
+                    } else {
+                        errors++;
+                    }
+                },
+                error: function() {
+                    errors++;
+                },
+                complete: function() {
+                    processNext(index + 1);
+                }
+            });
+        }
+
+        processNext(0);
+    }
+
+    $(document).on('click', '.peiwm-clear-selection-btn', function(e) {
+        e.stopPropagation();
+        const mediaId = $(this).data('media-id');
+        if (mediaId && window.peiwmMissingMediaSelections[mediaId]) {
+            delete window.peiwmMissingMediaSelections[mediaId];
+            const $row = $('tr[data-media-id="' + mediaId + '"]');
+            $row.find('.peiwm-media-preview').empty().hide();
+            updateBulkUpdateButton();
+        }
+    });
+
+    $(document).on('click', '.peiwm-update-media-btn:not(.peiwm-locked-btn)', function(e) {
+        e.preventDefault();
+        const mediaId = $(this).data('media-id');
+        const title = $(this).data('title');
+        const filename = $(this).data('filename');
+        showMediaSelectionModal(mediaId, title, filename);
+    });
+
+    $(document).on('click', '#peiwm-update-all-selected-btn', function(e) {
+        e.preventDefault();
+        updateAllSelectedMedia();
+    });
+
 
 
 

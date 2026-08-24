@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$is_pro_active = PEIWM_Main::get_instance()->is_pro_active();
+$is_pro_active = PEIWM_Main::get_instance()->is_pro_active(); // Just an UI lock, its not a functional lock. 
 $settings = PEIWM_Email_Template::get_settings();
 $available_tags = PEIWM_Email_Template::get_available_tags();
 ?>

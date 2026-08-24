@@ -38,6 +38,7 @@ class PEIWM_Batch_Settings {
 		'export_list_page_size'        => 50,
 		'export_json_size'             => 100,
 		'media_zip_size_limit'         => 10,
+		'media_editor_page_size'       => 100,
 		'batch_delay'                  => 2000,
 		'enable_background_processing' => false,
 	);
@@ -201,6 +202,14 @@ class PEIWM_Batch_Settings {
 			$sanitized['batch_delay'] = 5000;
 		}
 
+		if ( ! isset( $input['media_editor_page_size'] ) || absint( $input['media_editor_page_size'] ) < 10 ) {
+			$sanitized['media_editor_page_size'] = 10;
+		} elseif ( absint( $input['media_editor_page_size'] ) > 1000 ) {
+			$sanitized['media_editor_page_size'] = 1000;
+		} else {
+			$sanitized['media_editor_page_size'] = absint( $input['media_editor_page_size'] );
+		}
+
 		return $sanitized;
 	}
 
@@ -359,7 +368,7 @@ class PEIWM_Batch_Settings {
 
 						<?php
 							$main_instance = PEIWM_Main::get_instance();
-							$is_pro_active = $main_instance->is_pro_active();
+							$is_pro_active = $main_instance->is_pro_active(); // Just an UI lock, its not a functional lock. 
 							$locked_class = ! $is_pro_active ? ' peiwm-locked-section-2' : '';
 						?>
 
@@ -391,7 +400,7 @@ class PEIWM_Batch_Settings {
 				<!-- Batch Configuration (shown only when enabled) -->
 				<?php
 				$main_instance = PEIWM_Main::get_instance();
-				$is_pro_active = $main_instance->is_pro_active();
+				$is_pro_active = $main_instance->is_pro_active(); // Just an UI lock, its not a functional lock. 
 				$locked_class = ! $is_pro_active ? ' peiwm-locked-section' : '';
 				?>
 				<div id="peiwm-batch-config" class="<?php echo esc_attr( $locked_class ); ?>" style="<?php echo $settings['enable_batch_processing'] ? '' : 'display: none;'; ?>; position: relative;">
@@ -617,6 +626,31 @@ class PEIWM_Batch_Settings {
 									/>
 									<p class="description">
 										<?php echo esc_html__( 'Number of posts/pages loaded per page in "Export individually" list. Default: 300. Regular mode (batch disabled): always 300.', 'post-export-import-with-media' ); ?>
+									</p>
+								</td>
+							</tr>
+
+							<!-- Media Editor Page Size -->
+							<tr>
+								<th scope="row">
+									<label for="media_editor_page_size">
+										<?php echo esc_html__( 'Media Editor Load Size', 'post-export-import-with-media' ); ?>
+									</label>
+								</th>
+								<td>
+									<input 
+										type="number" 
+										id="media_editor_page_size" 
+										name="peiwm_batch_settings[media_editor_page_size]" 
+										value="<?php echo esc_attr( isset( $settings['media_editor_page_size'] ) ? $settings['media_editor_page_size'] : 100 ); ?>" 
+										min="10" 
+										max="1000" 
+										step="10"
+										class="small-text"
+										<?php echo ! $is_pro_active ? 'readonly' : ''; ?>
+									/>
+									<p class="description">
+										<?php echo esc_html__( 'Number of media items to load per page in Media Editor. Default: 100 (Range: 10-1000)', 'post-export-import-with-media' ); ?>
 									</p>
 								</td>
 							</tr>

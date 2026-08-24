@@ -1,0 +1,82 @@
+/**
+ * Pro Admin Styles
+ *
+ * @package Post_Export_Import_With_Media_Pro
+ * @since 1.0.0
+ */
+
+/* PRO Badge Styling */
+.peiwm-pro-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* PRO Feature Coming Soon */
+.peiwm-pro-feature-coming-soon {
+    background: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.peiwm-pro-feature-coming-soon h2 {
+    color: #667eea;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.peiwm-pro-feature-coming-soon p {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+.peiwm-pro-feature-coming-soon ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+    text-align: left;
+}
+
+.peiwm-pro-feature-coming-soon ul li {
+    font-size: 15px;
+    color: #495057;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.peiwm-pro-feature-coming-soon ul li:last-child {
+    border-bottom: none;
+}
+
+/* PRO Wrap */
+.peiwm-pro-wrap {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.peiwm-pro-wrap h1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.peiwm-pro-wrap .description {
+    font-size: 14px;
+    color: #6c757d;
+    margin-bottom: 20px;
+}

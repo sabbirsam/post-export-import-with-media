@@ -287,10 +287,9 @@ class PEIWM_Main {
 		PEIWM_Admin_Menu::get_instance();
 		
 		// Initialize AJAX handler
+		PEIWM_Ajax_Handler::get_instance();
 		if ( $is_pro && class_exists( 'PEIWM_Ajax_Handler_Pro' ) ) {
 			PEIWM_Ajax_Handler_Pro::get_instance();
-		}else {
-			PEIWM_Ajax_Handler::get_instance();
 		}
 		
 		// Initialize post handler

@@ -477,13 +477,27 @@ class PEIWM_Batch_Processor {
 			// Check if user wants to export all image sizes
 			$export_all_sizes = isset( $_POST['export_all_sizes'] ) && $_POST['export_all_sizes'] === '1';
 
-			// PRO: Advanced filters — date range and by-post
-			$is_pro    = PEIWM_Main::get_instance()->is_pro_active();
-			$date_from = $is_pro && isset( $_POST['media_date_from'] ) ? sanitize_text_field( wp_unslash( $_POST['media_date_from'] ) ) : '';
-			$date_to   = $is_pro && isset( $_POST['media_date_to'] )   ? sanitize_text_field( wp_unslash( $_POST['media_date_to'] ) )   : '';
-			$post_ids  = array();
-			if ( $is_pro && isset( $_POST['media_post_ids'] ) && '' !== $_POST['media_post_ids'] ) {
-				$post_ids = array_filter( array_map( 'absint', explode( ',', sanitize_text_field( wp_unslash( $_POST['media_post_ids'] ) ) ) ) );
+			//  Advanced filters — date range and by-post
+			$date_from = isset( $_POST['media_date_from'] )
+				? sanitize_text_field( wp_unslash( $_POST['media_date_from'] ) )
+				: '';
+
+			$date_to = isset( $_POST['media_date_to'] )
+				? sanitize_text_field( wp_unslash( $_POST['media_date_to'] ) )
+				: '';
+
+			$post_ids = array();
+
+			if ( isset( $_POST['media_post_ids'] ) && '' !== $_POST['media_post_ids'] ) {
+				$post_ids = array_filter(
+					array_map(
+						'absint',
+						explode(
+							',',
+							sanitize_text_field( wp_unslash( $_POST['media_post_ids'] ) )
+						)
+					)
+				);
 			}
 
 			$valid_from = ( $date_from && false !== DateTime::createFromFormat( 'Y-m-d', $date_from ) );

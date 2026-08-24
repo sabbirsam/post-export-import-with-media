@@ -81,9 +81,6 @@ class PEIWM_Scheduled_Exports {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
 		}
-		if ( ! PEIWM_Main::get_instance()->is_pro_active() ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'PRO version required', 'post-export-import-with-media' ) ) );
-		}
 
 		$data = apply_filters( 'peiwm_scheduled_exports_get_backups', array() );
 		wp_send_json_success( $data );
@@ -95,9 +92,6 @@ class PEIWM_Scheduled_Exports {
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
-		}
-		if ( ! PEIWM_Main::get_instance()->is_pro_active() ) {
-			wp_send_json_error( array( 'message' => esc_html__( 'PRO version required', 'post-export-import-with-media' ) ) );
 		}
 
 		$filename = isset( $_POST['filename'] ) ? sanitize_file_name( wp_unslash( $_POST['filename'] ) ) : '';
@@ -120,9 +114,6 @@ class PEIWM_Scheduled_Exports {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'Permission denied', 'post-export-import-with-media' ) );
 		}
-		if ( ! PEIWM_Main::get_instance()->is_pro_active() ) {
-			wp_die( esc_html__( 'PRO version required', 'post-export-import-with-media' ) );
-		}
 
 		$filename = isset( $_GET['filename'] ) ? sanitize_file_name( wp_unslash( $_GET['filename'] ) ) : '';
 		if ( empty( $filename ) ) {
@@ -144,7 +135,7 @@ class PEIWM_Scheduled_Exports {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'post-export-import-with-media' ) );
 		}
 
-		$is_pro      = PEIWM_Main::get_instance()->is_pro_active();
+		$is_pro      = PEIWM_Main::get_instance()->is_pro_active(); // Just an UI lock, its not a functional lock. 
 		$settings    = $this->get_settings();
 		$admin_email = get_option( 'admin_email' );
 		$next_run    = wp_next_scheduled( 'peiwm_scheduled_export_event' );

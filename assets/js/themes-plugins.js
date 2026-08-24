@@ -90,7 +90,7 @@ jQuery(document).ready(function ($) {
     
     // ── FAQ Section ──────────────────────────────────────────────────────────────
     function initFAQ() {
-        var activeTab = 'all';
+        var activeTab = 'system';
         var searchVal = '';
         var $list  = $('#peiwm-faq-list');
         var $count = $('#peiwm-faq-count');
@@ -100,6 +100,7 @@ jQuery(document).ready(function ($) {
         var peiwmFAQData = [
 
             // ── POSTS ──────────────────────────────────────────────────────────
+        
             {
                 cat: "posts", badge: "",
                 q: "How do I export only specific posts?",
@@ -305,6 +306,12 @@ jQuery(document).ready(function ($) {
             },
 
             // ── SYSTEM & EMAIL ─────────────────────────────────────────────────
+                
+            {
+                cat: "system", badge: "",
+                q: "I have Pro installed but a feature isn't working — why?",
+                a: "<p>PEIWM Pro is an add-on and depends on the <strong>free base plugin</strong> being installed and active. Pro cannot run on its own — if the free plugin is deactivated or uninstalled, all Pro features will stop working even though Pro itself is still active.</p><p>Make sure <strong>both</strong> the free and Pro plugins are installed and activated on your site for full functionality.</p>"
+            },
             {
                 cat: "system", badge: "",
                 q: "What does the System Test check?",

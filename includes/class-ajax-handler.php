@@ -65,6 +65,23 @@ class PEIWM_Ajax_Handler {
 		add_action( 'admin_post_peiwm_export_posts_download', array( $this, 'download_export_posts' ) );
 		add_action( 'admin_post_peiwm_export_media_download', array( $this, 'download_export_media' ) );
 		add_action( 'admin_post_peiwm_download_users_export', array( $this, 'download_export_users' ) );
+
+		// Media selection and update missing media
+		add_action( 'wp_ajax_peiwm_get_media_library', array( $this, 'ajax_get_media_library' ) );
+		add_action( 'wp_ajax_peiwm_update_missing_media', array( $this, 'ajax_update_missing_media' ) );
+
+		// Media Title & ALT Editor
+		add_action( 'wp_ajax_peiwm_load_media_editor', array( $this, 'ajax_load_media_editor' ) );
+		add_action( 'wp_ajax_peiwm_save_media_changes', array( $this, 'ajax_save_media_changes' ) );
+		add_action( 'wp_ajax_peiwm_export_media_csv', array( $this, 'ajax_export_media_csv' ) );
+		add_action( 'wp_ajax_peiwm_import_media_csv', array( $this, 'ajax_import_media_csv' ) );
+
+		// Media Health & Audit
+		add_action( 'wp_ajax_peiwm_start_audit', array( $this, 'ajax_start_audit' ) );
+		add_action( 'wp_ajax_peiwm_audit_progress', array( $this, 'ajax_audit_progress' ) );
+		add_action( 'wp_ajax_peiwm_get_audit_summary', array( $this, 'ajax_get_audit_summary' ) );
+		add_action( 'wp_ajax_peiwm_trash_unused_media', array( $this, 'ajax_trash_unused_media' ) );
+		add_action( 'wp_ajax_peiwm_update_media_decision', array( $this, 'ajax_update_media_decision' ) );
 	}
 
 	/**
@@ -672,5 +689,266 @@ class PEIWM_Ajax_Handler {
 		}
 
 		return round( $bytes, 2 ) . ' ' . $units[ $i ];
+	}
+
+	/**
+	 * AJAX: Get media library items (Free version - limited to 20 items)
+	 */
+	public function ajax_get_media_library() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
+		}
+
+		// Free version: return limited results
+		$args = array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 20,
+			'orderby'        => 'date',
+			'order'          => 'DESC',
+		);
+
+		$attachments = get_posts( $args );
+		$media       = array();
+
+		foreach ( $attachments as $attachment ) {
+			$media[] = array(
+				'id'        => $attachment->ID,
+				'title'     => get_the_title( $attachment->ID ),
+				'url'       => wp_get_attachment_url( $attachment->ID ),
+				'thumbnail' => wp_get_attachment_image_url( $attachment->ID, 'thumbnail' ),
+			);
+		}
+
+		wp_send_json_success( array(
+			'media'    => $media,
+			'has_more' => false,
+			'is_pro'   => false,
+			'message'  => esc_html__( 'Showing 20 most recent items. Upgrade to PRO for full library access.', 'post-export-import-with-media' ),
+		) );
+	}
+
+	/**
+	 * AJAX: Update missing media (Free version - returns upgrade message)
+	 */
+	public function ajax_update_missing_media() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( ! current_user_can( 'upload_files' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
+		}
+
+		// This feature requires PRO
+		wp_send_json_error( array(
+			'message'        => esc_html__( 'This is a PRO feature. Please upgrade to use the Update Missing Media feature.', 'post-export-import-with-media' ),
+			'is_pro_feature' => true,
+		) );
+	}
+
+	/**
+	 * AJAX: Load media editor (Free stub)
+	 */
+	public function ajax_load_media_editor() {
+		wp_send_json_error( array(
+			'message'        => esc_html__( 'This is a PRO feature. Please upgrade to use the Media Title & ALT Editor.', 'post-export-import-with-media' ),
+			'is_pro_feature' => true,
+		) );
+	}
+
+	/**
+	 * AJAX: Save media changes (Free stub)
+	 */
+	public function ajax_save_media_changes() {
+		wp_send_json_error( array(
+			'message'        => esc_html__( 'This is a PRO feature. Please upgrade to save changes in the Media Title & ALT Editor.', 'post-export-import-with-media' ),
+			'is_pro_feature' => true,
+		) );
+	}
+
+	/**
+	 * AJAX: Export media CSV (Free stub)
+	 */
+	public function ajax_export_media_csv() {
+		wp_die( esc_html__( 'This is a PRO feature. Please upgrade to export CSV.', 'post-export-import-with-media' ) );
+	}
+
+	/**
+	 * AJAX: Import media CSV (Free stub)
+	 */
+	public function ajax_import_media_csv() {
+		wp_send_json_error( array(
+			'message'        => esc_html__( 'This is a PRO feature. Please upgrade to import CSV.', 'post-export-import-with-media' ),
+			'is_pro_feature' => true,
+		) );
+	}
+
+	/**
+	 * AJAX: Start Media Audit Scan
+	 */
+	public function ajax_start_audit() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
+		}
+
+		require_once __DIR__ . '/class-media-audit-controller.php';
+		$controller = PEIWM_Media_Audit_Controller::get_instance();
+		$scan_id    = $controller->create_scan();
+
+		wp_send_json_success( array(
+			'scan_id' => $scan_id,
+			'message' => esc_html__( 'Media audit scan started', 'post-export-import-with-media' ),
+		) );
+	}
+
+	/**
+	 * AJAX: Step / Poll Progress of Media Audit Scan
+	 */
+	public function ajax_audit_progress() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
+		}
+
+		$scan_id = isset( $_POST['scan_id'] ) ? absint( $_POST['scan_id'] ) : 0;
+		if ( ! $scan_id ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid scan ID', 'post-export-import-with-media' ) ) );
+		}
+
+		require_once __DIR__ . '/class-media-audit-controller.php';
+		require_once __DIR__ . '/class-media-batch-processor.php';
+
+		$res  = PEIWM_Media_Batch_Processor::process_chunk( $scan_id, 50 );
+		$logs = PEIWM_Media_Audit_Controller::get_instance()->get_scan_logs( $scan_id, 10 );
+
+		wp_send_json_success( array(
+			'completed' => $res['completed'],
+			'progress'  => isset( $res['progress'] ) ? $res['progress'] : 0,
+			'logs'      => $logs,
+		) );
+	}
+
+	/**
+	 * AJAX: Get Media Audit Summary
+	 */
+	public function ajax_get_audit_summary() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		require_once __DIR__ . '/class-media-audit-controller.php';
+		$controller  = PEIWM_Media_Audit_Controller::get_instance();
+		$latest_scan = $controller->get_latest_scan();
+
+		if ( ! $latest_scan ) {
+			wp_send_json_success( array( 'has_scan' => false ) );
+		}
+
+		wp_send_json_success( array(
+			'has_scan'     => true,
+			'health_score' => (int) $latest_scan->health_score,
+			'total'        => (int) $latest_scan->images_total,
+			'used'         => (int) $latest_scan->images_used,
+			'unused'       => (int) $latest_scan->images_unused,
+		) );
+	}
+
+	
+	/**
+	 * AJAX: Move Unused Media Item to Trash
+	 */
+	public function ajax_trash_unused_media() {
+		wp_send_json_error( array( 'message' => esc_html__( 'Trashing unused media is not available in this version.', 'post-export-import-with-media' ) ) );
+	}
+
+	/**
+	 * AJAX: Update Media Decision (Mark Safe, Exclude) - Single or Bulk
+	 */
+	public function ajax_update_media_decision() {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'peiwm_secure_nonce' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Security check failed', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Permission denied', 'post-export-import-with-media' ) ) );
+		}
+
+		$decision = isset( $_POST['decision'] ) ? sanitize_text_field( wp_unslash( $_POST['decision'] ) ) : '';
+		if ( ! in_array( $decision, array( 'trash', 'safe', 'exclude' ), true ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Invalid decision specified', 'post-export-import-with-media' ) ) );
+		}
+
+		if ( 'trash' === $decision ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'Trashing unused media is a PRO feature.', 'post-export-import-with-media' ) ) );
+		}
+
+		$raw_ids        = isset( $_POST['attachment_ids'] ) ? (array) $_POST['attachment_ids'] : array();
+		$attachment_ids = array_map( 'absint', $raw_ids );
+		$attachment_ids = array_filter( $attachment_ids );
+
+		if ( empty( $attachment_ids ) ) {
+			wp_send_json_error( array( 'message' => esc_html__( 'No media items selected', 'post-export-import-with-media' ) ) );
+		}
+
+		global $wpdb;
+		$table_reports   = $wpdb->prefix . 'peiwm_media_reports';
+		$table_decisions = $wpdb->prefix . 'peiwm_media_decisions';
+		$user_id         = get_current_user_id();
+		$now             = current_time( 'mysql' );
+
+		$processed = 0;
+		foreach ( $attachment_ids as $att_id ) {
+			if ( 'safe' === $decision ) {
+				$status_value   = 'safe';
+				$decision_value = 'safe';
+			} else {
+				$status_value   = 'excluded';
+				$decision_value = 'excluded';
+			}
+
+			// Update reports
+			$wpdb->update(
+				$table_reports,
+				array(
+					'status'        => $status_value,
+					'user_decision' => $decision_value,
+				),
+				array( 'attachment_id' => $att_id ),
+				array( '%s', '%s' ),
+				array( '%d' )
+			);
+
+			// Save to decisions table
+			$wpdb->replace(
+				$table_decisions,
+				array(
+					'attachment_id' => $att_id,
+					'decision'      => $decision_value,
+					'decided_at'    => $now,
+					'decided_by'    => $user_id,
+				),
+				array( '%d', '%s', '%s', '%d' )
+			);
+
+			$processed++;
+		}
+
+		wp_send_json_success( array(
+			'processed' => $processed,
+			'decision'  => $decision,
+			'message'   => sprintf( esc_html__( 'Successfully updated %d item(s).', 'post-export-import-with-media' ), $processed ),
+		) );
 	}
 }

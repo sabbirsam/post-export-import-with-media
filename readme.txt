@@ -2,16 +2,16 @@
 Contributors: wpazleen
 Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable Tag: 1.15.0
+Stable Tag: 1.15.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Easily export and import WP posts, pages, media, widgets, menus, themes, plugins & settings with their media files- secure, fast, and with real-time progress.
+Export and import WordPress posts, pages, users, widgets, menus, themes & settings - real media files, no broken links or missing thumbnails.
 
 == Description ==
-**Post Export Import with Media** is a simple yet powerful WordPress plugin that helps you securely transfer posts, pages, media, widgets, menus, themes, plugins & settings along with their media files between WordPress sites. Unlike the default exporter, this plugin ensures that images and attachments are included, so you don’t end up with broken links or missing media.  
+**Post Export Import with Media** exports and imports posts, pages, media, users, widgets, menus, themes, plugins, and settings between WordPress sites, with every image and attachment carried across intact. The default WordPress exporter leaves image files behind and only writes a reference to them; this plugin downloads and reattaches the actual files, metadata, so imported content never ends up with broken data, links or missing thumbnails.
 
 Whether you're moving to a new host, creating staging sites, or backing up your content, this plugin handles everything with professional-grade reliability, user-friendly interface and powerful built-in Batch Processing for high-performance transfers all designed for simplicity and control.
 
@@ -156,7 +156,6 @@ Every operation provides detailed feedback:
 * Import/export summaries with file information
 
 ### 🎨 **User Experience**
-
 * **Intuitive Interface** - Clean, modern admin interface
 * **Responsive Design** - Works perfectly on desktop and mobile
 * **Modal Confirmations** - Safe operations with confirmation dialogs
@@ -272,6 +271,9 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 4. Dashboard of WordPress Settings Export/Import.
 
 == Changelog ==
+
+= 1.15.1 - 21 August 2026 =
+- Fixed compatibility with WordPress 7.1
 
 = 1.15.0 – 31 July 2026 =
 * **New:** Fresh, revamped UI for easier exports and imports 
