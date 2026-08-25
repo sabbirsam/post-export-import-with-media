@@ -1,16 +1,10 @@
 /**
  * Media Title & ALT Editor - Base (Free Version Demo)
+ *
+ * @package Post_Export_Import_With_Media
  */
 jQuery(document).ready(function ($) {
     'use strict';
 
-    // Click anywhere on locked section triggers upgrade modal
-    $('.peiwm-locked-section').on('click', function (e) {
-        e.preventDefault();
-        if (typeof showPremiumModal === 'function') {
-            showPremiumModal();
-        } else if ($('#peiwm-premium-modal').length) {
-            $('#peiwm-premium-modal').fadeIn(200);
-        }
-    });
+    // Premium upgrade modal triggers are delegated via premium-modal-handler.js
 });

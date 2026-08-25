@@ -20,6 +20,8 @@ module.exports = (env, argv) => {
             'js/themes-plugins':       './assets/js/themes-plugins.js',
             'js/cpt-acf':              './assets/js/cpt-acf.js',
             'js/users':                './assets/js/users.js',
+            'js/media-alt-editor':     './assets/js/media-alt-editor.js',
+            'js/premium-modal-handler':'./assets/js/premium-modal-handler.js',
             // CSS entries
             'css/admin':            './assets/css/admin.css',
             'css/global-peiwm.css':            './assets/css/global-peiwm.css',

@@ -168,16 +168,6 @@ class PEIWM_Admin_Menu {
 			array( $this, 'pages_page' )
 		);
 
-		// Add settings submenu
-		add_submenu_page(
-			'peiwm-secure',
-			esc_html__( 'WordPress Settings', 'post-export-import-with-media' ),
-			esc_html__( 'WordPress Settings', 'post-export-import-with-media' ),
-			'manage_options',
-			'peiwm-settings',
-			array( $this, 'settings_page' )
-		);
-
 		// Add themes & plugins submenu
 		add_submenu_page(
 			'peiwm-secure',
@@ -186,6 +176,37 @@ class PEIWM_Admin_Menu {
 			'manage_options',
 			'peiwm-themes-plugins',
 			array( $this, 'themes_plugins_page' )
+		);
+
+		// Media Health & Audit page
+		add_submenu_page(
+			'peiwm-secure',
+			esc_html__( 'Media Health & Audit', 'post-export-import-with-media' ),
+			esc_html__( 'Media Health & Audit', 'post-export-import-with-media' ),
+			'manage_options',
+			'peiwm-media-audit',
+			array( $this, 'media_audit_page' )
+		);
+
+		// Hidden submenu page for Reviewing Unused Media
+		add_submenu_page(
+			'admin.php',
+			esc_html__( 'Review Unused Media', 'post-export-import-with-media' ),
+			esc_html__( 'Review Unused Media', 'post-export-import-with-media' ),
+			'manage_options',
+			'peiwm-media-audit-review',
+			array( $this, 'media_audit_review_page' )
+		);
+
+		
+		// Media Title & ALT Editor page
+		add_submenu_page(
+			'peiwm-secure',
+			esc_html__( 'Media ALT Editor', 'post-export-import-with-media' ),
+			esc_html__( 'Media ALT Editor', 'post-export-import-with-media' ),
+			'manage_options',
+			'peiwm-media-alt-editor',
+			array( $this, 'media_alt_editor_page' )
 		);
 
 		// CPT & ACF page (Uses overlay lock pattern for Free users)
@@ -208,6 +229,17 @@ class PEIWM_Admin_Menu {
 			array( $this, 'users_page' )
 		);
 
+		// Add settings submenu
+		add_submenu_page(
+			'peiwm-secure',
+			esc_html__( 'WordPress Settings', 'post-export-import-with-media' ),
+			esc_html__( 'WordPress Settings', 'post-export-import-with-media' ),
+			'manage_options',
+			'peiwm-settings',
+			array( $this, 'settings_page' )
+		);
+
+	
 		// Email Template Settings page
 		add_submenu_page(
 			'peiwm-secure',
@@ -216,36 +248,6 @@ class PEIWM_Admin_Menu {
 			'manage_options',
 			'peiwm-email-template',
 			array( $this, 'email_template_page' )
-		);
-
-		// Media Title & ALT Editor page
-		add_submenu_page(
-			'peiwm-secure',
-			esc_html__( 'Media ALT Editor', 'post-export-import-with-media' ),
-			esc_html__( 'Media Editor', 'post-export-import-with-media' ),
-			'manage_options',
-			'peiwm-media-alt-editor',
-			array( $this, 'media_alt_editor_page' )
-		);
-
-		// Media Health & Audit page
-		add_submenu_page(
-			'peiwm-secure',
-			esc_html__( 'Media Health & Audit', 'post-export-import-with-media' ),
-			esc_html__( 'Media Health', 'post-export-import-with-media' ),
-			'manage_options',
-			'peiwm-media-audit',
-			array( $this, 'media_audit_page' )
-		);
-
-		// Hidden submenu page for Reviewing Unused Media
-		add_submenu_page(
-			'admin.php',
-			esc_html__( 'Review Unused Media', 'post-export-import-with-media' ),
-			esc_html__( 'Review Unused Media', 'post-export-import-with-media' ),
-			'manage_options',
-			'peiwm-media-audit-review',
-			array( $this, 'media_audit_review_page' )
 		);
 
 		// Note: Batch Settings (priority 30) and Scheduled Exports (priority 40)
@@ -273,6 +275,17 @@ class PEIWM_Admin_Menu {
 	 * @param string $hook Current admin page hook
 	 */
 	public function enqueue_admin_scripts( $hook ) {
+		// Enqueue global Premium Upgrade Modal handler on all plugin pages
+		if ( strpos( $hook, 'peiwm' ) !== false || strpos( $hook, 'export-import' ) !== false ) {
+			wp_enqueue_script(
+				'peiwm-premium-modal-handler-js',
+				PEIWM_PLUGIN_URL . 'build/js/premium-modal-handler.min.js',
+				array( 'jquery' ),
+				PEIWM_VERSION,
+				true
+			);
+		}
+
 		// Main plugin page (Posts & Media)
 		if ( 'toplevel_page_peiwm-secure' === $hook ) {
 			wp_enqueue_script(
@@ -698,7 +711,7 @@ class PEIWM_Admin_Menu {
 			} else {
 				wp_enqueue_script(
 					'peiwm-media-alt-editor-js',
-					PEIWM_PLUGIN_URL . 'assets/js/media-alt-editor.js',
+					PEIWM_PLUGIN_URL . 'build/js/media-alt-editor.min.js',
 					array( 'jquery' ),
 					PEIWM_VERSION,
 					true

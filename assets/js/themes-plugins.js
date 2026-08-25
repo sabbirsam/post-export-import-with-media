@@ -309,7 +309,7 @@ jQuery(document).ready(function ($) {
                 
             {
                 cat: "system", badge: "",
-                q: "I have Pro installed but a feature isn't working — why?",
+                q: "I have Pro installed, but the feature is still locked. Why is it not being unlocked, and where should I enter the license key?",
                 a: "<p>PEIWM Pro is an add-on and depends on the <strong>free base plugin</strong> being installed and active. Pro cannot run on its own — if the free plugin is deactivated or uninstalled, all Pro features will stop working even though Pro itself is still active.</p><p>Make sure <strong>both</strong> the free and Pro plugins are installed and activated on your site for full functionality.</p>"
             },
             {

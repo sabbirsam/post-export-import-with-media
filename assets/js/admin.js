@@ -2463,13 +2463,13 @@ jQuery(document).ready(function ($) {
         // Main info row
         tableHtml += '<div style="background:#fef3c7;border:1px solid #fbbf24;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#78350f;line-height:1.5; text-align:left;">';
         tableHtml += '<strong style="color:#92400e;">⚠️ Database records exist but files are missing from the server.</strong><br>';
-        tableHtml += '<span style="color:#78350f;">Run <strong>Fix Paths</strong> first - it corrects misconfigured paths (e.g. <code style="background:#fff8;padding:1px 5px;border-radius:3px;font-size:11px;">202311</code> → <code style="background:#fff8;padding:1px 5px;border-radius:3px;font-size:11px;">2023/11</code>). If that doesn\'t help, use <strong>Clean Up</strong> to remove orphaned entries permanently.</span>';
+        tableHtml += '<span style="color:#78350f;">Run <strong>Fix Paths</strong> first - it corrects misconfigured paths (e.g. <code style="background:#fff8;padding:1px 5px;border-radius:3px;font-size:11px;">202311</code> → <code style="background:#fff8;padding:1px 5px;border-radius:3px;font-size:11px;">2023/11</code>). If that doesn\'t help, use <strong>Update</strong> to replace the missing images from server to media library, or use <strong>Clean Up</strong> to remove orphaned entries permanently.</span>';
         tableHtml += '</div>';
 
         // Unknown entries note
         tableHtml += '<div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:10px 12px;font-size:12.5px;color:#7c2d12;line-height:1.5; text-align:left;">';
         tableHtml += '<strong style="color:#9a3412;">❓ Entries showing "Unknown" filename or path</strong><br>';
-        tableHtml += 'These records are severely corrupted - no valid file path exists in the database. This is usually caused by a broken migration, an invalid external URL stored as a local path, or a file that was never fully uploaded. <strong>Fix Paths cannot repair these.</strong> Use <strong>Clean Up</strong> to remove them, then re-upload the files via the WordPress Media Library if still needed.';
+        tableHtml += 'These records are severely corrupted - no valid file path exists in the database. This is usually caused by an invalid external URL stored as a local path, or a file that was never fully uploaded. <strong>Fix Paths cannot repair these.</strong> Use <strong>Clean Up</strong> to remove them, then re-upload the files via the WordPress Media Library if still needed.';
         tableHtml += '</div>';
 
         tableHtml += '</div>';

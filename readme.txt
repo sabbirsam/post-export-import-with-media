@@ -4,7 +4,7 @@ Tags: export-media, import, post-export, page-export, migration
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable Tag: 1.15.1
+Stable Tag: 1.16.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,11 +15,14 @@ Export and import WordPress posts, pages, users, widgets, menus, themes & settin
 
 Whether you're moving to a new host, creating staging sites, or backing up your content, this plugin handles everything with professional-grade reliability, user-friendly interface and powerful built-in Batch Processing for high-performance transfers all designed for simplicity and control.
 
+
 ### ✨ Key Features  
 - Export and import posts with all attached media files, metadata, categories, tags, and custom fields  
 - Automatic media file detection and download during import
 - Real-time progress tracking for smooth migration  
 - Smart image handling - reuses existing media, downloads missing files
+- **Media Health & Audit** - Scan media library for unused images, view health scores, and filter risk levels  
+- **Media Title & ALT Editor** - Bulk optimize titles and ALT text with inline editing and CSV import/export  
 - Support for featured images and inline content images
 - Enable WPML multilingual language support
 - Smart Image Matching Strategy:
@@ -58,8 +61,20 @@ Whether you're moving to a new host, creating staging sites, or backing up your 
     - Send welcome email with login credentials (if email is configured)
     - Try to preserve original user IDs (conflicts logged)
 
-#### **Media & Image Handling**
+#### **Media & Image Handling & Audit**
 * Automatic media detection and download during import
+* **Media Health & Audit**:
+  * Complete media library scan to detect unattached and unused images
+  * 9-Metric Analysis (Health Score %, Unused Count, Total Unused Size, Risk & Confidence Breakdown)
+  * Dedicated **Review Unused Media** dashboard with title and filename search
+  * Filter unused media files by Risk Level (Critical, High, Medium, Low, Very Low) and Confidence score
+  * Decision controls: **Mark Safe** (keep in library) and **Exclude** (exclude from future audit scans)
+  * Destructive cleanup (single-item and bulk trashing) with PRO license protection
+* **Media Title & ALT Editor**:
+  * Bulk edit media titles and ALT text with inline editing
+  * Real-time diff tracking for modified titles and ALT attributes
+  * Filter images by missing ALT text or title search
+  * Batch update support via CSV Export and CSV Import
 * Smart Image Matching Strategy:
   * Verify only fallback matches (fastest)
   * Verify all matches (verifies file size to prevent duplicate filename mismatches)
@@ -258,7 +273,16 @@ Yes, for both posts and pages. Language assignments are preserved when content i
  
 = Do I need coding or server knowledge to use this? =
 No. Every screen has its own interface in your WordPress admin with a progress bar, and the built-in System Configuration Test checks your server's settings before you start a large import so you know what to expect.
- 
+
+= How does the Media Health & Audit feature work? =
+The Media Health & Audit tool scans your entire WordPress media library to detect unused, unattached, or orphaned images. It analyzes each media item, calculates an overall Media Library Health Score (%), and assigns Risk Levels (Critical, High, Medium, Low, Very Low) and Confidence scores so you can clean up disk space safely.
+
+= Can I review unused media files before taking any action? =
+Yes. Clicking "Review Unused Media" opens an audit dashboard showing thumbnails, titles, filenames, risk levels, and confidence scores. You can search by title or filename, filter by Risk Level or Confidence score, and mark files as **Safe** (keep in library) or **Exclude** (exclude from future audit scans).
+
+= How does the Media Title & ALT Editor work? =
+The Media Title & ALT Editor provides a bulk editing workspace to optimize image titles and ALT text for SEO. It includes real-time diff tracking for modified attributes, filters for images with missing ALT text, and CSV Export and Import support for external batch updates.
+
 = Where do I get help if something doesn't work? =
 Use the support forum on this plugin's WordPress.org page. Include your WordPress version, PHP version, and what step failed; the System Configuration Test results are useful to paste in if the issue is import-related.
 
@@ -271,6 +295,13 @@ Use the support forum on this plugin's WordPress.org page. Include your WordPres
 4. Dashboard of WordPress Settings Export/Import.
 
 == Changelog ==
+
+= 1.16.0 – 25 August 2026 =
+* **New:** Media Health & Audit feature to scan media library, detect unused images, analyze risk/confidence levels, and calculate health score.
+* **New:** Review Unused Media dashboard with title/filename search, risk & confidence filters, and Mark Safe/Exclude decision flags.
+* **New:** Media Title & ALT Editor interface overhaul with CSV import/export workflow support.
+* **Improvement:** Gated destructive media operations (single & bulk trashing) to PRO version with seamless modal upgrade triggers.
+* **Fix:** Enqueued and localized peiwm_ajax parameters across all Media Audit sub-pages.
 
 = 1.15.1 - 21 August 2026 =
 - Fixed compatibility with WordPress 7.1
